@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="C201\FileStore\Domain\File\File" table="c201_files">
+
+        <id name="internalId" column="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="id" column="uuid" type="string" length="36" nullable="false" unique="true" />
+
+        <field name="filename" column="filename" type="string" length="255" nullable="false" />
+
+        <field name="contentHash" column="content_hash" type="string" length="255" nullable="false" />
+
+        <field name="size" column="size" type="integer" length="255" nullable="false">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="ownerId" column="owner_id" type="string" length="36" nullable="true" />
+
+        <field name="ownerType" column="owner_type" type="string" length="255" nullable="true" />
+
+        <field name="createdTs" column="created_ts" type="datetime_immutable" nullable="false">
+            <gedmo:timestampable on="create"/>
+        </field>
+
+        <field name="updatedTs" column="updated_ts" type="datetime_immutable" nullable="false">
+            <gedmo:timestampable on="update"/>
+        </field>
+
+    </entity>
+
+</doctrine-mapping>

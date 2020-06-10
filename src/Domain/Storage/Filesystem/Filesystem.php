@@ -1,0 +1,17 @@
+<?php
+
+namespace C201\FileStore\Domain\Storage\Filesystem;
+
+/**
+ * @author Marko Vujnovic <mv@201created.de>
+ * @since  2020-05-27
+ */
+interface Filesystem
+{
+    public function dumpFile(string $relativePathInFilesystem, string $contents): void;
+
+    /**
+     * @throws FileNotFoundInFilesystemException
+     */
+    public function readFile(string $relativePathInFilesystem): string;
+}

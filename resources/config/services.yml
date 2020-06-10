@@ -1,0 +1,91 @@
+services:
+    c201_file_store.file.file_repository:
+        class: C201\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository
+        public: false
+        arguments:
+            - '@Doctrine\ORM\EntityManagerInterface'
+
+    C201\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository:
+        alias: c201_file_store.file.file_repository
+
+    C201\FileStore\Domain\File\FileRepository:
+        alias: c201_file_store.file.file_repository
+
+    c201_file_store.storage.filesystem.file_pointer_repository:
+        class: C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository
+        public: false
+        arguments:
+            - '@Doctrine\ORM\EntityManagerInterface'
+
+    C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository:
+        alias: c201_file_store.storage.filesystem.file_pointer_repository
+
+    C201\FileStore\Domain\Storage\Filesystem\FilePointerRepository:
+        alias: c201_file_store.storage.filesystem.file_pointer_repository
+
+    c201_file_store.storage.filesystem.filesystem:
+        class: C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem
+        public: false
+        arguments:
+            - '%kernel.project_dir%/var/c201-files'
+
+    C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem:
+        alias: c201_file_store.storage.filesystem.filesystem
+
+    C201\FileStore\Domain\Storage\Filesystem\Filesystem:
+        alias: c201_file_store.storage.filesystem.filesystem
+
+    c201_file_store.storage.filesystem.path_generator:
+        class: C201\FileStore\Domain\Storage\Filesystem\PathGenerator
+
+    C201\FileStore\Domain\Storage\Filesystem\PathGenerator:
+        alias: c201_file_store.storage.filesystem.path_generator
+
+    c201_file_store.storage.filesystem.filesystem_storage:
+        class: C201\FileStore\Domain\Storage\Filesystem\FilesystemStorage
+        arguments:
+            - '@c201_ddd.events.event_registry'
+            - '@c201_file_store.storage.filesystem.file_pointer_repository'
+            - '@c201_file_store.storage.filesystem.path_generator'
+            - '@c201_file_store.storage.filesystem.filesystem'
+
+    C201\FileStore\Domain\Storage\Filesystem\FilesystemStorage:
+        alias: c201_file_store.storage.filesystem.filesystem_storage
+
+    C201\FileStore\Domain\Storage\Storage:
+        alias: c201_file_store.storage.filesystem.filesystem_storage
+
+    c201_file_store.filesystem_file_manager:
+        class: C201\FileStore\Domain\FileManager
+        arguments:
+            - '@c201_file_store.file.file_repository'
+            - '@c201_file_store.storage.filesystem.filesystem_storage'
+
+    C201\FileStore\Domain\FileManager:
+        alias: c201_file_store.filesystem_file_manager
+
+    c201_file_store.handler.create_file:
+        class: C201\FileStore\Application\CreateFileHandler
+        tags:
+            - { name: command_handler, register_public_methods: true }
+        arguments:
+            - '@c201_file_store.filesystem_file_manager'
+        calls:
+            - [setTransactionManager, ['@c201_ddd.transactions.transaction_manager']]
+            - [setEventRegistry, ['@c201_ddd.events.event_registry']]
+
+    C201\FileStore\Application\CreateFileHandler:
+        alias: c201_file_store.handler.create_file
+
+    c201_file_store.handler.replace_file_contents:
+        class: C201\FileStore\Application\ReplaceFileContentsHandler
+        tags:
+            - { name: command_handler, register_public_methods: true }
+        arguments:
+            - '@c201_file_store.filesystem_file_manager'
+        calls:
+            - [setTransactionManager, ['@c201_ddd.transactions.transaction_manager']]
+            - [setEventRegistry, ['@c201_ddd.events.event_registry']]
+
+    C201\FileStore\Application\ReplaceFileContentsHandler:
+        alias: c201_file_store.handler.replace_file_contents

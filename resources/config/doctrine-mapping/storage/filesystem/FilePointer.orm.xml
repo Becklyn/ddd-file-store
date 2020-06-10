@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="C201\FileStore\Domain\Storage\Filesystem\FilePointer" table="c201_filesystem_file_pointers">
+
+        <id name="internalId" column="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="id" column="uuid" type="string" length="36" nullable="false" unique="true" />
+
+        <field name="fileId" column="file_id" type="string" length="36" nullable="false" unique="true"/>
+
+        <field name="path" column="path" type="string" length="255" nullable="false" unique="true" />
+
+        <field name="createdTs" column="created_ts" type="datetime_immutable" nullable="false">
+            <gedmo:timestampable on="create"/>
+        </field>
+
+        <field name="updatedTs" column="updated_ts" type="datetime_immutable" nullable="false">
+            <gedmo:timestampable on="update"/>
+        </field>R
+
+    </entity>
+
+</doctrine-mapping>
