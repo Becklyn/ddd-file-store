@@ -139,6 +139,12 @@ class File implements EventProvider
         return $this->ownerType;
     }
 
+    public function type(): string
+    {
+        $filenameExplosion = explode('.', $this->filename);
+        return end($filenameExplosion);
+    }
+
     public function load(string $contents): self
     {
         if ($this->hashContents($contents) !== $this->contentHash) {
