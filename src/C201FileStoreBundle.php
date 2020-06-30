@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-09
+ *
+ * @codeCoverageIgnore
  */
 class C201FileStoreBundle extends Bundle
 {
@@ -17,7 +19,7 @@ class C201FileStoreBundle extends Bundle
         parent::build($container);
 
         $mappings = [
-            realpath(__DIR__ . '/../resources/config/doctrine-mapping/file') => 'C201\FileStore\Domain\File',
+            realpath(__DIR__ . '/../resources/config/doctrine-mapping/file')               => 'C201\FileStore\Domain\File',
             realpath(__DIR__ . '/../resources/config/doctrine-mapping/storage/filesystem') => 'C201\FileStore\Domain\Storage\Filesystem',
         ];
 

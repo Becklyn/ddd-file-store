@@ -15,10 +15,10 @@ class SymfonyFilesystem implements Filesystem
     private string $baseFilesystemPath;
     private SymfonyFilesystemComponent $filesystem;
 
-    public function __construct(string $baseFilesystemPath)
+    public function __construct(string $baseFilesystemPath, SymfonyFilesystemComponent $filesystem)
     {
         $this->baseFilesystemPath = $baseFilesystemPath;
-        $this->filesystem = new SymfonyFilesystemComponent();
+        $this->filesystem = $filesystem;
     }
 
     public function dumpFile(string $relativePathInFilesystem, string $contents): void
@@ -38,5 +38,11 @@ class SymfonyFilesystem implements Filesystem
             throw new FileNotFoundInFilesystemException("File '$relativePathInFilesystem' could not be found in the filesystem");
         }
         return file_get_contents($path);
+    }
+
+    public function remove(string $relativePathInFilesystem): void
+    {
+        $path = $this->getFullPath($relativePathInFilesystem);
+        $this->filesystem->remove($path);
     }
 }

@@ -16,4 +16,6 @@ interface FileRepository
      * @throws FileNotFoundException
      */
     public function findOneById(FileId $fileId): File;
+
+    public function remove(File $file): void;
 }

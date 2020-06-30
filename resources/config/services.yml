@@ -4,6 +4,7 @@ services:
         public: false
         arguments:
             - '@Doctrine\ORM\EntityManagerInterface'
+            - '@C201\Ddd\Events\Domain\EventRegistry'
 
     C201\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository:
         alias: c201_file_store.file.file_repository
@@ -16,6 +17,7 @@ services:
         public: false
         arguments:
             - '@Doctrine\ORM\EntityManagerInterface'
+            - '@C201\Ddd\Events\Domain\EventRegistry'
 
     C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository:
         alias: c201_file_store.storage.filesystem.file_pointer_repository
@@ -23,11 +25,16 @@ services:
     C201\FileStore\Domain\Storage\Filesystem\FilePointerRepository:
         alias: c201_file_store.storage.filesystem.file_pointer_repository
 
+    c201_file_store.storage.filesystem.symfony_filesystem:
+        class: Symfony\Component\Filesystem\Filesystem
+        shared: false
+
     c201_file_store.storage.filesystem.filesystem:
         class: C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem
         public: false
         arguments:
             - '%kernel.project_dir%/var/c201-files'
+            - '@c201_file_store.storage.filesystem.symfony_filesystem'
 
     C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem:
         alias: c201_file_store.storage.filesystem.filesystem

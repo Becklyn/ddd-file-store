@@ -70,7 +70,7 @@ class File implements EventProvider
      */
     private ?\DateTimeImmutable $updatedTs = null;
 
-    public function __construct(FileId $id, string $filename, string $contents)
+    private function __construct(FileId $id, string $filename, string $contents)
     {
         $this->id = $id->asString();
         $this->filename = $filename;

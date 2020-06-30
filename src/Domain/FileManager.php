@@ -58,4 +58,15 @@ class FileManager
         $this->storage->storeFileContents($file);
         return $file;
     }
+
+    public function delete(FileId $fileId): void
+    {
+        try {
+            $file = $this->fileRepository->findOneById($fileId);
+        } catch (FileNotFoundException $e) {
+            return;
+        }
+        $this->fileRepository->remove($file);
+        $this->storage->deleteFileContents($file);
+    }
 }

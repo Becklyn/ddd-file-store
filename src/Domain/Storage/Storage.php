@@ -19,4 +19,6 @@ interface Storage
      * @throws FileNotFoundInStorageException
      */
     public function loadFileContents(File $file): string;
+
+    public function deleteFileContents(File $file): void;
 }
