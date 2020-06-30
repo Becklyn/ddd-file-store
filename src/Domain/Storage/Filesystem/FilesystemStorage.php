@@ -59,4 +59,16 @@ class FilesystemStorage implements Storage
             throw new FileNotFoundInStorageException("The contents of file '{$file->id()->asString()}' could not be found in storage", 0, $e);
         }
     }
+
+    public function deleteFileContents(File $file): void
+    {
+        try {
+            $filePointer = $this->filePointerRepository->findOneByFileId($file->id());
+        } catch (FilePointerNotFoundException $e) {
+            return;
+        }
+
+        $this->filePointerRepository->remove($filePointer);
+        $this->filesystem->remove($filePointer->path());
+    }
 }

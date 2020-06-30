@@ -18,4 +18,6 @@ interface FilePointerRepository
      * @throws FilePointerNotFoundException
      */
     public function findOneByFileId(FileId $fileId): FilePointer;
+
+    public function remove(FilePointer $filePointer): void;
 }

@@ -2,7 +2,7 @@
 
 namespace C201\FileStore\Domain\Storage\Filesystem;
 
-use App\Support\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>

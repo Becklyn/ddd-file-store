@@ -10,6 +10,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-09
+ *
+ * @codeCoverageIgnore
  */
 class C201FileStoreExtension extends Extension
 {
@@ -20,7 +22,7 @@ class C201FileStoreExtension extends Extension
 
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../../resources/config')
+            new FileLocator(__DIR__ . '/../../resources/config')
         );
         $loader->load('services.yml');
 

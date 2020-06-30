@@ -2,11 +2,14 @@
 
 namespace C201\FileStore\Infrastructure\Domain\File\Doctrine;
 
+use C201\Ddd\Events\Domain\EventCreatorCapabilities;
+use C201\Ddd\Events\Domain\EventRegistry;
 use C201\FileStore\Domain\File\File;
+use C201\FileStore\Domain\File\FileDeleted;
 use C201\FileStore\Domain\File\FileId;
 use C201\FileStore\Domain\File\FileNotFoundException;
 use C201\FileStore\Domain\File\FileRepository;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -15,13 +18,17 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class DoctrineFileRepository implements FileRepository
 {
+    use EventCreatorCapabilities;
+
     private EntityManagerInterface $em;
     private ObjectRepository $repository;
+    private EventRegistry $eventRegistry;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventRegistry $eventRegistry)
     {
         $this->em = $em;
         $this->repository = $em->getRepository(File::class);
+        $this->eventRegistry = $eventRegistry;
     }
 
     public function nextIdentity(): FileId
@@ -44,5 +51,11 @@ class DoctrineFileRepository implements FileRepository
         }
 
         return $file;
+    }
+
+    public function remove(File $file): void
+    {
+        $this->em->remove($file);
+        $this->eventRegistry->registerEvent(new FileDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $file->id()));
     }
 }

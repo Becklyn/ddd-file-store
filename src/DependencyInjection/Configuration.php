@@ -8,6 +8,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-10
+ *
+ * @codeCoverageIgnore
  */
 class Configuration implements ConfigurationInterface
 {
@@ -25,8 +27,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }

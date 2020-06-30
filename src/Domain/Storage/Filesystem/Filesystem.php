@@ -14,4 +14,6 @@ interface Filesystem
      * @throws FileNotFoundInFilesystemException
      */
     public function readFile(string $relativePathInFilesystem): string;
+
+    public function remove(string $relativePathInFilesystem): void;
 }
