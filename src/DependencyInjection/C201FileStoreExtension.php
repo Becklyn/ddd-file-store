@@ -5,6 +5,7 @@ namespace C201\FileStore\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
@@ -13,7 +14,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  *
  * @codeCoverageIgnore
  */
-class C201FileStoreExtension extends Extension
+class C201FileStoreExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -30,5 +31,14 @@ class C201FileStoreExtension extends Extension
             $definition = $container->getDefinition('c201_file_store.storage.filesystem.filesystem');
             $definition->replaceArgument(0, $config['filesystem']['base_path']);
         }
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        $container->prependExtensionConfig('doctrine_migrations', [
+            'migrations_paths' => [
+                'C201\FileStore\Infrastructure\DoctrineMigrations' => __DIR__. '/../Infrastructure/DoctrineMigrations',
+            ]
+        ]);
     }
 }
