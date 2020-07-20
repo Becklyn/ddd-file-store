@@ -3,7 +3,7 @@
     "description": "File storage engine used in 201Created projects",
     "type": "symfony-bundle",
     "license": "MIT",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "authors": [
         {
             "name": "Marko Vujnovic",
