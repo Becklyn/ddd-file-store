@@ -98,4 +98,20 @@ trait FileTestTrait
         $this->fileManager->replaceContents($fileId, $contents)->willThrow($e);
         return $e;
     }
+
+    /**
+     * @param ObjectProphecy|File $file
+     */
+    protected function givenFileWasCreatedOn(ObjectProphecy $file, ?\DateTimeImmutable $createdOn): void
+    {
+        $file->createdOn()->willReturn($createdOn);
+    }
+
+    /**
+     * @param ObjectProphecy|File $file
+     */
+    protected function givenFileWasUpdatedOn(ObjectProphecy $file, ?\DateTimeImmutable $updatedOn): void
+    {
+        $file->updatedOn()->willReturn($updatedOn);
+    }
 }
