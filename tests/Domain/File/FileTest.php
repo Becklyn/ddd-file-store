@@ -32,6 +32,8 @@ class FileTest extends TestCase
         $this->assertTrue($id->equals($file->id()));
         $this->assertEquals($filename, $file->filename());
         $this->assertEquals($contents, $file->contents());
+        $this->assertNull($file->createdOn());
+        $this->assertNull($file->updatedOn());
     }
 
     public function testCreateRaisesFileCreatedEvent(): void

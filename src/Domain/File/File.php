@@ -145,6 +145,16 @@ class File implements EventProvider
         return end($filenameExplosion);
     }
 
+    public function createdOn(): ?\DateTimeImmutable
+    {
+        return $this->createdTs;
+    }
+
+    public function updatedOn(): ?\DateTimeImmutable
+    {
+        return $this->updatedTs;
+    }
+
     public function load(string $contents): self
     {
         if ($this->hashContents($contents) !== $this->contentHash) {
