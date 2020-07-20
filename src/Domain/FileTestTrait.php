@@ -5,6 +5,7 @@ namespace C201\FileStore\Domain;
 use C201\FileStore\Domain\File\File;
 use C201\FileStore\Domain\File\FileId;
 use C201\FileStore\Domain\File\FileNotFoundException;
+use C201\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use C201\FileStore\Domain\Storage\FileNotStoredException;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -113,5 +114,15 @@ trait FileTestTrait
     protected function givenFileWasUpdatedOn(ObjectProphecy $file, ?\DateTimeImmutable $updatedOn): void
     {
         $file->updatedOn()->willReturn($updatedOn);
+    }
+
+    public function givenFileManagerThrowsFileNotFoundExceptionWhileLoadingFileWithId(FileId $fileId): void
+    {
+        $this->fileManager->load($fileId)->willThrow(new FileNotFoundException());
+    }
+
+    public function givenFileManagerThrowsFileNotFoundInStorageExceptionWhileLoadingFileWithId(FileId $fileId): void
+    {
+        $this->fileManager->load($fileId)->willThrow(new FileNotFoundInStorageException());
     }
 }
