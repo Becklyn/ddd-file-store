@@ -96,3 +96,16 @@ services:
 
     C201\FileStore\Application\ReplaceFileContentsHandler:
         alias: c201_file_store.handler.replace_file_contents
+
+    c201_file_store.handler.rename_file:
+        class: C201\FileStore\Application\RenameFileHandler
+        tags:
+            - { name: command_handler, register_public_methods: true }
+        arguments:
+            - '@c201_file_store.file.file_repository'
+        calls:
+            - [setTransactionManager, ['@c201_ddd.transactions.transaction_manager']]
+            - [setEventRegistry, ['@c201_ddd.events.event_registry']]
+
+    C201\FileStore\Application\RenameFileHandler:
+        alias: c201_file_store.handler.rename_file

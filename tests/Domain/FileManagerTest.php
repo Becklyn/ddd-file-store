@@ -26,11 +26,6 @@ class FileManagerTest extends TestCase
     use ProphecyTrait;
 
     /**
-     * @var ObjectProphecy|FileRepository
-     */
-    private ObjectProphecy $fileRepository;
-
-    /**
      * @var ObjectProphecy|Storage
      */
     private ObjectProphecy $storage;
@@ -39,7 +34,7 @@ class FileManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->fileRepository = $this->prophesize(FileRepository::class);
+        $this->initFilesTestTrait();
         $this->storage = $this->prophesize(Storage::class);
 
         $this->fixture = new FileManager($this->fileRepository->reveal(), $this->storage->reveal());

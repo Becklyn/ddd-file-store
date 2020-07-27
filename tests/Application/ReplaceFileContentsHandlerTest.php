@@ -85,13 +85,8 @@ class ReplaceFileContentsHandlerTest extends TestCase
         $this->fixture->setEventRegistry($this->eventRegistry->reveal());
         $this->fixture->setTransactionManager($this->transactionManager->reveal());
 
-        $this->thenFileNotFoundExceptionShouldBethrown();
+        $this->thenFileNotFoundExceptionShouldBeThrown();
         $this->whenReplaceFileContentsCommandIsHandledForFileIdAndContents($fileId, $contents);
-    }
-
-    private function thenFileNotFoundExceptionShouldBethrown()
-    {
-        $this->expectException(FileNotFoundException::class);
     }
 
     public function testExceptionIsThrownAndErrorMessageFromCommandIsLoggedIfFileManagerThrowsException(): void
@@ -101,7 +96,7 @@ class ReplaceFileContentsHandlerTest extends TestCase
         $errorMessage = uniqid();
 
         $this->givenFileManagerThrowsFileNotFoundExceptionWhileReplacingContentsForFile($fileId, $contents);
-        $this->thenFileNotFoundExceptionShouldBethrown();
+        $this->thenFileNotFoundExceptionShouldBeThrown();
         $this->thenErrorShouldBeLogged($errorMessage);
         $this->whenReplaceFileContentsCommandIsHandledForFileIdAndContents($fileId, $contents, $errorMessage);
     }
@@ -117,7 +112,7 @@ class ReplaceFileContentsHandlerTest extends TestCase
         $contents = $this->givenFileContents();
 
         $this->givenFileManagerThrowsFileNotFoundExceptionWhileReplacingContentsForFile($fileId, $contents);
-        $this->thenFileNotFoundExceptionShouldBethrown();
+        $this->thenFileNotFoundExceptionShouldBeThrown();
         $this->thenErrorShouldBeLogged(Argument::any());
         $this->whenReplaceFileContentsCommandIsHandledForFileIdAndContents($fileId, $contents);
     }

@@ -5,6 +5,7 @@ namespace C201\FileStore\Domain;
 use C201\FileStore\Domain\File\File;
 use C201\FileStore\Domain\File\FileId;
 use C201\FileStore\Domain\File\FileNotFoundException;
+use C201\FileStore\Domain\File\FileRepository;
 use C201\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use C201\FileStore\Domain\Storage\FileNotStoredException;
 use Prophecy\Argument;
@@ -18,14 +19,15 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 trait FileTestTrait
 {
-    /**
-     * @var ObjectProphecy|FileManager
-     */
+    /** @var ObjectProphecy|FileManager */
     protected ObjectProphecy $fileManager;
+    /** @var ObjectProphecy|FileRepository */
+    protected ObjectProphecy $fileRepository;
 
     protected function initFilesTestTrait(): void
     {
         $this->fileManager = $this->prophesize(FileManager::class);
+        $this->fileRepository = $this->prophesize(FileRepository::class);
     }
 
     protected function givenAFileId(): FileId
@@ -132,5 +134,27 @@ trait FileTestTrait
     protected function givenFileHasContentHash(ObjectProphecy $file, string $contentHash): void
     {
         $file->contentHash()->willReturn($contentHash);
+    }
+
+    /**
+     * @return ObjectProphecy|File
+     */
+    protected function givenFileRepositoryFindsFileById(FileId $fileId): ObjectProphecy
+    {
+        /** @var ObjectProphecy|File $file */
+        $file = $this->prophesize(File::class);
+        $file->id()->willReturn($fileId);
+        $this->fileRepository->findOneById($fileId)->willReturn($file->reveal());
+        return $file;
+    }
+
+    protected function givenFileRepositoryThrowsFileNotFoundExceptionWhileFindingFileById(FileId $fileId): void
+    {
+        $this->fileRepository->findOneById($fileId)->willThrow(new FileNotFoundException());
+    }
+
+    protected function thenFileNotFoundExceptionShouldBeThrown()
+    {
+        $this->expectException(FileNotFoundException::class);
     }
 }
