@@ -161,6 +161,16 @@ class FileTest extends TestCase
         $this->assertEquals($file->filename(), $event->filename());
     }
 
+    public function testRenameRaisesNoEventsWhenNewNameIsSameAsOldName(): void
+    {
+        $filename = $this->givenAFilename();
+        $file = File::create($this->givenAFileId(), $filename, uniqid());
+        $file->dequeueEvents();
+
+        $file->rename($filename);
+        $this->assertEmpty($file->dequeueEvents());
+    }
+
     public function testUpdateContentsSetsNewContentsTheirSizeAndHash(): void
     {
         $file = File::create($this->givenAFileId(), uniqid(), uniqid());
@@ -190,5 +200,15 @@ class FileTest extends TestCase
         $this->assertTrue($file->id()->equals($event->aggregateId()));
         $this->assertEquals($file->size(), $event->size());
         $this->assertEquals($file->contentHash(), $event->contentHash());
+    }
+
+    public function testUpdateContentsRaisesNoEventsWhenNewContentsAreSameAsOldOnes(): void
+    {
+        $contents = $this->givenFileContents();
+        $file = File::create($this->givenAFileId(), uniqid(), $contents);
+        $file->dequeueEvents();
+
+        $file->updateContents($contents);
+        $this->assertEmpty($file->dequeueEvents());
     }
 }

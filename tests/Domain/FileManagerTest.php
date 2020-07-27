@@ -116,12 +116,14 @@ class FileManagerTest extends TestCase
         $this->assertEquals($expectedContents, $returnedFile->contents());
     }
 
-    public function testReplaceContentsReturnsFileWithReplacedContentsAndStoresThemToStorage(): void
+    public function testReplaceContentsReturnsFileWithReplacedContentsAndStoresThemToStorageIfNewContentsAreDifferentThanOldOnes(): void
     {
         $fileId = $this->givenAFileId();
         $contents = uniqid();
 
         $file = $this->givenFileRepositoryFindsOneById($fileId);
+        $this->givenFileHasContents($file, uniqid());
+        $this->givenFileHasContentHash($file, uniqid());
 
         $this->thenContentsShouldBeUpdatedOnFile($file, $contents);
         $this->thenContentsShouldBeStoredForFile($file->reveal());
@@ -139,6 +141,7 @@ class FileManagerTest extends TestCase
         $file->updateContents($contents)->shouldBeCalled();
         $file->updateContents($contents)->will(function() use ($file, $contents) {
             $file->contents()->willReturn($contents);
+            $file->contentHash()->willReturn(sha1($contents));
             return $file->reveal();
         });
     }
@@ -151,6 +154,29 @@ class FileManagerTest extends TestCase
     private function whenReplaceContentsIsExecuted(FileId $fileId, string $contents): File
     {
         return $this->fixture->replaceContents($fileId, $contents);
+    }
+
+    public function testReplaceContentsReturnsFileAndStoresNoContentsToStorageIfNewContentsAreSameAsExistingOnes(): void
+    {
+        $fileId = $this->givenAFileId();
+        $contents = uniqid();
+        $contentHash = sha1($contents);
+
+        $file = $this->givenFileRepositoryFindsOneById($fileId);
+        $this->givenFileHasContents($file, $contents);
+        $this->givenFileHasContentHash($file, $contentHash);
+
+        $this->thenContentsShouldBeUpdatedOnFile($file, $contents);
+        $this->thenContentsShouldNotBeStoredForFile($file->reveal());
+        $this->thenFileWithContentsShouldBeReturned(
+            $contents,
+            $this->whenReplaceContentsIsExecuted($fileId, $contents)
+        );
+    }
+
+    private function thenContentsShouldNotBeStoredForFile(File $file): void
+    {
+        $this->storage->storeFileContents($file)->shouldNotBeCalled();
     }
 
     public function testDeleteRemovesFileFromRepositoryAndDeletesContentsFromStorage(): void

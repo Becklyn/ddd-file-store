@@ -116,13 +116,21 @@ trait FileTestTrait
         $file->updatedOn()->willReturn($updatedOn);
     }
 
-    public function givenFileManagerThrowsFileNotFoundExceptionWhileLoadingFileWithId(FileId $fileId): void
+    protected function givenFileManagerThrowsFileNotFoundExceptionWhileLoadingFileWithId(FileId $fileId): void
     {
         $this->fileManager->load($fileId)->willThrow(new FileNotFoundException());
     }
 
-    public function givenFileManagerThrowsFileNotFoundInStorageExceptionWhileLoadingFileWithId(FileId $fileId): void
+    protected function givenFileManagerThrowsFileNotFoundInStorageExceptionWhileLoadingFileWithId(FileId $fileId): void
     {
         $this->fileManager->load($fileId)->willThrow(new FileNotFoundInStorageException());
+    }
+
+    /**
+     * @return ObjectProphecy|File
+     */
+    protected function givenFileHasContentHash(ObjectProphecy $file, string $contentHash): void
+    {
+        $file->contentHash()->willReturn($contentHash);
     }
 }

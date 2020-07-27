@@ -54,7 +54,13 @@ class FileManager
     public function replaceContents(FileId $fileId, string $newContents): File
     {
         $file = $this->fileRepository->findOneById($fileId);
+
+        $originalHash = $file->contentHash();
         $file->updateContents($newContents);
+        if ($originalHash === $file->contentHash()) {
+            return $file;
+        }
+
         $this->storage->storeFileContents($file);
         return $file;
     }

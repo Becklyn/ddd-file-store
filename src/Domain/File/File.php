@@ -168,6 +168,10 @@ class File implements EventProvider
 
     public function rename(string $newFilename): self
     {
+        if ($this->filename === $newFilename) {
+            return $this;
+        }
+
         $this->filename = $newFilename;
         $this->raiseEvent(new FileRenamed($this->nextEventIdentity(), new \DateTimeImmutable(), $this->id(), $newFilename));
 
@@ -176,6 +180,10 @@ class File implements EventProvider
 
     public function updateContents(string $newContents): self
     {
+        if ($this->contentHash === $this->hashContents($newContents)) {
+            return $this;
+        }
+
         $this->setContents($newContents);
         $this->raiseEvent(new FileContentsUpdated($this->nextEventIdentity(), new \DateTimeImmutable(), $this->id(), $this->contentHash, $this->size));
 
