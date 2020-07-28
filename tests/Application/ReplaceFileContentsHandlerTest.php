@@ -8,7 +8,6 @@ use C201\FileStore\Application\ReplaceFileContentsCommand;
 use C201\FileStore\Application\ReplaceFileContentsHandler;
 use C201\FileStore\Domain\File\File;
 use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\File\FileNotFoundException;
 use C201\FileStore\Domain\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
