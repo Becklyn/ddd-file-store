@@ -3,7 +3,7 @@
     "description": "File storage engine used in 201Created projects",
     "type": "symfony-bundle",
     "license": "MIT",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "authors": [
         {
             "name": "Marko Vujnovic",
@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "201created/ddd": "^0.1.8",
+        "201created/ddd": "^0.1.13",
         "doctrine/doctrine-bundle": "^1.10||^2.0",
         "doctrine/orm": "^2.6",
         "psr/log": "^1.1",

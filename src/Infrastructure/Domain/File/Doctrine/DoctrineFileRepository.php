@@ -4,6 +4,7 @@ namespace C201\FileStore\Infrastructure\Domain\File\Doctrine;
 
 use C201\Ddd\Events\Domain\EventCreatorCapabilities;
 use C201\Ddd\Events\Domain\EventRegistry;
+use C201\Ddd\Identity\Domain\AggregateId;
 use C201\FileStore\Domain\File\File;
 use C201\FileStore\Domain\File\FileDeleted;
 use C201\FileStore\Domain\File\FileId;
@@ -57,5 +58,17 @@ class DoctrineFileRepository implements FileRepository
     {
         $this->em->remove($file);
         $this->eventRegistry->registerEvent(new FileDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $file->id()));
+    }
+
+    public function findOneByOwnerId(AggregateId $ownerId): File
+    {
+        /** @var File $file */
+        $file = $this->repository->findOneBy(['ownerId' => $ownerId->asString(), 'ownerType' => $ownerId->aggregateType()]);
+
+        if ($file === null) {
+            throw new FileNotFoundException("File with owner '{$ownerId->asString()}' of type '{$ownerId->aggregateType()}' could not be found");
+        }
+
+        return $file;
     }
 }

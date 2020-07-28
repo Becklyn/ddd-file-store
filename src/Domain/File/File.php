@@ -193,8 +193,7 @@ class File implements EventProvider
     public function setOwner(AggregateId $ownerId): self
     {
         $this->ownerId = $ownerId->asString();
-        // As aggregate id classes will be called \Some\Namespace\ClassId, stripping the last two characters will give the name of the class the id belongs to
-        $this->ownerType = substr(get_class($ownerId), 0, -2);
+        $this->ownerType = $ownerId->aggregateType();
         $this->raiseEvent(new FileOwnerSet($this->nextEventIdentity(), new \DateTimeImmutable(), $this->id(), $this->ownerId, $this->ownerType));
 
         return $this;

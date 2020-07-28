@@ -88,4 +88,20 @@ class DoctrineFileRepositoryTest extends TestCase
         $this->em->remove($file)->shouldHaveBeenCalled();
         $this->eventRegistry->registerEvent(Argument::that(fn(FileDeleted $event) => $event->aggregateId()->equals($file->id())))->shouldHaveBeenCalled();
     }
+
+    public function testFindOneByOwnerIdReturnsFileFoundByDoctrineRepository(): void
+    {
+        $file = $this->givenAFile();
+        $ownerId = TestProxyOwnerId::next();
+        $this->repository->findOneBy(['ownerId' => $ownerId->asString(), 'ownerType' => $ownerId->aggregateType()])->willReturn($file);
+        $this->assertSame($file, $this->fixture->findOneByOwnerId($ownerId));
+    }
+
+    public function testFindOneByOwnerIdThrowsFileNotFoundExceptionIfDoctrineRepositoryReturnsNull(): void
+    {
+        $ownerId = TestProxyOwnerId::next();
+        $this->repository->findOneBy(['ownerId' => $ownerId->asString(), 'ownerType' => $ownerId->aggregateType()])->willReturn(null);
+        $this->expectException(FileNotFoundException::class);
+        $this->fixture->findOneByOwnerId($ownerId);
+    }
 }
