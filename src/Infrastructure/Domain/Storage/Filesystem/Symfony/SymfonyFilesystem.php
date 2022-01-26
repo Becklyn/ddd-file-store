@@ -7,7 +7,7 @@ use Becklyn\FileStore\Domain\Storage\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystemComponent;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-05-27
  */
 class SymfonyFilesystem implements Filesystem

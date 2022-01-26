@@ -15,7 +15,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-06-29
  *
  * @covers \Becklyn\FileStore\Domain\FileManager

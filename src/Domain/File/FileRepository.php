@@ -5,7 +5,7 @@ namespace Becklyn\FileStore\Domain\File;
 use Becklyn\Ddd\Identity\Domain\AggregateId;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-05-26
  */
 interface FileRepository

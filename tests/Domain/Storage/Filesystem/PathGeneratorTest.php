@@ -6,7 +6,7 @@ use Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-06-29
  *
  * @covers \Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator

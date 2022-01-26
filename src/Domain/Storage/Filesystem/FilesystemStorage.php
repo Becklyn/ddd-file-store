@@ -9,7 +9,7 @@ use Becklyn\FileStore\Domain\Storage\Storage;
 use Becklyn\Ddd\Events\Domain\EventRegistry;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-05-27
  */
 class FilesystemStorage implements Storage

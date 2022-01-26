@@ -7,7 +7,7 @@ use Becklyn\Ddd\Events\Domain\EventId;
 use Becklyn\FileStore\Domain\File\FileId;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-05-27
  */
 class FilePointerCreated extends AbstractDomainEvent

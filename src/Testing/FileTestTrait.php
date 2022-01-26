@@ -13,7 +13,7 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-06-03
  *
  * @codeCoverageIgnore

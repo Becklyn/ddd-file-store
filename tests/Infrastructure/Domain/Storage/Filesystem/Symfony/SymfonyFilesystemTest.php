@@ -10,7 +10,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-06-30
  *
  * @covers \Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem

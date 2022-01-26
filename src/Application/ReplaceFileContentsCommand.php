@@ -5,7 +5,7 @@ namespace Becklyn\FileStore\Application;
 use Becklyn\FileStore\Domain\File\FileId;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-06-05
  */
 class ReplaceFileContentsCommand

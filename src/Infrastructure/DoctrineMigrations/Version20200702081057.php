@@ -8,14 +8,14 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-07-02
  */
 final class Version20200702081057 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Adds tables for use with 201created/file-store';
+        return 'Adds tables for use with becklyn/file-store';
     }
 
     public function up(Schema $schema) : void

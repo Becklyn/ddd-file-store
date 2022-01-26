@@ -1,9 +1,9 @@
-# 201Created  FileStore
+# Becklyn  FileStore
 
 This library provides file storage capabilities.
 
 ## Requirements
-Command handlers and event subscribers must be enabled in the project. See 201created/ddd documentation for how to set this up.
+Command handlers and event subscribers must be enabled in the project. See becklyn/ddd-symfony-bridge documentation for how to set this up.
 
 ## Installation
  

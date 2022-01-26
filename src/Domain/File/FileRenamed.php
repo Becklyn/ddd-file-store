@@ -6,7 +6,7 @@ use Becklyn\Ddd\Events\Domain\AbstractDomainEvent;
 use Becklyn\Ddd\Events\Domain\EventId;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-05-26
  */
 class FileRenamed extends AbstractDomainEvent

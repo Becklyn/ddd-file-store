@@ -16,7 +16,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-07-27
  *
  * @covers \Becklyn\FileStore\Application\RenameFileHandler

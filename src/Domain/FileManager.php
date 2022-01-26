@@ -11,7 +11,7 @@ use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\FileStore\Domain\Storage\Storage;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-05-26
  */
 class FileManager
