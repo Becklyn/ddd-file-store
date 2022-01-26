@@ -2,7 +2,7 @@
 
 namespace C201\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Doctrine;
 
-use C201\Ddd\Events\Domain\DomainEventTestTrait;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use C201\FileStore\Domain\FileTestTrait;
 use C201\FileStore\Domain\Storage\Filesystem\FilePointer;
 use C201\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;

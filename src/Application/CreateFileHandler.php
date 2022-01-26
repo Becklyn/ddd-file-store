@@ -3,8 +3,8 @@
 namespace C201\FileStore\Application;
 
 use C201\FileStore\Domain\FileManager;
-use C201\Ddd\Commands\Application\CommandHandler;
-use C201\Ddd\Events\Domain\EventProvider;
+use Becklyn\Ddd\Commands\Application\CommandHandler;
+use Becklyn\Ddd\Events\Domain\EventProvider;
 use Psr\Log\LoggerInterface;
 
 /**

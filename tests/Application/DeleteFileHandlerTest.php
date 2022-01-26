@@ -2,8 +2,8 @@
 
 namespace C201\FileStore\Tests\Application;
 
-use C201\Ddd\Events\Domain\DomainEventTestTrait;
-use C201\Ddd\Transactions\Application\TransactionManagerTestTrait;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
+use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use C201\FileStore\Application\DeleteFileCommand;
 use C201\FileStore\Application\DeleteFileHandler;
 use C201\FileStore\Domain\File\FileId;

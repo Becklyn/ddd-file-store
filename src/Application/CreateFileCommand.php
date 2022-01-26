@@ -2,7 +2,7 @@
 
 namespace C201\FileStore\Application;
 
-use C201\Ddd\Identity\Domain\AggregateId;
+use Becklyn\Ddd\Identity\Domain\AggregateId;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>

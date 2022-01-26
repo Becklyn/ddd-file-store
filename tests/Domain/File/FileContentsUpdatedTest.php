@@ -2,7 +2,7 @@
 
 namespace C201\FileStore\Tests\Domain\File;
 
-use C201\Ddd\Events\Domain\EventCreatorCapabilities;
+use Becklyn\Ddd\Events\Domain\EventCreatorCapabilities;
 use C201\FileStore\Domain\File\File;
 use C201\FileStore\Domain\File\FileContentsUpdated;
 use C201\FileStore\Domain\File\FileId;

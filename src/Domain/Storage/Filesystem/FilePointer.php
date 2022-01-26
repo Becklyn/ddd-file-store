@@ -3,8 +3,8 @@
 namespace C201\FileStore\Domain\Storage\Filesystem;
 
 use C201\FileStore\Domain\File\FileId;
-use C201\Ddd\Events\Domain\EventProvider;
-use C201\Ddd\Events\Domain\EventProviderCapabilities;
+use Becklyn\Ddd\Events\Domain\EventProvider;
+use Becklyn\Ddd\Events\Domain\EventProviderCapabilities;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 

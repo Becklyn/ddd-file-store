@@ -2,7 +2,7 @@
 
 namespace C201\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
 
-use C201\Ddd\Identity\Domain\AbstractAggregateId;
+use Becklyn\Ddd\Identity\Domain\AbstractAggregateId;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>

@@ -2,9 +2,9 @@
 
 namespace C201\FileStore\Tests\Application;
 
-use C201\Ddd\Events\Domain\DomainEventTestTrait;
-use C201\Ddd\Identity\Domain\AggregateId;
-use C201\Ddd\Transactions\Application\TransactionManagerTestTrait;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
+use Becklyn\Ddd\Identity\Domain\AggregateId;
+use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use C201\FileStore\Application\CreateFileCommand;
 use C201\FileStore\Application\CreateFileHandler;
 use C201\FileStore\Domain\File\File;

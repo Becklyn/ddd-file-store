@@ -2,8 +2,8 @@
 
 namespace C201\FileStore\Domain\Storage\Filesystem;
 
-use C201\Ddd\Events\Domain\AbstractDomainEvent;
-use C201\Ddd\Events\Domain\EventId;
+use Becklyn\Ddd\Events\Domain\AbstractDomainEvent;
+use Becklyn\Ddd\Events\Domain\EventId;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>

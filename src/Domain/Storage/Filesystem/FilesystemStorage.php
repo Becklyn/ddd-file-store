@@ -6,7 +6,7 @@ use C201\FileStore\Domain\File\File;
 use C201\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use C201\FileStore\Domain\Storage\FileNotStoredException;
 use C201\FileStore\Domain\Storage\Storage;
-use C201\Ddd\Events\Domain\EventRegistry;
+use Becklyn\Ddd\Events\Domain\EventRegistry;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>

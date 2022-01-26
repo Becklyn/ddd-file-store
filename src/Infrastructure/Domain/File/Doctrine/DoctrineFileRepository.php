@@ -2,9 +2,9 @@
 
 namespace C201\FileStore\Infrastructure\Domain\File\Doctrine;
 
-use C201\Ddd\Events\Domain\EventCreatorCapabilities;
-use C201\Ddd\Events\Domain\EventRegistry;
-use C201\Ddd\Identity\Domain\AggregateId;
+use Becklyn\Ddd\Events\Domain\EventCreatorCapabilities;
+use Becklyn\Ddd\Events\Domain\EventRegistry;
+use Becklyn\Ddd\Identity\Domain\AggregateId;
 use C201\FileStore\Domain\File\File;
 use C201\FileStore\Domain\File\FileDeleted;
 use C201\FileStore\Domain\File\FileId;
