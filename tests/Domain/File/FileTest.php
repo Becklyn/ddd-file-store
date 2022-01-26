@@ -7,7 +7,7 @@ use Becklyn\FileStore\Domain\File\FileContentsUpdated;
 use Becklyn\FileStore\Domain\File\FileCreated;
 use Becklyn\FileStore\Domain\File\FileOwnerSet;
 use Becklyn\FileStore\Domain\File\FileRenamed;
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

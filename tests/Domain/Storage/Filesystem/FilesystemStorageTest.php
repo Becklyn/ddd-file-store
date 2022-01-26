@@ -5,7 +5,7 @@ namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\FileStore\Domain\File\File;
 use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;

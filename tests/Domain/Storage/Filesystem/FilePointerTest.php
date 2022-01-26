@@ -2,7 +2,7 @@
 
 namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
 
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerCreated;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;

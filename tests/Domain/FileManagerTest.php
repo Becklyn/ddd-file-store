@@ -7,7 +7,7 @@ use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\FileStore\Domain\File\FileRepository;
 use Becklyn\FileStore\Domain\FileManager;
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\Storage;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;

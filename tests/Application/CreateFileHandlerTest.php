@@ -8,7 +8,7 @@ use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use Becklyn\FileStore\Application\CreateFileCommand;
 use Becklyn\FileStore\Application\CreateFileHandler;
 use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\FileStore\Tests\Domain\File\TestProxyAggregateId;
 use PHPUnit\Framework\TestCase;

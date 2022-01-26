@@ -7,7 +7,7 @@ use Becklyn\FileStore\Domain\File\File;
 use Becklyn\FileStore\Domain\File\FileDeleted;
 use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\FileStore\Domain\File\FileNotFoundException;
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;

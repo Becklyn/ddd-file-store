@@ -7,7 +7,7 @@ use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use Becklyn\FileStore\Application\DeleteFileCommand;
 use Becklyn\FileStore\Application\DeleteFileHandler;
 use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

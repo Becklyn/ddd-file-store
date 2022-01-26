@@ -1,11 +1,12 @@
 <?php
 
-namespace Becklyn\FileStore\Domain;
+namespace Becklyn\FileStore\Testing;
 
 use Becklyn\FileStore\Domain\File\File;
 use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\FileStore\Domain\File\FileRepository;
+use Becklyn\FileStore\Domain\FileManager;
 use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
 use Prophecy\Argument;

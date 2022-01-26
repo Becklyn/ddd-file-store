@@ -8,7 +8,7 @@ use Becklyn\FileStore\Application\ReplaceFileContentsCommand;
 use Becklyn\FileStore\Application\ReplaceFileContentsHandler;
 use Becklyn\FileStore\Domain\File\File;
 use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
