@@ -1,6 +1,6 @@
 <?php
 
-namespace C201\FileStore\Domain\File;
+namespace Becklyn\FileStore\Domain\File;
 
 use Becklyn\Ddd\Identity\Domain\AggregateId;
 

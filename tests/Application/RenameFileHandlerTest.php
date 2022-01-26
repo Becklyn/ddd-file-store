@@ -1,14 +1,14 @@
 <?php
 
-namespace C201\FileStore\Tests\Application;
+namespace Becklyn\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
-use C201\FileStore\Application\RenameFileCommand;
-use C201\FileStore\Application\RenameFileHandler;
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Application\RenameFileCommand;
+use Becklyn\FileStore\Application\RenameFileHandler;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -19,8 +19,8 @@ use Psr\Log\LoggerInterface;
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-07-27
  *
- * @covers \C201\FileStore\Application\RenameFileHandler
- * @covers \C201\FileStore\Application\RenameFileCommand
+ * @covers \Becklyn\FileStore\Application\RenameFileHandler
+ * @covers \Becklyn\FileStore\Application\RenameFileCommand
  */
 class RenameFileHandlerTest extends TestCase
 {

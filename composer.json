@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "C201\\FileStore\\": "src/"
+            "Becklyn\\FileStore\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "C201\\FileStore\\Tests\\": "tests/"
+            "Becklyn\\FileStore\\Tests\\": "tests/"
         }
     }
 }

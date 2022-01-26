@@ -1,14 +1,14 @@
 <?php
 
-namespace C201\FileStore\Tests\Domain;
+namespace Becklyn\FileStore\Tests\Domain;
 
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\File\FileNotFoundException;
-use C201\FileStore\Domain\File\FileRepository;
-use C201\FileStore\Domain\FileManager;
-use C201\FileStore\Domain\FileTestTrait;
-use C201\FileStore\Domain\Storage\Storage;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\FileStore\Domain\File\FileRepository;
+use Becklyn\FileStore\Domain\FileManager;
+use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Domain\Storage\Storage;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -18,7 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-29
  *
- * @covers \C201\FileStore\Domain\FileManager
+ * @covers \Becklyn\FileStore\Domain\FileManager
  */
 class FileManagerTest extends TestCase
 {

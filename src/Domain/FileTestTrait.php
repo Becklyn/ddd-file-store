@@ -1,13 +1,13 @@
 <?php
 
-namespace C201\FileStore\Domain;
+namespace Becklyn\FileStore\Domain;
 
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\File\FileNotFoundException;
-use C201\FileStore\Domain\File\FileRepository;
-use C201\FileStore\Domain\Storage\FileNotFoundInStorageException;
-use C201\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\FileStore\Domain\File\FileRepository;
+use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
+use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 

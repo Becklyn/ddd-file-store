@@ -1,8 +1,8 @@
 <?php
 
-namespace C201\FileStore\Application;
+namespace Becklyn\FileStore\Application;
 
-use C201\FileStore\Domain\FileManager;
+use Becklyn\FileStore\Domain\FileManager;
 use Becklyn\Ddd\Commands\Application\CommandHandler;
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Psr\Log\LoggerInterface;

@@ -1,13 +1,13 @@
 <?php
 
-namespace C201\FileStore\Tests\Domain\File;
+namespace Becklyn\FileStore\Tests\Domain\File;
 
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\File\FileContentsUpdated;
-use C201\FileStore\Domain\File\FileCreated;
-use C201\FileStore\Domain\File\FileOwnerSet;
-use C201\FileStore\Domain\File\FileRenamed;
-use C201\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\File\FileContentsUpdated;
+use Becklyn\FileStore\Domain\File\FileCreated;
+use Becklyn\FileStore\Domain\File\FileOwnerSet;
+use Becklyn\FileStore\Domain\File\FileRenamed;
+use Becklyn\FileStore\Domain\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -15,7 +15,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-29
  *
- * @covers \C201\FileStore\Domain\File\File
+ * @covers \Becklyn\FileStore\Domain\File\File
  */
 class FileTest extends TestCase
 {

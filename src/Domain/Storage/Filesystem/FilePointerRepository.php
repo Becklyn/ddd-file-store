@@ -1,8 +1,8 @@
 <?php
 
-namespace C201\FileStore\Domain\Storage\Filesystem;
+namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
-use C201\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\File\FileId;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>

@@ -1,6 +1,6 @@
 <?php
 
-namespace C201\FileStore\Domain\File;
+namespace Becklyn\FileStore\Domain\File;
 
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\Events\Domain\EventProviderCapabilities;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @since  2020-05-26
  *
  * @ORM\Entity
- * @ORM\Table(name="c201_files")
+ * @ORM\Table(name="becklyn_files")
  */
 class File implements EventProvider
 {

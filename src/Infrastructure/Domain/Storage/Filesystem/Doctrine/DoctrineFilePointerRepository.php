@@ -1,15 +1,15 @@
 <?php
 
-namespace C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine;
+namespace Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine;
 
 use Becklyn\Ddd\Events\Domain\EventCreatorCapabilities;
 use Becklyn\Ddd\Events\Domain\EventRegistry;
-use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointer;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerId;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerRepository;
+use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerRepository;
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 

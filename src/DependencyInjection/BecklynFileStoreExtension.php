@@ -1,6 +1,6 @@
 <?php
 
-namespace C201\FileStore\DependencyInjection;
+namespace Becklyn\FileStore\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  *
  * @codeCoverageIgnore
  */
-class C201FileStoreExtension extends Extension implements PrependExtensionInterface
+class BecklynFileStoreExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -28,7 +28,7 @@ class C201FileStoreExtension extends Extension implements PrependExtensionInterf
         $loader->load('services.yml');
 
         if (isset($config['filesystem'], $config['filesystem']['base_path'])) {
-            $definition = $container->getDefinition('c201_file_store.storage.filesystem.filesystem');
+            $definition = $container->getDefinition('becklyn_file_store.storage.filesystem.filesystem');
             $definition->replaceArgument(0, $config['filesystem']['base_path']);
         }
     }
@@ -37,7 +37,7 @@ class C201FileStoreExtension extends Extension implements PrependExtensionInterf
     {
         $container->prependExtensionConfig('doctrine_migrations', [
             'migrations_paths' => [
-                'C201\FileStore\Infrastructure\DoctrineMigrations' => __DIR__. '/../Infrastructure/DoctrineMigrations',
+                'Becklyn\FileStore\Infrastructure\DoctrineMigrations' => __DIR__. '/../Infrastructure/DoctrineMigrations',
             ]
         ]);
     }

@@ -1,18 +1,18 @@
 <?php
 
-namespace C201\FileStore\Tests\Domain\Storage\Filesystem;
+namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointer;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerId;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-29
  *
- * @covers \C201\FileStore\Domain\Storage\Filesystem\FilePointerDeleted
+ * @covers \Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerDeleted
  */
 class FilePointerDeletedTest extends TestCase
 {

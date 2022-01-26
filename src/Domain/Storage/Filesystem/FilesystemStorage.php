@@ -1,11 +1,11 @@
 <?php
 
-namespace C201\FileStore\Domain\Storage\Filesystem;
+namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\Storage\FileNotFoundInStorageException;
-use C201\FileStore\Domain\Storage\FileNotStoredException;
-use C201\FileStore\Domain\Storage\Storage;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
+use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\FileStore\Domain\Storage\Storage;
 use Becklyn\Ddd\Events\Domain\EventRegistry;
 
 /**

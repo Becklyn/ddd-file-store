@@ -1,6 +1,6 @@
 <?php
 
-namespace C201\FileStore\Domain\Storage\Filesystem;
+namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
 use Becklyn\Ddd\Events\Domain\AbstractDomainEvent;
 use Becklyn\Ddd\Events\Domain\EventId;

@@ -1,14 +1,14 @@
 <?php
 
-namespace C201\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
+namespace Becklyn\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\File\FileDeleted;
-use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\File\FileNotFoundException;
-use C201\FileStore\Domain\FileTestTrait;
-use C201\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\File\FileDeleted;
+use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +20,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-30
  *
- * @covers \C201\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository
+ * @covers \Becklyn\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository
  */
 class DoctrineFileRepositoryTest extends TestCase
 {

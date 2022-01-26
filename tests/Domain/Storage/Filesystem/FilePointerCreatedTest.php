@@ -1,19 +1,19 @@
 <?php
 
-namespace C201\FileStore\Tests\Domain\Storage\Filesystem;
+namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointer;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerCreated;
-use C201\FileStore\Domain\Storage\Filesystem\FilePointerId;
+use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerCreated;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-29
  *
- * @covers \C201\FileStore\Domain\Storage\Filesystem\FilePointerCreated
+ * @covers \Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerCreated
  */
 class FilePointerCreatedTest extends TestCase
 {

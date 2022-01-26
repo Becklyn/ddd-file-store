@@ -1,13 +1,13 @@
 <?php
 
-namespace C201\FileStore\Tests\Application;
+namespace Becklyn\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
-use C201\FileStore\Application\DeleteFileCommand;
-use C201\FileStore\Application\DeleteFileHandler;
-use C201\FileStore\Domain\File\FileId;
-use C201\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Application\DeleteFileCommand;
+use Becklyn\FileStore\Application\DeleteFileHandler;
+use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -15,8 +15,8 @@ use Prophecy\PhpUnit\ProphecyTrait;
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-07-28
  *
- * @covers \C201\FileStore\Application\DeleteFileHandler
- * @covers \C201\FileStore\Application\DeleteFileCommand
+ * @covers \Becklyn\FileStore\Application\DeleteFileHandler
+ * @covers \Becklyn\FileStore\Application\DeleteFileCommand
  */
 class DeleteFileHandlerTest extends TestCase
 {

@@ -1,18 +1,18 @@
 <?php
 
-namespace C201\FileStore\Tests\Domain\File;
+namespace Becklyn\FileStore\Tests\Domain\File;
 
 use Becklyn\Ddd\Events\Domain\EventCreatorCapabilities;
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\File\FileContentsUpdated;
-use C201\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\File\FileContentsUpdated;
+use Becklyn\FileStore\Domain\File\FileId;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-29
  *
- * @covers \C201\FileStore\Domain\File\FileContentsUpdated
+ * @covers \Becklyn\FileStore\Domain\File\FileContentsUpdated
  */
 class FileContentsUpdatedTest extends TestCase
 {

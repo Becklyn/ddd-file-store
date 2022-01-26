@@ -1,6 +1,6 @@
 <?php
 
-namespace C201\FileStore\Domain\Storage;
+namespace Becklyn\FileStore\Domain\Storage;
 
 /**
  * @author Marko Vujnovic <mv@201created.de>

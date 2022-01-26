@@ -1,8 +1,8 @@
 <?php
 
-namespace C201\FileStore\Domain\Storage\Filesystem;
+namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
-use C201\FileStore\Domain\File\FileId;
+use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\Events\Domain\EventProviderCapabilities;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @since 2020-05-27
  *
  * @ORM\Entity
- * @ORM\Table(name="c201_filesystem_file_pointers")
+ * @ORM\Table(name="becklyn_filesystem_file_pointers")
  */
 class FilePointer implements EventProvider
 {

@@ -5,7 +5,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="C201\FileStore\Domain\Storage\Filesystem\FilePointer" table="c201_filesystem_file_pointers">
+    <entity name="Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer" table="becklyn_filesystem_file_pointers">
 
         <id name="internalId" column="id" type="integer">
             <generator strategy="AUTO"/>

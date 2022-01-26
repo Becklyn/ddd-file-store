@@ -1,16 +1,16 @@
 <?php
 
-namespace C201\FileStore\Tests\Application;
+namespace Becklyn\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Identity\Domain\AggregateId;
 use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
-use C201\FileStore\Application\CreateFileCommand;
-use C201\FileStore\Application\CreateFileHandler;
-use C201\FileStore\Domain\File\File;
-use C201\FileStore\Domain\FileTestTrait;
-use C201\FileStore\Domain\Storage\FileNotStoredException;
-use C201\FileStore\Tests\Domain\File\TestProxyAggregateId;
+use Becklyn\FileStore\Application\CreateFileCommand;
+use Becklyn\FileStore\Application\CreateFileHandler;
+use Becklyn\FileStore\Domain\File\File;
+use Becklyn\FileStore\Domain\FileTestTrait;
+use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\FileStore\Tests\Domain\File\TestProxyAggregateId;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -21,8 +21,8 @@ use Psr\Log\LoggerInterface;
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-29
  *
- * @covers \C201\FileStore\Application\CreateFileHandler
- * @covers \C201\FileStore\Application\CreateFileCommand
+ * @covers \Becklyn\FileStore\Application\CreateFileHandler
+ * @covers \Becklyn\FileStore\Application\CreateFileCommand
  */
 class CreateFileHandlerTest extends TestCase
 {

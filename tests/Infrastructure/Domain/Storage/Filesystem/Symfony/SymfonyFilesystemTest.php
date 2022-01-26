@@ -1,9 +1,9 @@
 <?php
 
-namespace C201\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Symfony;
+namespace Becklyn\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Symfony;
 
-use C201\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;
-use C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem;
+use Becklyn\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;
+use Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @author Marko Vujnovic <mv@201created.de>
  * @since  2020-06-30
  *
- * @covers \C201\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem
+ * @covers \Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem
  */
 class SymfonyFilesystemTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace C201\FileStore;
+namespace Becklyn\FileStore;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,15 +12,15 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  *
  * @codeCoverageIgnore
  */
-class C201FileStoreBundle extends Bundle
+class BecklynFileStoreBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
         $mappings = [
-            realpath(__DIR__ . '/../resources/config/doctrine-mapping/file')               => 'C201\FileStore\Domain\File',
-            realpath(__DIR__ . '/../resources/config/doctrine-mapping/storage/filesystem') => 'C201\FileStore\Domain\Storage\Filesystem',
+            realpath(__DIR__ . '/../resources/config/doctrine-mapping/file')               => 'Becklyn\FileStore\Domain\File',
+            realpath(__DIR__ . '/../resources/config/doctrine-mapping/storage/filesystem') => 'Becklyn\FileStore\Domain\Storage\Filesystem',
         ];
 
         $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
