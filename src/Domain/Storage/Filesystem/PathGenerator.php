@@ -24,7 +24,7 @@ class PathGenerator
         [$filenameWithoutExtension, $extension] = $this->separateFilenameAndExtension($filename);
 
         $filenameWithoutExtension = substr($filenameWithoutExtension, 0, 20);
-        $extension = substr($extension, 0, 4);
+        $extension = $extension !== null ? substr($extension, 0, 4) : null;
 
         // note that the filename itself, without the path through the folders through it, is limited to 255 by the linux filesystem
         // also note that the value returned will likely be stored in a database field limited to 255 characters
