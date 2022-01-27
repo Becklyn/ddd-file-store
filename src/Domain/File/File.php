@@ -6,7 +6,6 @@ use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\Events\Domain\EventProviderCapabilities;
 use Becklyn\Ddd\Identity\Domain\AggregateId;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
@@ -60,21 +59,21 @@ class File implements EventProvider
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false)
-     * @Gedmo\Timestampable(on="create")
      */
-    private ?\DateTimeImmutable $createdTs = null;
+    private \DateTimeImmutable $createdTs;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false)
-     * @Gedmo\Timestampable(on="update")
      */
-    private ?\DateTimeImmutable $updatedTs = null;
+    private \DateTimeImmutable $updatedTs;
 
     private function __construct(FileId $id, string $filename, string $contents)
     {
         $this->id = $id->asString();
         $this->filename = $filename;
         $this->setContents($contents);
+        $this->createdTs = new \DateTimeImmutable();
+        $this->updatedTs = $this->createdTs;
     }
 
     private function setContents(string $contents): void
@@ -82,6 +81,7 @@ class File implements EventProvider
         $this->contentHash = $this->hashContents($contents);
         $this->size = strlen($contents);
         $this->contents = $contents;
+        $this->updatedTs = new \DateTimeImmutable();
     }
 
     private function hashContents(string $contents): string
@@ -173,6 +173,7 @@ class File implements EventProvider
         }
 
         $this->filename = $newFilename;
+        $this->updatedTs = new \DateTimeImmutable();
         $this->raiseEvent(new FileRenamed($this->nextEventIdentity(), new \DateTimeImmutable(), $this->id(), $newFilename));
 
         return $this;
@@ -194,6 +195,7 @@ class File implements EventProvider
     {
         $this->ownerId = $ownerId->asString();
         $this->ownerType = $ownerId->aggregateType();
+        $this->updatedTs = new \DateTimeImmutable();
         $this->raiseEvent(new FileOwnerSet($this->nextEventIdentity(), new \DateTimeImmutable(), $this->id(), $this->ownerId, $this->ownerType));
 
         return $this;

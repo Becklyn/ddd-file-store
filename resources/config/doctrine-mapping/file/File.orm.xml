@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
@@ -27,13 +26,9 @@
 
         <field name="ownerType" column="owner_type" type="string" length="255" nullable="true" />
 
-        <field name="createdTs" column="created_ts" type="datetime_immutable" nullable="false">
-            <gedmo:timestampable on="create"/>
-        </field>
+        <field name="createdTs" column="created_ts" type="datetime_immutable" nullable="false" />
 
-        <field name="updatedTs" column="updated_ts" type="datetime_immutable" nullable="false">
-            <gedmo:timestampable on="update"/>
-        </field>
+        <field name="updatedTs" column="updated_ts" type="datetime_immutable" nullable="false" />
 
     </entity>
 

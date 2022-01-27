@@ -6,7 +6,6 @@ use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\Events\Domain\EventProviderCapabilities;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
@@ -43,21 +42,21 @@ class FilePointer implements EventProvider
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false)
-     * @Gedmo\Timestampable(on="create")
      */
-    private ?\DateTimeImmutable $createdTs = null;
+    private \DateTimeImmutable $createdTs;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=false)
-     * @Gedmo\Timestampable(on="update")
      */
-    private ?\DateTimeImmutable $updatedTs = null;
+    private \DateTimeImmutable $updatedTs;
 
     private function __construct(FilePointerId $id, FileId $fileId, string $path)
     {
         $this->id = $id->asString();
         $this->fileId = $fileId->asString();
         $this->path = $path;
+        $this->createdTs = new \DateTimeImmutable();
+        $this->updatedTs = $this->createdTs;
     }
 
     public static function create(FilePointerId $id, FileId $fileId, string $path): self
