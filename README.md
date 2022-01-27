@@ -12,7 +12,7 @@ Command handlers and event subscribers must be enabled in the project. See beckl
 ```
 Becklyn\Ddd\FileStore\BecklynFileStoreBundle::class => ['all' => true],
 ```
-- run `php bin/console doctrine:migrations:diff` to create a Doctrine migration for the file store. Check the migrations file and manually remove anything unrelated to the becklyn_files and becklyn_filesystem_file_pointers tables. Execute the migration by running `php bin/console doctrine:migrations:migrate`
+- There is a doctrine migration provided. Execute it by running `php bin/console doctrine:migrations:migrate`
 - Add the following to services.yaml if the command handlers should log errors:
 ```
 becklyn_ddd.file_store.handler.create_file:
