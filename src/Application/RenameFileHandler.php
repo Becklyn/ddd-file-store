@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Application;
+namespace Becklyn\Ddd\FileStore\Application;
 
 use Becklyn\Ddd\Commands\Application\CommandHandler;
 use Becklyn\Ddd\Events\Domain\EventProvider;
-use Becklyn\FileStore\Domain\File\FileRepository;
+use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
 use Psr\Log\LoggerInterface;
 
 /**

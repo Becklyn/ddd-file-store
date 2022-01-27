@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Doctrine;
+namespace Becklyn\Ddd\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Doctrine;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
-use Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository;
-use Becklyn\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerId;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
+use Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository;
+use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  *
  * @since  2020-06-30
  *
- * @covers \Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository
+ * @covers \Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository
  */
 class DoctrineFilePointerRepositoryTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
+namespace Becklyn\Ddd\FileStore\Tests\Domain\Storage\Filesystem;
 
-use Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\PathGenerator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @since  2020-06-29
  *
- * @covers \Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator
+ * @covers \Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\PathGenerator
  */
 class PathGeneratorTest extends TestCase
 {

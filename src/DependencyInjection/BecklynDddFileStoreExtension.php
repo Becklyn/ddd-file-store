@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\DependencyInjection;
+namespace Becklyn\Ddd\FileStore\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  *
  * @codeCoverageIgnore
  */
-class BecklynFileStoreExtension extends Extension implements PrependExtensionInterface
+class BecklynDddFileStoreExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container) : void
     {
@@ -29,7 +29,7 @@ class BecklynFileStoreExtension extends Extension implements PrependExtensionInt
         $loader->load('services.yml');
 
         if (isset($config['filesystem'], $config['filesystem']['base_path'])) {
-            $definition = $container->getDefinition('becklyn_file_store.storage.filesystem.filesystem');
+            $definition = $container->getDefinition('becklyn_ddd.file_store.storage.filesystem.filesystem');
             $definition->replaceArgument(0, $config['filesystem']['base_path']);
         }
     }
@@ -38,7 +38,7 @@ class BecklynFileStoreExtension extends Extension implements PrependExtensionInt
     {
         $container->prependExtensionConfig('doctrine_migrations', [
             'migrations_paths' => [
-                'Becklyn\\FileStore\\Infrastructure\\DoctrineMigrations' => __DIR__ . '/../Infrastructure/DoctrineMigrations',
+                'Becklyn\\Ddd\\FileStore\\Infrastructure\\DoctrineMigrations' => __DIR__ . '/../Infrastructure/DoctrineMigrations',
             ],
         ]);
     }

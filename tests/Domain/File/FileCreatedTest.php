@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Domain\File;
+namespace Becklyn\Ddd\FileStore\Tests\Domain\File;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileCreated;
-use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileCreated;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @since  2020-06-29
  *
- * @covers \Becklyn\FileStore\Domain\File\FileCreated
+ * @covers \Becklyn\Ddd\FileStore\Domain\File\FileCreated
  */
 class FileCreatedTest extends TestCase
 {

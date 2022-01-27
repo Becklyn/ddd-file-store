@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Becklyn\FileStore\Infrastructure\DoctrineMigrations;
+namespace Becklyn\Ddd\FileStore\Infrastructure\DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -16,7 +16,7 @@ final class Version20200702081057 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Adds tables for use with becklyn/file-store';
+        return 'Adds tables for use with becklyn/ddd-file-store';
     }
 
     public function up(Schema $schema) : void

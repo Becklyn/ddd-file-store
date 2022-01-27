@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Domain\Storage;
+namespace Becklyn\Ddd\FileStore\Domain\Storage;
 
-use Becklyn\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\File;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>

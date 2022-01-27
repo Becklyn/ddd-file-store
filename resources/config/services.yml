@@ -1,124 +1,124 @@
 services:
-    becklyn_file_store.file.file_repository:
-        class: Becklyn\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository
+    becklyn_ddd.file_store.file.file_repository:
+        class: Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository
         public: false
         arguments:
             - '@Doctrine\ORM\EntityManagerInterface'
             - '@Becklyn\Ddd\Events\Domain\EventRegistry'
 
-    Becklyn\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository:
-        alias: becklyn_file_store.file.file_repository
+    Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository:
+        alias: becklyn_ddd.file_store.file.file_repository
 
-    Becklyn\FileStore\Domain\File\FileRepository:
-        alias: becklyn_file_store.file.file_repository
+    Becklyn\Ddd\FileStore\Domain\File\FileRepository:
+        alias: becklyn_ddd.file_store.file.file_repository
 
-    becklyn_file_store.storage.filesystem.file_pointer_repository:
-        class: Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository
+    becklyn_ddd.file_store.storage.filesystem.file_pointer_repository:
+        class: Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository
         public: false
         arguments:
             - '@Doctrine\ORM\EntityManagerInterface'
             - '@Becklyn\Ddd\Events\Domain\EventRegistry'
 
-    Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository:
-        alias: becklyn_file_store.storage.filesystem.file_pointer_repository
+    Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository:
+        alias: becklyn_ddd.file_store.storage.filesystem.file_pointer_repository
 
-    Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerRepository:
-        alias: becklyn_file_store.storage.filesystem.file_pointer_repository
+    Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerRepository:
+        alias: becklyn_ddd.file_store.storage.filesystem.file_pointer_repository
 
-    becklyn_file_store.storage.filesystem.symfony_filesystem:
+    becklyn_ddd.file_store.storage.filesystem.symfony_filesystem:
         class: Symfony\Component\Filesystem\Filesystem
         shared: false
 
-    becklyn_file_store.storage.filesystem.filesystem:
-        class: Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem
+    becklyn_ddd.file_store.storage.filesystem.filesystem:
+        class: Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem
         public: false
         arguments:
             - '%kernel.project_dir%/var/becklyn-files'
-            - '@becklyn_file_store.storage.filesystem.symfony_filesystem'
+            - '@becklyn_ddd.file_store.storage.filesystem.symfony_filesystem'
 
-    Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem:
-        alias: becklyn_file_store.storage.filesystem.filesystem
+    Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem:
+        alias: becklyn_ddd.file_store.storage.filesystem.filesystem
 
-    Becklyn\FileStore\Domain\Storage\Filesystem\Filesystem:
-        alias: becklyn_file_store.storage.filesystem.filesystem
+    Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\Filesystem:
+        alias: becklyn_ddd.file_store.storage.filesystem.filesystem
 
-    becklyn_file_store.storage.filesystem.path_generator:
-        class: Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator
+    becklyn_ddd.file_store.storage.filesystem.path_generator:
+        class: Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\PathGenerator
 
-    Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator:
-        alias: becklyn_file_store.storage.filesystem.path_generator
+    Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\PathGenerator:
+        alias: becklyn_ddd.file_store.storage.filesystem.path_generator
 
-    becklyn_file_store.storage.filesystem.filesystem_storage:
-        class: Becklyn\FileStore\Domain\Storage\Filesystem\FilesystemStorage
+    becklyn_ddd.file_store.storage.filesystem.filesystem_storage:
+        class: Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilesystemStorage
         arguments:
             - '@becklyn_ddd.events.event_registry'
-            - '@becklyn_file_store.storage.filesystem.file_pointer_repository'
-            - '@becklyn_file_store.storage.filesystem.path_generator'
-            - '@becklyn_file_store.storage.filesystem.filesystem'
+            - '@becklyn_ddd.file_store.storage.filesystem.file_pointer_repository'
+            - '@becklyn_ddd.file_store.storage.filesystem.path_generator'
+            - '@becklyn_ddd.file_store.storage.filesystem.filesystem'
 
-    Becklyn\FileStore\Domain\Storage\Filesystem\FilesystemStorage:
-        alias: becklyn_file_store.storage.filesystem.filesystem_storage
+    Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilesystemStorage:
+        alias: becklyn_ddd.file_store.storage.filesystem.filesystem_storage
 
-    Becklyn\FileStore\Domain\Storage\Storage:
-        alias: becklyn_file_store.storage.filesystem.filesystem_storage
+    Becklyn\Ddd\FileStore\Domain\Storage\Storage:
+        alias: becklyn_ddd.file_store.storage.filesystem.filesystem_storage
 
-    becklyn_file_store.filesystem_file_manager:
-        class: Becklyn\FileStore\Domain\FileManager
+    becklyn_ddd.file_store.filesystem_file_manager:
+        class: Becklyn\Ddd\FileStore\Domain\FileManager
         arguments:
-            - '@becklyn_file_store.file.file_repository'
-            - '@becklyn_file_store.storage.filesystem.filesystem_storage'
+            - '@becklyn_ddd.file_store.file.file_repository'
+            - '@becklyn_ddd.file_store.storage.filesystem.filesystem_storage'
 
-    Becklyn\FileStore\Domain\FileManager:
-        alias: becklyn_file_store.filesystem_file_manager
+    Becklyn\Ddd\FileStore\Domain\FileManager:
+        alias: becklyn_ddd.file_store.filesystem_file_manager
 
-    becklyn_file_store.handler.create_file:
-        class: Becklyn\FileStore\Application\CreateFileHandler
+    becklyn_ddd.file_store.handler.create_file:
+        class: Becklyn\Ddd\FileStore\Application\CreateFileHandler
         tags:
             - { name: command_handler, register_public_methods: true }
         arguments:
-            - '@becklyn_file_store.filesystem_file_manager'
+            - '@becklyn_ddd.file_store.filesystem_file_manager'
         calls:
             - [setTransactionManager, ['@becklyn_ddd.transactions.transaction_manager']]
             - [setEventRegistry, ['@becklyn_ddd.events.event_registry']]
 
-    Becklyn\FileStore\Application\CreateFileHandler:
-        alias: becklyn_file_store.handler.create_file
+    Becklyn\Ddd\FileStore\Application\CreateFileHandler:
+        alias: becklyn_ddd.file_store.handler.create_file
 
-    becklyn_file_store.handler.replace_file_contents:
-        class: Becklyn\FileStore\Application\ReplaceFileContentsHandler
+    becklyn_ddd.file_store.handler.replace_file_contents:
+        class: Becklyn\Ddd\FileStore\Application\ReplaceFileContentsHandler
         tags:
             - { name: command_handler, register_public_methods: true }
         arguments:
-            - '@becklyn_file_store.filesystem_file_manager'
+            - '@becklyn_ddd.file_store.filesystem_file_manager'
         calls:
             - [setTransactionManager, ['@becklyn_ddd.transactions.transaction_manager']]
             - [setEventRegistry, ['@becklyn_ddd.events.event_registry']]
 
-    Becklyn\FileStore\Application\ReplaceFileContentsHandler:
-        alias: becklyn_file_store.handler.replace_file_contents
+    Becklyn\Ddd\FileStore\Application\ReplaceFileContentsHandler:
+        alias: becklyn_ddd.file_store.handler.replace_file_contents
 
-    becklyn_file_store.handler.rename_file:
-        class: Becklyn\FileStore\Application\RenameFileHandler
+    becklyn_ddd.file_store.handler.rename_file:
+        class: Becklyn\Ddd\FileStore\Application\RenameFileHandler
         tags:
             - { name: command_handler, register_public_methods: true }
         arguments:
-            - '@becklyn_file_store.file.file_repository'
+            - '@becklyn_ddd.file_store.file.file_repository'
         calls:
             - [setTransactionManager, ['@becklyn_ddd.transactions.transaction_manager']]
             - [setEventRegistry, ['@becklyn_ddd.events.event_registry']]
 
-    Becklyn\FileStore\Application\RenameFileHandler:
-        alias: becklyn_file_store.handler.rename_file
+    Becklyn\Ddd\FileStore\Application\RenameFileHandler:
+        alias: becklyn_ddd.file_store.handler.rename_file
 
-    becklyn_file_store.handler.delete_file:
-        class: Becklyn\FileStore\Application\DeleteFileHandler
+    becklyn_ddd.file_store.handler.delete_file:
+        class: Becklyn\Ddd\FileStore\Application\DeleteFileHandler
         tags:
             - { name: command_handler, register_public_methods: true }
         arguments:
-            - '@becklyn_file_store.filesystem_file_manager'
+            - '@becklyn_ddd.file_store.filesystem_file_manager'
         calls:
             - [setTransactionManager, ['@becklyn_ddd.transactions.transaction_manager']]
             - [setEventRegistry, ['@becklyn_ddd.events.event_registry']]
 
-    Becklyn\FileStore\Application\DeleteFileHandler:
-        alias: becklyn_file_store.handler.delete_file
+    Becklyn\Ddd\FileStore\Application\DeleteFileHandler:
+        alias: becklyn_ddd.file_store.handler.delete_file

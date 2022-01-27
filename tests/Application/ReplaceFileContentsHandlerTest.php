@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Application;
+namespace Becklyn\Ddd\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
-use Becklyn\FileStore\Application\ReplaceFileContentsCommand;
-use Becklyn\FileStore\Application\ReplaceFileContentsHandler;
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\FileStore\Application\ReplaceFileContentsCommand;
+use Becklyn\Ddd\FileStore\Application\ReplaceFileContentsHandler;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -20,8 +20,8 @@ use Psr\Log\LoggerInterface;
  *
  * @since  2020-06-30
  *
- * @covers \Becklyn\FileStore\Application\ReplaceFileContentsCommand
- * @covers \Becklyn\FileStore\Application\ReplaceFileContentsHandler
+ * @covers \Becklyn\Ddd\FileStore\Application\ReplaceFileContentsCommand
+ * @covers \Becklyn\Ddd\FileStore\Application\ReplaceFileContentsHandler
  */
 class ReplaceFileContentsHandlerTest extends TestCase
 {

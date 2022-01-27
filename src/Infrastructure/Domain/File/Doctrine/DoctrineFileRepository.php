@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Infrastructure\Domain\File\Doctrine;
+namespace Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine;
 
 use Becklyn\Ddd\Events\Domain\EventCreatorCapabilities;
 use Becklyn\Ddd\Events\Domain\EventRegistry;
 use Becklyn\Ddd\Identity\Domain\AggregateId;
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileDeleted;
-use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\File\FileNotFoundException;
-use Becklyn\FileStore\Domain\File\FileRepository;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileDeleted;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 

@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
+namespace Becklyn\Ddd\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileDeleted;
-use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\File\FileNotFoundException;
-use Becklyn\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository;
-use Becklyn\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileDeleted;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository;
+use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  *
  * @since  2020-06-30
  *
- * @covers \Becklyn\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository
+ * @covers \Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository
  */
 class DoctrineFileRepositoryTest extends TestCase
 {

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
+namespace Becklyn\Ddd\FileStore\Tests\Domain\Storage\Filesystem;
 
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerCreated;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
-use Becklyn\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerCreated;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerId;
+use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -14,7 +14,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
  *
  * @since  2020-06-29
  *
- * @covers \Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer
+ * @covers \Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer
  */
 class FilePointerTest extends TestCase
 {

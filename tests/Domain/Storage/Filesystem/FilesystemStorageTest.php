@@ -1,21 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
+namespace Becklyn\Ddd\FileStore\Tests\Domain\Storage\Filesystem;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
-use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerRepository;
-use Becklyn\FileStore\Domain\Storage\Filesystem\Filesystem;
-use Becklyn\FileStore\Domain\Storage\Filesystem\FilesystemStorage;
-use Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator;
-use Becklyn\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\Storage\FileNotFoundInStorageException;
+use Becklyn\Ddd\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerId;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerRepository;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\Filesystem;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilesystemStorage;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\PathGenerator;
+use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -26,7 +26,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  *
  * @since  2020-06-29
  *
- * @covers \Becklyn\FileStore\Domain\Storage\Filesystem\FilesystemStorage
+ * @covers \Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilesystemStorage
  */
 class FilesystemStorageTest extends TestCase
 {

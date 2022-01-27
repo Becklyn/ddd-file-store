@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Domain\Storage\Filesystem;
+namespace Becklyn\Ddd\FileStore\Domain\Storage\Filesystem;
 
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\Events\Domain\EventProviderCapabilities;
-use Becklyn\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

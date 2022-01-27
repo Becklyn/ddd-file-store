@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony;
+namespace Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony;
 
-use Becklyn\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;
-use Becklyn\FileStore\Domain\Storage\Filesystem\Filesystem;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystemComponent;
 
 /**

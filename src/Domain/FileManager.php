@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Domain;
+namespace Becklyn\Ddd\FileStore\Domain;
 
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\File\FileNotFoundException;
-use Becklyn\FileStore\Domain\File\FileRepository;
-use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
-use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
-use Becklyn\FileStore\Domain\Storage\Storage;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
+use Becklyn\Ddd\FileStore\Domain\Storage\FileNotFoundInStorageException;
+use Becklyn\Ddd\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\Ddd\FileStore\Domain\Storage\Storage;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>

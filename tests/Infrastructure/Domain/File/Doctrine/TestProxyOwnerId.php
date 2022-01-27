@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
+namespace Becklyn\Ddd\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
 
 use Becklyn\Ddd\Identity\Domain\AbstractAggregateId;
 

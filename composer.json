@@ -1,5 +1,5 @@
 {
-    "name": "becklyn/file-store",
+    "name": "becklyn/ddd-file-store",
     "description": "File storage engine used in Becklyn projects",
     "type": "symfony-bundle",
     "license": "MIT",
@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Becklyn\\FileStore\\": "src/"
+            "Becklyn\\Ddd\\FileStore\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Becklyn\\FileStore\\Tests\\": "tests/"
+            "Becklyn\\Ddd\\FileStore\\Tests\\": "tests/"
         }
     }
 }

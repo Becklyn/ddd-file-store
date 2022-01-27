@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Testing;
+namespace Becklyn\Ddd\FileStore\Testing;
 
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\File\FileNotFoundException;
-use Becklyn\FileStore\Domain\File\FileRepository;
-use Becklyn\FileStore\Domain\FileManager;
-use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
-use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
+use Becklyn\Ddd\FileStore\Domain\FileManager;
+use Becklyn\Ddd\FileStore\Domain\Storage\FileNotFoundInStorageException;
+use Becklyn\Ddd\FileStore\Domain\Storage\FileNotStoredException;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 

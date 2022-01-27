@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\FileStore\Tests\Domain;
+namespace Becklyn\Ddd\FileStore\Tests\Domain;
 
-use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Domain\File\FileNotFoundException;
-use Becklyn\FileStore\Domain\FileManager;
-use Becklyn\FileStore\Domain\Storage\Storage;
-use Becklyn\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\FileStore\Domain\File\File;
+use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
+use Becklyn\Ddd\FileStore\Domain\FileManager;
+use Becklyn\Ddd\FileStore\Domain\Storage\Storage;
+use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -18,7 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  *
  * @since  2020-06-29
  *
- * @covers \Becklyn\FileStore\Domain\FileManager
+ * @covers \Becklyn\Ddd\FileStore\Domain\FileManager
  */
 class FileManagerTest extends TestCase
 {
