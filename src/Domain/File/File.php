@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain\File;
 
@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-26
  *
  * @ORM\Entity
@@ -43,7 +44,7 @@ class File implements EventProvider
     private string $contentHash;
 
     /**
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned"=true})
      */
     private int $size;
 
@@ -76,46 +77,46 @@ class File implements EventProvider
         $this->updatedTs = $this->createdTs;
     }
 
-    private function setContents(string $contents): void
+    private function setContents(string $contents) : void
     {
         $this->contentHash = $this->hashContents($contents);
-        $this->size = strlen($contents);
+        $this->size = \strlen($contents);
         $this->contents = $contents;
         $this->updatedTs = new \DateTimeImmutable();
     }
 
-    private function hashContents(string $contents): string
+    private function hashContents(string $contents) : string
     {
-        return sha1($contents);
+        return \sha1($contents);
     }
 
-    public static function create(FileId $id, string $filename, string $contents): self
+    public static function create(FileId $id, string $filename, string $contents) : self
     {
         $file = new self($id, $filename, $contents);
         $file->raiseEvent(new FileCreated($file->nextEventIdentity(), new \DateTimeImmutable(), $id, $filename, $file->contentHash, $file->size));
         return $file;
     }
 
-    public function id(): FileId
+    public function id() : FileId
     {
         return FileId::fromString($this->id);
     }
 
-    public function filename(): string
+    public function filename() : string
     {
         return $this->filename;
     }
 
-    public function contents(): string
+    public function contents() : string
     {
-        if ($this->contents === null) {
-            throw new \LogicException("The contents of file '$this->id' have not been loaded yet");
+        if (null === $this->contents) {
+            throw new \LogicException("The contents of file '{$this->id}' have not been loaded yet");
         }
 
         return $this->contents;
     }
 
-    public function contentHash(): string
+    public function contentHash() : string
     {
         return $this->contentHash;
     }
@@ -123,50 +124,50 @@ class File implements EventProvider
     /**
      * @return int File size in bytes
      */
-    public function size(): int
+    public function size() : int
     {
         return $this->size;
     }
 
-    public function ownerId(): AggregateId
+    public function ownerId() : AggregateId
     {
         $idClass = "{$this->ownerType}Id";
         return $idClass::fromString($this->ownerId);
     }
 
-    public function ownerType(): string
+    public function ownerType() : string
     {
         return $this->ownerType;
     }
 
-    public function type(): string
+    public function type() : string
     {
-        $filenameExplosion = explode('.', $this->filename);
-        return end($filenameExplosion);
+        $filenameExplosion = \explode('.', $this->filename);
+        return \end($filenameExplosion);
     }
 
-    public function createdOn(): ?\DateTimeImmutable
+    public function createdOn() : ?\DateTimeImmutable
     {
         return $this->createdTs;
     }
 
-    public function updatedOn(): ?\DateTimeImmutable
+    public function updatedOn() : ?\DateTimeImmutable
     {
         return $this->updatedTs;
     }
 
-    public function load(string $contents): self
+    public function load(string $contents) : self
     {
         if ($this->hashContents($contents) !== $this->contentHash) {
             $newHash = $this->hashContents($contents);
-            throw new \LogicException("Attempted to load file '$this->id' with contents that do not match the file\'s content hash '$this->contentHash'. Hash of supplied contents: '$newHash'.");
+            throw new \LogicException("Attempted to load file '{$this->id}' with contents that do not match the file\\'s content hash '{$this->contentHash}'. Hash of supplied contents: '{$newHash}'.");
         }
 
         $this->contents = $contents;
         return $this;
     }
 
-    public function rename(string $newFilename): self
+    public function rename(string $newFilename) : self
     {
         if ($this->filename === $newFilename) {
             return $this;
@@ -179,7 +180,7 @@ class File implements EventProvider
         return $this;
     }
 
-    public function updateContents(string $newContents): self
+    public function updateContents(string $newContents) : self
     {
         if ($this->contentHash === $this->hashContents($newContents)) {
             return $this;
@@ -191,7 +192,7 @@ class File implements EventProvider
         return $this;
     }
 
-    public function setOwner(AggregateId $ownerId): self
+    public function setOwner(AggregateId $ownerId) : self
     {
         $this->ownerId = $ownerId->asString();
         $this->ownerType = $ownerId->aggregateType();

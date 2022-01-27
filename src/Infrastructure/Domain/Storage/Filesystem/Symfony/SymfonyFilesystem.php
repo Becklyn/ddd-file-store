@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony;
 
@@ -8,6 +8,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystemComponent;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-27
  */
 class SymfonyFilesystem implements Filesystem
@@ -21,26 +22,27 @@ class SymfonyFilesystem implements Filesystem
         $this->filesystem = $filesystem;
     }
 
-    public function dumpFile(string $relativePathInFilesystem, string $contents): void
+    public function dumpFile(string $relativePathInFilesystem, string $contents) : void
     {
         $this->filesystem->dumpFile($this->getFullPath($relativePathInFilesystem), $contents);
     }
 
-    private function getFullPath(string $relativePathInFilesystem): string
+    private function getFullPath(string $relativePathInFilesystem) : string
     {
-        return "{$this->baseFilesystemPath}/$relativePathInFilesystem";
+        return "{$this->baseFilesystemPath}/{$relativePathInFilesystem}";
     }
 
-    public function readFile(string $relativePathInFilesystem): string
+    public function readFile(string $relativePathInFilesystem) : string
     {
         $path = $this->getFullPath($relativePathInFilesystem);
+
         if (!$this->filesystem->exists($path)) {
-            throw new FileNotFoundInFilesystemException("File '$relativePathInFilesystem' could not be found in the filesystem");
+            throw new FileNotFoundInFilesystemException("File '{$relativePathInFilesystem}' could not be found in the filesystem");
         }
-        return file_get_contents($path);
+        return \file_get_contents($path);
     }
 
-    public function remove(string $relativePathInFilesystem): void
+    public function remove(string $relativePathInFilesystem) : void
     {
         $path = $this->getFullPath($relativePathInFilesystem);
         $this->filesystem->remove($path);

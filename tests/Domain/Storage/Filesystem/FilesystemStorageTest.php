@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Domain\Storage\Filesystem;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\FileStore\Domain\File\File;
 use Becklyn\FileStore\Domain\File\FileId;
-use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FileNotFoundInFilesystemException;
@@ -16,6 +15,7 @@ use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerRepository;
 use Becklyn\FileStore\Domain\Storage\Filesystem\Filesystem;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilesystemStorage;
 use Becklyn\FileStore\Domain\Storage\Filesystem\PathGenerator;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -23,6 +23,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-29
  *
  * @covers \Becklyn\FileStore\Domain\Storage\Filesystem\FilesystemStorage
@@ -50,7 +51,7 @@ class FilesystemStorageTest extends TestCase
 
     private FilesystemStorage $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initDomainEventTestTrait();
         $this->filePointerRepository = $this->prophesize(FilePointerRepository::class);
@@ -65,7 +66,7 @@ class FilesystemStorageTest extends TestCase
         );
     }
 
-    public function testStoreFileContentsGeneratesPathForNewFilePointerAddsItToRepositoryAndDequeuesItIfNoPointerIsFoundForFileBeforeDumpingFileContentsToFilePointerPath(): void
+    public function testStoreFileContentsGeneratesPathForNewFilePointerAddsItToRepositoryAndDequeuesItIfNoPointerIsFoundForFileBeforeDumpingFileContentsToFilePointerPath() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -85,50 +86,50 @@ class FilesystemStorageTest extends TestCase
         $this->whenStoreFileContentsIsExecutedForFile($file->reveal());
     }
 
-    private function givenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFileId(FileId $fileId): void
+    private function givenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFileId(FileId $fileId) : void
     {
         $this->filePointerRepository->findOneByFileId($fileId)->willThrow(new FilePointerNotFoundException());
     }
 
-    private function thenPathShouldBeGeneratedFromFilename(string $filename): string
+    private function thenPathShouldBeGeneratedFromFilename(string $filename) : string
     {
-        $path = uniqid();
+        $path = \uniqid();
         $this->pathGenerator->generate($filename)->willReturn($path);
         return $path;
     }
 
-    private function thenFilePointerRepositoryShouldReturnNextId(): FilePointerId
+    private function thenFilePointerRepositoryShouldReturnNextId() : FilePointerId
     {
         $filePointerId = FilePointerId::next();
         $this->filePointerRepository->nextIdentity()->willReturn($filePointerId);
         return $filePointerId;
     }
 
-    private function thenNewFilePointerForFileWithGeneratedIdAndPathShouldBeAddedToRepository(FilePointerId $filePointerId, FileId $fileId, string $path): void
+    private function thenNewFilePointerForFileWithGeneratedIdAndPathShouldBeAddedToRepository(FilePointerId $filePointerId, FileId $fileId, string $path) : void
     {
         $this->filePointerRepository->add(Argument::that(function(FilePointer $filePointer) use ($filePointerId, $fileId, $path) {
             return $filePointer->id()->equals($filePointerId) && $filePointer->fileId()->equals($fileId) && $filePointer->path() === $path;
         }))->shouldBeCalled();
     }
 
-    private function thenNewFilePointerForFileWithGeneratedIdAndPathShouldBeDequeued(FilePointerId $filePointerId, FileId $fileId, string $path): void
+    private function thenNewFilePointerForFileWithGeneratedIdAndPathShouldBeDequeued(FilePointerId $filePointerId, FileId $fileId, string $path) : void
     {
         $this->eventRegistry->dequeueProviderAndRegister(Argument::that(function(FilePointer $filePointer) use ($filePointerId, $fileId, $path) {
             return $filePointer->id()->equals($filePointerId) && $filePointer->fileId()->equals($fileId) && $filePointer->path() === $path;
         }))->shouldBeCalled();
     }
 
-    private function thenContentsForFileShouldBeDumpedForPath(string $path, string $contents): void
+    private function thenContentsForFileShouldBeDumpedForPath(string $path, string $contents) : void
     {
         $this->filesystem->dumpFile($path, $contents)->shouldBeCalled();
     }
 
-    private function whenStoreFileContentsIsExecutedForFile(File $file): void
+    private function whenStoreFileContentsIsExecutedForFile(File $file) : void
     {
         $this->fixture->storeFileContents($file);
     }
 
-    public function testStoreFileContentsDumpsFileContentsToPathFromFilePointerIfPointerCanBeFoundForFile(): void
+    public function testStoreFileContentsDumpsFileContentsToPathFromFilePointerIfPointerCanBeFoundForFile() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -147,7 +148,7 @@ class FilesystemStorageTest extends TestCase
     /**
      * @return ObjectProphecy|FilePointer
      */
-    private function givenFilePointerRepositoryFindsOneByFileId(FileId $fileId): ObjectProphecy
+    private function givenFilePointerRepositoryFindsOneByFileId(FileId $fileId) : ObjectProphecy
     {
         /** @var ObjectProphecy|FilePointer $filePointer */
         $filePointer = $this->prophesize(FilePointer::class);
@@ -156,20 +157,20 @@ class FilesystemStorageTest extends TestCase
         return $filePointer;
     }
 
-    private function givenAPath(): string
+    private function givenAPath() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
     /**
      * @param ObjectProphecy|FilePointer $filePointer
      */
-    private function givenFilePointerHasPath(ObjectProphecy $filePointer, string $path): void
+    private function givenFilePointerHasPath(ObjectProphecy $filePointer, string $path) : void
     {
         $filePointer->path()->willReturn($path);
     }
 
-    public function testStoreFileContentsThrowsFileNotStoredExceptionIfFilesystemThrowsExceptionWhenDumpingFileContentsToPath(): void
+    public function testStoreFileContentsThrowsFileNotStoredExceptionIfFilesystemThrowsExceptionWhenDumpingFileContentsToPath() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -187,17 +188,17 @@ class FilesystemStorageTest extends TestCase
         $this->whenStoreFileContentsIsExecutedForFile($file->reveal());
     }
 
-    private function givenFilesystemThrowsExceptionWhenDumpingFileContentsToPath(string $path, string $contents): void
+    private function givenFilesystemThrowsExceptionWhenDumpingFileContentsToPath(string $path, string $contents) : void
     {
-        $this->filesystem->dumpFile($path, $contents)->willThrow(new \Exception);
+        $this->filesystem->dumpFile($path, $contents)->willThrow(new \Exception());
     }
 
-    private function thenFileNotStoredExceptionShouldBeThrown(): void
+    private function thenFileNotStoredExceptionShouldBeThrown() : void
     {
         $this->expectException(FileNotStoredException::class);
     }
 
-    public function testLoadFileContentsReturnsDataReadByFilesystemFromPathInFilePointerFoundForFile(): void
+    public function testLoadFileContentsReturnsDataReadByFilesystemFromPathInFilePointerFoundForFile() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -214,24 +215,24 @@ class FilesystemStorageTest extends TestCase
         );
     }
 
-    private function givenFilesystemReadFileReturnsDataReadFromPath(string $path): string
+    private function givenFilesystemReadFileReturnsDataReadFromPath(string $path) : string
     {
-        $data = uniqid();
+        $data = \uniqid();
         $this->filesystem->readFile($path)->willReturn($data);
         return $data;
     }
 
-    private function thenDataShouldBeReturned(string $expected, string $actual): void
+    private function thenDataShouldBeReturned(string $expected, string $actual) : void
     {
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
-    private function whenLoadFileContentsIsExecutedForFile(File $file): string
+    private function whenLoadFileContentsIsExecutedForFile(File $file) : string
     {
         return $this->fixture->loadFileContents($file);
     }
 
-    public function testLoadFileContentsThrowsFileNotFoundInStorageExceptionWhenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFile(): void
+    public function testLoadFileContentsThrowsFileNotFoundInStorageExceptionWhenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFile() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -240,12 +241,12 @@ class FilesystemStorageTest extends TestCase
         $this->whenLoadFileContentsIsExecutedForFile($file->reveal());
     }
 
-    private function thenFileNotFoundInStorageExceptionShouldBeThrown(): void
+    private function thenFileNotFoundInStorageExceptionShouldBeThrown() : void
     {
         $this->expectException(FileNotFoundInStorageException::class);
     }
 
-    public function testLoadFileContentsThrowsFileNotFoundInStorageExceptionWhenFilesystemThrowsFileNotFoundInFilesystemException(): void
+    public function testLoadFileContentsThrowsFileNotFoundInStorageExceptionWhenFilesystemThrowsFileNotFoundInFilesystemException() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -257,12 +258,12 @@ class FilesystemStorageTest extends TestCase
         $this->whenLoadFileContentsIsExecutedForFile($file->reveal());
     }
 
-    private function givenFilesystemThrowsFileNotFoundInFilesystemExceptionForPathFromFilePointer(string $path): void
+    private function givenFilesystemThrowsFileNotFoundInFilesystemExceptionForPathFromFilePointer(string $path) : void
     {
         $this->filesystem->readFile($path)->willThrow(new FileNotFoundInFilesystemException());
     }
 
-    public function testDeleteFileContentsRemovesFilePointerFromRepositoryAndFilesystemRemovesDataFromFilePointerPath(): void
+    public function testDeleteFileContentsRemovesFilePointerFromRepositoryAndFilesystemRemovesDataFromFilePointerPath() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -276,22 +277,22 @@ class FilesystemStorageTest extends TestCase
         $this->whenDeleteFileContentsIsExecutedForFile($file->reveal());
     }
 
-    private function thenFilePointerShouldBeRemovedFromRepository(FilePointer $filePointer): void
+    private function thenFilePointerShouldBeRemovedFromRepository(FilePointer $filePointer) : void
     {
         $this->filePointerRepository->remove($filePointer)->shouldBeCalled();
     }
 
-    private function thenFilesystemShouldRemoveDataFromFilePointerPath(string $path): void
+    private function thenFilesystemShouldRemoveDataFromFilePointerPath(string $path) : void
     {
         $this->filesystem->remove($path)->shouldBeCalled();
     }
 
-    private function whenDeleteFileContentsIsExecutedForFile(File $file): void
+    private function whenDeleteFileContentsIsExecutedForFile(File $file) : void
     {
         $this->fixture->deleteFileContents($file);
     }
 
-    public function testDeleteFileContentsCatchesFilePointerNotFoundExceptionThrownByFilePointerRepositoryAndReturns(): void
+    public function testDeleteFileContentsCatchesFilePointerNotFoundExceptionThrownByFilePointerRepositoryAndReturns() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
@@ -300,8 +301,8 @@ class FilesystemStorageTest extends TestCase
         $this->thenNoExceptionShouldBubble();
     }
 
-    private function thenNoExceptionShouldBubble()
+    private function thenNoExceptionShouldBubble() : void
     {
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 }

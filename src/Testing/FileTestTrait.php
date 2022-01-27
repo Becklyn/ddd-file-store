@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Testing;
 
@@ -14,6 +14,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-03
  *
  * @codeCoverageIgnore
@@ -25,13 +26,13 @@ trait FileTestTrait
     /** @var ObjectProphecy|FileRepository */
     protected ObjectProphecy $fileRepository;
 
-    protected function initFilesTestTrait(): void
+    protected function initFilesTestTrait() : void
     {
         $this->fileManager = $this->prophesize(FileManager::class);
         $this->fileRepository = $this->prophesize(FileRepository::class);
     }
 
-    protected function givenAFileId(): FileId
+    protected function givenAFileId() : FileId
     {
         return FileId::next();
     }
@@ -39,7 +40,7 @@ trait FileTestTrait
     /**
      * @return ObjectProphecy|File
      */
-    protected function givenAFileWithId(FileId $fileId): ObjectProphecy
+    protected function givenAFileWithId(FileId $fileId) : ObjectProphecy
     {
         /** @var ObjectProphecy|File $file */
         $file = $this->prophesize(File::class);
@@ -47,28 +48,28 @@ trait FileTestTrait
         return $file;
     }
 
-    protected function givenAFilename(): string
+    protected function givenAFilename() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
     /**
      * @param ObjectProphecy|File $file
      */
-    protected function givenFileHasFilename(ObjectProphecy $file, string $filename): void
+    protected function givenFileHasFilename(ObjectProphecy $file, string $filename) : void
     {
         $file->filename()->willReturn($filename);
     }
 
-    protected function givenFileContents(): string
+    protected function givenFileContents() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
     /**
      * @param ObjectProphecy|File $file
      */
-    protected function givenFileHasContents(ObjectProphecy $file, string $contents): void
+    protected function givenFileHasContents(ObjectProphecy $file, string $contents) : void
     {
         $file->contents()->willReturn($contents);
     }
@@ -76,7 +77,7 @@ trait FileTestTrait
     /**
      * @return ObjectProphecy|File
      */
-    protected function givenFileManagerLoadsFileById(FileId $fileId): ObjectProphecy
+    protected function givenFileManagerLoadsFileById(FileId $fileId) : ObjectProphecy
     {
         /** @var ObjectProphecy|File $file */
         $file = $this->prophesize(File::class);
@@ -85,7 +86,7 @@ trait FileTestTrait
         return $file;
     }
 
-    protected function givenFileManagerThrowsFileNotStoredExceptionWhileCreatingNewFile($filename = null, $contents = null): FileNotStoredException
+    protected function givenFileManagerThrowsFileNotStoredExceptionWhileCreatingNewFile($filename = null, $contents = null) : FileNotStoredException
     {
         $filename = $filename ?? Argument::any();
         $contents = $contents ?? Argument::any();
@@ -94,7 +95,7 @@ trait FileTestTrait
         return $e;
     }
 
-    protected function givenFileManagerThrowsFileNotFoundExceptionWhileReplacingContentsForFile($fileId = null, $contents = null): FileNotFoundException
+    protected function givenFileManagerThrowsFileNotFoundExceptionWhileReplacingContentsForFile($fileId = null, $contents = null) : FileNotFoundException
     {
         $fileId = $fileId ?? Argument::any();
         $contents = $contents ?? Argument::any();
@@ -106,7 +107,7 @@ trait FileTestTrait
     /**
      * @param ObjectProphecy|File $file
      */
-    protected function givenFileWasCreatedOn(ObjectProphecy $file, ?\DateTimeImmutable $createdOn): void
+    protected function givenFileWasCreatedOn(ObjectProphecy $file, ?\DateTimeImmutable $createdOn) : void
     {
         $file->createdOn()->willReturn($createdOn);
     }
@@ -114,17 +115,17 @@ trait FileTestTrait
     /**
      * @param ObjectProphecy|File $file
      */
-    protected function givenFileWasUpdatedOn(ObjectProphecy $file, ?\DateTimeImmutable $updatedOn): void
+    protected function givenFileWasUpdatedOn(ObjectProphecy $file, ?\DateTimeImmutable $updatedOn) : void
     {
         $file->updatedOn()->willReturn($updatedOn);
     }
 
-    protected function givenFileManagerThrowsFileNotFoundExceptionWhileLoadingFileWithId(FileId $fileId): void
+    protected function givenFileManagerThrowsFileNotFoundExceptionWhileLoadingFileWithId(FileId $fileId) : void
     {
         $this->fileManager->load($fileId)->willThrow(new FileNotFoundException());
     }
 
-    protected function givenFileManagerThrowsFileNotFoundInStorageExceptionWhileLoadingFileWithId(FileId $fileId): void
+    protected function givenFileManagerThrowsFileNotFoundInStorageExceptionWhileLoadingFileWithId(FileId $fileId) : void
     {
         $this->fileManager->load($fileId)->willThrow(new FileNotFoundInStorageException());
     }
@@ -132,7 +133,7 @@ trait FileTestTrait
     /**
      * @return ObjectProphecy|File
      */
-    protected function givenFileHasContentHash(ObjectProphecy $file, string $contentHash): void
+    protected function givenFileHasContentHash(ObjectProphecy $file, string $contentHash) : void
     {
         $file->contentHash()->willReturn($contentHash);
     }
@@ -140,7 +141,7 @@ trait FileTestTrait
     /**
      * @return ObjectProphecy|File
      */
-    protected function givenFileRepositoryFindsFileById(FileId $fileId): ObjectProphecy
+    protected function givenFileRepositoryFindsFileById(FileId $fileId) : ObjectProphecy
     {
         /** @var ObjectProphecy|File $file */
         $file = $this->prophesize(File::class);
@@ -149,12 +150,12 @@ trait FileTestTrait
         return $file;
     }
 
-    protected function givenFileRepositoryThrowsFileNotFoundExceptionWhileFindingFileById(FileId $fileId): void
+    protected function givenFileRepositoryThrowsFileNotFoundExceptionWhileFindingFileById(FileId $fileId) : void
     {
         $this->fileRepository->findOneById($fileId)->willThrow(new FileNotFoundException());
     }
 
-    protected function thenFileNotFoundExceptionShouldBeThrown()
+    protected function thenFileNotFoundExceptionShouldBeThrown() : void
     {
         $this->expectException(FileNotFoundException::class);
     }

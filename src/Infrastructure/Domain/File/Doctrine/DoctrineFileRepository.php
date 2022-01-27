@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Infrastructure\Domain\File\Doctrine;
 
@@ -10,11 +10,12 @@ use Becklyn\FileStore\Domain\File\FileDeleted;
 use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\FileStore\Domain\File\FileRepository;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-26
  */
 class DoctrineFileRepository implements FileRepository
@@ -32,40 +33,40 @@ class DoctrineFileRepository implements FileRepository
         $this->eventRegistry = $eventRegistry;
     }
 
-    public function nextIdentity(): FileId
+    public function nextIdentity() : FileId
     {
         return FileId::next();
     }
 
-    public function add(File $file): void
+    public function add(File $file) : void
     {
         $this->em->persist($file);
     }
 
-    public function findOneById(FileId $fileId): File
+    public function findOneById(FileId $fileId) : File
     {
         /** @var ?File $file */
         $file = $this->repository->findOneBy(['id' => $fileId->asString()]);
 
-        if ($file === null) {
+        if (null === $file) {
             throw new FileNotFoundException("File with id '{$fileId->asString()}' could not be found");
         }
 
         return $file;
     }
 
-    public function remove(File $file): void
+    public function remove(File $file) : void
     {
         $this->em->remove($file);
         $this->eventRegistry->registerEvent(new FileDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $file->id()));
     }
 
-    public function findOneByOwnerId(AggregateId $ownerId): File
+    public function findOneByOwnerId(AggregateId $ownerId) : File
     {
         /** @var ?File $file */
         $file = $this->repository->findOneBy(['ownerId' => $ownerId->asString(), 'ownerType' => $ownerId->aggregateType()]);
 
-        if ($file === null) {
+        if (null === $file) {
             throw new FileNotFoundException("File with owner '{$ownerId->asString()}' of type '{$ownerId->aggregateType()}' could not be found");
         }
 

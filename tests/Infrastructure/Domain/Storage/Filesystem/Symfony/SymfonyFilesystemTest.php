@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Symfony;
 
@@ -11,6 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-30
  *
  * @covers \Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Symfony\SymfonyFilesystem
@@ -28,52 +29,52 @@ class SymfonyFilesystemTest extends TestCase
 
     protected SymfonyFilesystem $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
-        $this->baseFilesystemPath = uniqid();
+        $this->baseFilesystemPath = \uniqid();
         $this->filesystem = $this->prophesize(Filesystem::class);
         $this->fixture = new SymfonyFilesystem($this->baseFilesystemPath, $this->filesystem->reveal());
     }
 
-    public function testDumpFileDumpsContentsToFullPathConstructedFromRelativePath(): void
+    public function testDumpFileDumpsContentsToFullPathConstructedFromRelativePath() : void
     {
-        $relativePath = uniqid();
-        $contents = uniqid();
+        $relativePath = \uniqid();
+        $contents = \uniqid();
         $this->fixture->dumpFile($relativePath, $contents);
         $this->filesystem->dumpFile($this->getFullPathFromRelativePath($relativePath), $contents)->shouldHaveBeenCalled();
     }
 
-    private function getFullPathFromRelativePath($relativePath): string
+    private function getFullPathFromRelativePath($relativePath) : string
     {
-        return "$this->baseFilesystemPath/$relativePath";
+        return "{$this->baseFilesystemPath}/{$relativePath}";
     }
 
-    public function testReadFileReturnsContentsFromFullPathConstructedFromRelativePathIfFileExists(): void
+    public function testReadFileReturnsContentsFromFullPathConstructedFromRelativePathIfFileExists() : void
     {
-        $this->baseFilesystemPath = sys_get_temp_dir();
+        $this->baseFilesystemPath = \sys_get_temp_dir();
         $this->fixture = new SymfonyFilesystem($this->baseFilesystemPath, $this->filesystem->reveal());
 
-        $relativePath = 'testfile_' . uniqid() . '.txt';
-        $contents = uniqid();
-        file_put_contents($this->getFullPathFromRelativePath($relativePath), $contents);
+        $relativePath = 'testfile_' . \uniqid() . '.txt';
+        $contents = \uniqid();
+        \file_put_contents($this->getFullPathFromRelativePath($relativePath), $contents);
 
         $this->filesystem->exists($this->getFullPathFromRelativePath($relativePath))->willReturn(true);
-        $this->assertEquals($contents, $this->fixture->readFile($relativePath));
+        self::assertEquals($contents, $this->fixture->readFile($relativePath));
 
-        unlink($this->getFullPathFromRelativePath($relativePath));
+        \unlink($this->getFullPathFromRelativePath($relativePath));
     }
 
-    public function testReadFileThrowsFileNotFoundInFilesystemExceptionIfFullPathConstructedFromRelativePathDoesNotExist(): void
+    public function testReadFileThrowsFileNotFoundInFilesystemExceptionIfFullPathConstructedFromRelativePathDoesNotExist() : void
     {
-        $relativePath = uniqid();
+        $relativePath = \uniqid();
         $this->filesystem->exists($this->getFullPathFromRelativePath($relativePath))->willReturn(false);
         $this->expectException(FileNotFoundInFilesystemException::class);
         $this->fixture->readFile($relativePath);
     }
 
-    public function testRemoveRemovesFileInFilesystemFromFullPathConstructedFromRelativePath(): void
+    public function testRemoveRemovesFileInFilesystemFromFullPathConstructedFromRelativePath() : void
     {
-        $relativePath = uniqid();
+        $relativePath = \uniqid();
         $this->fixture->remove($relativePath);
         $this->filesystem->remove($this->getFullPathFromRelativePath($relativePath))->shouldHaveBeenCalled();
     }

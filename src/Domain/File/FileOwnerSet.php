@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain\File;
 
@@ -7,6 +7,7 @@ use Becklyn\Ddd\Events\Domain\EventId;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-26
  */
 class FileOwnerSet extends AbstractDomainEvent
@@ -23,22 +24,22 @@ class FileOwnerSet extends AbstractDomainEvent
         $this->ownerType = $ownerType;
     }
 
-    public function aggregateId(): FileId
+    public function aggregateId() : FileId
     {
         return $this->fileId;
     }
 
-    public function aggregateType(): string
+    public function aggregateType() : string
     {
         return File::class;
     }
 
-    public function ownerId(): string
+    public function ownerId() : string
     {
         return $this->ownerId;
     }
 
-    public function ownerType(): string
+    public function ownerType() : string
     {
         return $this->ownerType;
     }

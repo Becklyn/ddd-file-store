@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Application;
 
@@ -8,8 +8,8 @@ use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use Becklyn\FileStore\Application\CreateFileCommand;
 use Becklyn\FileStore\Application\CreateFileHandler;
 use Becklyn\FileStore\Domain\File\File;
-use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Tests\Domain\File\TestProxyAggregateId;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -19,10 +19,11 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-29
  *
- * @covers \Becklyn\FileStore\Application\CreateFileHandler
  * @covers \Becklyn\FileStore\Application\CreateFileCommand
+ * @covers \Becklyn\FileStore\Application\CreateFileHandler
  */
 class CreateFileHandlerTest extends TestCase
 {
@@ -38,7 +39,7 @@ class CreateFileHandlerTest extends TestCase
 
     private CreateFileHandler $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initFilesTestTrait();
         $this->initDomainEventTestTrait();
@@ -49,7 +50,7 @@ class CreateFileHandlerTest extends TestCase
         $this->fixture->setTransactionManager($this->transactionManager->reveal());
     }
 
-    public function testNewFileIsCreatedByManagerWithFilenameAndContentsOwnerIsSetAndFileIsDequeuedByEventRegistry(): void
+    public function testNewFileIsCreatedByManagerWithFilenameAndContentsOwnerIsSetAndFileIsDequeuedByEventRegistry() : void
     {
         $filename = $this->givenAFilename();
         $contents = $this->givenFileContents();
@@ -60,24 +61,24 @@ class CreateFileHandlerTest extends TestCase
         $this->whenCreateFileCommandIsHandledForFilenameContentsAndOwner($filename, $contents, $ownerId);
     }
 
-    private function givenAnOwnerId(): AggregateId
+    private function givenAnOwnerId() : AggregateId
     {
         return TestProxyAggregateId::next();
     }
 
-    private function givenFileManagerCreatesNewFileWithFilenameAndContents(string $filename, string $contents): void
+    private function givenFileManagerCreatesNewFileWithFilenameAndContents(string $filename, string $contents) : void
     {
         $this->fileManager->new($filename, $contents)->willReturn(File::create($this->givenAFileId(), $filename, $contents));
     }
 
-    private function thenFileWithFilenameContentsAndOwnerShouldBeDequeuedByEventRegistry(string $filename, string $contents, AggregateId $ownerId): void
+    private function thenFileWithFilenameContentsAndOwnerShouldBeDequeuedByEventRegistry(string $filename, string $contents, AggregateId $ownerId) : void
     {
         $this->eventRegistry->dequeueProviderAndRegister(
             Argument::that(
                 fn(File $file) => $file->filename() === $filename &&
                     $file->contents() === $contents &&
                     $ownerId->equals($file->ownerId()) &&
-                    $file->ownerType() === substr(get_class($ownerId), 0, -2)
+                    $file->ownerType() === \substr(\get_class($ownerId), 0, -2)
             )
         )->shouldBeCalled();
     }
@@ -86,12 +87,12 @@ class CreateFileHandlerTest extends TestCase
         string $filename,
         string $contents,
         AggregateId $ownerId,
-        string $errorMessage = null
-    ): void {
+        ?string $errorMessage = null
+    ) : void {
         $this->fixture->handle(new CreateFileCommand($contents, $filename, $ownerId, $errorMessage));
     }
 
-    public function testExceptionIsThrownIfFileManagerThrowsExceptionAndLoggerIsNull(): void
+    public function testExceptionIsThrownIfFileManagerThrowsExceptionAndLoggerIsNull() : void
     {
         $filename = $this->givenAFilename();
         $contents = $this->givenFileContents();
@@ -105,16 +106,16 @@ class CreateFileHandlerTest extends TestCase
         $this->whenCreateFileCommandIsHandledForFilenameContentsAndOwner($filename, $contents, $this->givenAnOwnerId());
     }
 
-    private function thenFileNotStoredExceptionShouldBeThrown()
+    private function thenFileNotStoredExceptionShouldBeThrown() : void
     {
         $this->expectException(FileNotStoredException::class);
     }
 
-    public function testExceptionIsThrownAndErrorMessageFromCommandIsLoggedIfFileManagerThrowsException(): void
+    public function testExceptionIsThrownAndErrorMessageFromCommandIsLoggedIfFileManagerThrowsException() : void
     {
         $filename = $this->givenAFilename();
         $contents = $this->givenFileContents();
-        $errorMessage = uniqid();
+        $errorMessage = \uniqid();
 
         $this->givenFileManagerThrowsFileNotStoredExceptionWhileCreatingNewFile($filename, $contents);
         $this->thenFileNotStoredExceptionShouldBeThrown();
@@ -122,12 +123,12 @@ class CreateFileHandlerTest extends TestCase
         $this->whenCreateFileCommandIsHandledForFilenameContentsAndOwner($filename, $contents, $this->givenAnOwnerId(), $errorMessage);
     }
 
-    private function thenErrorShouldBeLogged($errorMessage): void
+    private function thenErrorShouldBeLogged($errorMessage) : void
     {
         $this->logger->error($errorMessage)->shouldBeCalled();
     }
 
-    public function testExceptionIsThrownAndErrorMessageIsLoggedIfFileManagerThrowsExceptionAndNoErrorMessageIsSpecifiedInCommand(): void
+    public function testExceptionIsThrownAndErrorMessageIsLoggedIfFileManagerThrowsExceptionAndNoErrorMessageIsSpecifiedInCommand() : void
     {
         $filename = $this->givenAFilename();
         $contents = $this->givenFileContents();

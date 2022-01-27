@@ -1,14 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Domain;
 
 use Becklyn\FileStore\Domain\File\File;
 use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\FileStore\Domain\File\FileNotFoundException;
-use Becklyn\FileStore\Domain\File\FileRepository;
 use Becklyn\FileStore\Domain\FileManager;
-use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\Storage;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -16,6 +15,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-29
  *
  * @covers \Becklyn\FileStore\Domain\FileManager
@@ -32,7 +32,7 @@ class FileManagerTest extends TestCase
 
     private FileManager $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initFilesTestTrait();
         $this->storage = $this->prophesize(Storage::class);
@@ -40,16 +40,16 @@ class FileManagerTest extends TestCase
         $this->fixture = new FileManager($this->fileRepository->reveal(), $this->storage->reveal());
     }
 
-    public function testNewReturnsFileWithPassedFilenameAndContentsStoresItAndAddsItToRepository(): void
+    public function testNewReturnsFileWithPassedFilenameAndContentsStoresItAndAddsItToRepository() : void
     {
-        $filename = uniqid();
-        $contents = uniqid();
+        $filename = \uniqid();
+        $contents = \uniqid();
 
         $this->fileRepository->nextIdentity()->willReturn(FileId::next());
 
         $file = $this->fixture->new($filename, $contents);
-        $this->assertEquals($filename, $file->filename());
-        $this->assertEquals($contents, $file->contents());
+        self::assertEquals($filename, $file->filename());
+        self::assertEquals($contents, $file->contents());
 
         $this->storage->storeFileContents(Argument::that(fn(File $file) => $file->contents() === $contents && $file->filename() === $filename))
             ->shouldHaveBeenCalled();
@@ -57,7 +57,7 @@ class FileManagerTest extends TestCase
             ->shouldHaveBeenCalled();
     }
 
-    public function testLoadReturnsFileWithContentsLoadedFromStorage(): void
+    public function testLoadReturnsFileWithContentsLoadedFromStorage() : void
     {
         $fileId = $this->givenAFileId();
         $file = $this->givenFileRepositoryFindsOneById($fileId);
@@ -73,7 +73,7 @@ class FileManagerTest extends TestCase
     /**
      * @return ObjectProphecy|File
      */
-    private function givenFileRepositoryFindsOneById(FileId $fileId): ObjectProphecy
+    private function givenFileRepositoryFindsOneById(FileId $fileId) : ObjectProphecy
     {
         /** @var ObjectProphecy|File $file */
         $file = $this->prophesize(File::class);
@@ -82,9 +82,9 @@ class FileManagerTest extends TestCase
         return $file;
     }
 
-    private function givenStorageLoadsFileContentsForFile(File $file): string
+    private function givenStorageLoadsFileContentsForFile(File $file) : string
     {
-        $contents = uniqid();
+        $contents = \uniqid();
         $this->storage->loadFileContents($file)->willReturn($contents);
         return $contents;
     }
@@ -92,7 +92,7 @@ class FileManagerTest extends TestCase
     /**
      * @param ObjectProphecy|File $file
      */
-    private function thenContentsShouldBeLoadedIntoFile(ObjectProphecy $file, string $contents): void
+    private function thenContentsShouldBeLoadedIntoFile(ObjectProphecy $file, string $contents) : void
     {
         $file->load($contents)->shouldBeCalled();
         $file->load($contents)->will(function () use ($file, $contents) {
@@ -106,19 +106,19 @@ class FileManagerTest extends TestCase
         return $this->fixture->load($fileId);
     }
 
-    private function thenFileWithContentsShouldBeReturned(string $expectedContents, File $returnedFile): void
+    private function thenFileWithContentsShouldBeReturned(string $expectedContents, File $returnedFile) : void
     {
-        $this->assertEquals($expectedContents, $returnedFile->contents());
+        self::assertEquals($expectedContents, $returnedFile->contents());
     }
 
-    public function testReplaceContentsReturnsFileWithReplacedContentsAndStoresThemToStorageIfNewContentsAreDifferentThanOldOnes(): void
+    public function testReplaceContentsReturnsFileWithReplacedContentsAndStoresThemToStorageIfNewContentsAreDifferentThanOldOnes() : void
     {
         $fileId = $this->givenAFileId();
-        $contents = uniqid();
+        $contents = \uniqid();
 
         $file = $this->givenFileRepositoryFindsOneById($fileId);
-        $this->givenFileHasContents($file, uniqid());
-        $this->givenFileHasContentHash($file, uniqid());
+        $this->givenFileHasContents($file, \uniqid());
+        $this->givenFileHasContentHash($file, \uniqid());
 
         $this->thenContentsShouldBeUpdatedOnFile($file, $contents);
         $this->thenContentsShouldBeStoredForFile($file->reveal());
@@ -131,31 +131,31 @@ class FileManagerTest extends TestCase
     /**
      * @param ObjectProphecy|File $file
      */
-    private function thenContentsShouldBeUpdatedOnFile(ObjectProphecy $file, string $contents): void
+    private function thenContentsShouldBeUpdatedOnFile(ObjectProphecy $file, string $contents) : void
     {
         $file->updateContents($contents)->shouldBeCalled();
         $file->updateContents($contents)->will(function() use ($file, $contents) {
             $file->contents()->willReturn($contents);
-            $file->contentHash()->willReturn(sha1($contents));
+            $file->contentHash()->willReturn(\sha1($contents));
             return $file->reveal();
         });
     }
 
-    private function thenContentsShouldBeStoredForFile(File $file): void
+    private function thenContentsShouldBeStoredForFile(File $file) : void
     {
         $this->storage->storeFileContents($file)->shouldBeCalled();
     }
 
-    private function whenReplaceContentsIsExecuted(FileId $fileId, string $contents): File
+    private function whenReplaceContentsIsExecuted(FileId $fileId, string $contents) : File
     {
         return $this->fixture->replaceContents($fileId, $contents);
     }
 
-    public function testReplaceContentsReturnsFileAndStoresNoContentsToStorageIfNewContentsAreSameAsExistingOnes(): void
+    public function testReplaceContentsReturnsFileAndStoresNoContentsToStorageIfNewContentsAreSameAsExistingOnes() : void
     {
         $fileId = $this->givenAFileId();
-        $contents = uniqid();
-        $contentHash = sha1($contents);
+        $contents = \uniqid();
+        $contentHash = \sha1($contents);
 
         $file = $this->givenFileRepositoryFindsOneById($fileId);
         $this->givenFileHasContents($file, $contents);
@@ -169,12 +169,12 @@ class FileManagerTest extends TestCase
         );
     }
 
-    private function thenContentsShouldNotBeStoredForFile(File $file): void
+    private function thenContentsShouldNotBeStoredForFile(File $file) : void
     {
         $this->storage->storeFileContents($file)->shouldNotBeCalled();
     }
 
-    public function testDeleteRemovesFileFromRepositoryAndDeletesContentsFromStorage(): void
+    public function testDeleteRemovesFileFromRepositoryAndDeletesContentsFromStorage() : void
     {
         $fileId = $this->givenAFileId();
 
@@ -185,22 +185,22 @@ class FileManagerTest extends TestCase
         $this->whenDeleteIsExecuted($fileId);
     }
 
-    private function thenFileShouldBeRemovedFromRepository(File $file): void
+    private function thenFileShouldBeRemovedFromRepository(File $file) : void
     {
         $this->fileRepository->remove($file)->shouldBeCalled();
     }
 
-    private function thenFileContentsShouldBeDeletedFromStorage(File $file): void
+    private function thenFileContentsShouldBeDeletedFromStorage(File $file) : void
     {
         $this->storage->deleteFileContents($file)->shouldBeCalled();
     }
 
-    private function whenDeleteIsExecuted(FileId $fileId)
+    private function whenDeleteIsExecuted(FileId $fileId) : void
     {
         $this->fixture->delete($fileId);
     }
 
-    public function testDeleteShouldCatchFileNotFoundExceptionAndReturnIfFileIsNotFound(): void
+    public function testDeleteShouldCatchFileNotFoundExceptionAndReturnIfFileIsNotFound() : void
     {
         $fileId = $this->givenAFileId();
 
@@ -209,13 +209,13 @@ class FileManagerTest extends TestCase
         $this->thenNoExceptionShouldBeThrownByDelete();
     }
 
-    private function givenFileRepositoryThrowsFileNotFoundException(FileId $fileId)
+    private function givenFileRepositoryThrowsFileNotFoundException(FileId $fileId) : void
     {
         $this->fileRepository->findOneById($fileId)->willThrow(new FileNotFoundException());
     }
 
-    private function thenNoExceptionShouldBeThrownByDelete()
+    private function thenNoExceptionShouldBeThrownByDelete() : void
     {
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 }

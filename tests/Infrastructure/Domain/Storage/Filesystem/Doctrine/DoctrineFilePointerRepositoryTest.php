@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Doctrine;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\FileStore\Testing\FileTestTrait;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointer;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
 use Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository;
+use Becklyn\FileStore\Testing\FileTestTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -18,6 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-30
  *
  * @covers \Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository
@@ -40,7 +41,7 @@ class DoctrineFilePointerRepositoryTest extends TestCase
 
     private DoctrineFilePointerRepository $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initDomainEventTestTrait();
         $this->em = $this->prophesize(EntityManagerInterface::class);
@@ -49,31 +50,31 @@ class DoctrineFilePointerRepositoryTest extends TestCase
         $this->fixture = new DoctrineFilePointerRepository($this->em->reveal(), $this->eventRegistry->reveal());
     }
 
-    public function testNextIdentityReturnsFilePointerId(): void
+    public function testNextIdentityReturnsFilePointerId() : void
     {
-        $this->assertInstanceOf(FilePointerId::class, $this->fixture->nextIdentity());
+        self::assertInstanceOf(FilePointerId::class, $this->fixture->nextIdentity());
     }
 
-    public function testAddPersistsFileToEntityManager(): void
+    public function testAddPersistsFileToEntityManager() : void
     {
         $filePointer = $this->givenAFilePointer();
         $this->fixture->add($filePointer);
         $this->em->persist($filePointer)->shouldHaveBeenCalled();
     }
 
-    private function givenAFilePointer(): FilePointer
+    private function givenAFilePointer() : FilePointer
     {
-        return FilePointer::create(FilePointerId::next(), $this->givenAFileId(), uniqid());
+        return FilePointer::create(FilePointerId::next(), $this->givenAFileId(), \uniqid());
     }
 
-    public function testFindOneByFileIdReturnsFileFoundByDoctrineRepository(): void
+    public function testFindOneByFileIdReturnsFileFoundByDoctrineRepository() : void
     {
         $filePointer = $this->givenAFilePointer();
         $this->repository->findOneBy(['fileId' => $filePointer->fileId()->asString()])->willReturn($filePointer);
-        $this->assertSame($filePointer, $this->fixture->findOneByFileId($filePointer->fileId()));
+        self::assertSame($filePointer, $this->fixture->findOneByFileId($filePointer->fileId()));
     }
 
-    public function testFindOneByIdThrowsFilePointerNotFoundExceptionIfDoctrineRepositoryReturnsNull(): void
+    public function testFindOneByIdThrowsFilePointerNotFoundExceptionIfDoctrineRepositoryReturnsNull() : void
     {
         $fileId = $this->givenAFileId();
         $this->repository->findOneBy(['fileId' => $fileId->asString()])->willReturn(null);
@@ -81,7 +82,7 @@ class DoctrineFilePointerRepositoryTest extends TestCase
         $this->fixture->findOneByFileId($fileId);
     }
 
-    public function testRemoveRemovesFileFromEntityManagerAndRegisterAFileDeletedEvent(): void
+    public function testRemoveRemovesFileFromEntityManagerAndRegisterAFileDeletedEvent() : void
     {
         $filePointer = $this->givenAFilePointer();
         $this->fixture->remove($filePointer);

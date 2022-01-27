@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Domain\File;
 
@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-29
  *
  * @covers \Becklyn\FileStore\Domain\File\FileDeleted
@@ -18,12 +19,12 @@ class FileDeletedTest extends TestCase
 {
     use DomainEventTestTrait;
 
-    public function testGettersReturnValuesPassedToConstructor(): void
+    public function testGettersReturnValuesPassedToConstructor() : void
     {
         $fileId = FileId::next();
 
         $event = new FileDeleted($this->givenAnEventId(), $this->givenARaisedTs(), $fileId);
-        $this->assertEquals($fileId, $event->aggregateId());
-        $this->assertEquals(File::class, $event->aggregateType());
+        self::assertEquals($fileId, $event->aggregateId());
+        self::assertEquals(File::class, $event->aggregateType());
     }
 }

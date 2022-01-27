@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Application;
 
@@ -6,6 +6,7 @@ use Becklyn\FileStore\Domain\File\FileId;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-07-28
  */
 class DeleteFileCommand
@@ -17,7 +18,7 @@ class DeleteFileCommand
         $this->fileId = $fileId;
     }
 
-    public function fileId(): FileId
+    public function fileId() : FileId
     {
         return $this->fileId;
     }

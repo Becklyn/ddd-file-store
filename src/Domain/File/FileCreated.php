@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain\File;
 
@@ -7,6 +7,7 @@ use Becklyn\Ddd\Events\Domain\EventId;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-26
  */
 class FileCreated extends AbstractDomainEvent
@@ -25,27 +26,27 @@ class FileCreated extends AbstractDomainEvent
         $this->size = $size;
     }
 
-    public function aggregateId(): FileId
+    public function aggregateId() : FileId
     {
         return $this->fileId;
     }
 
-    public function aggregateType(): string
+    public function aggregateType() : string
     {
         return File::class;
     }
 
-    public function filename(): string
+    public function filename() : string
     {
         return $this->filename;
     }
 
-    public function contentHash(): string
+    public function contentHash() : string
     {
         return $this->contentHash;
     }
 
-    public function size(): int
+    public function size() : int
     {
         return $this->size;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine;
 
@@ -10,11 +10,12 @@ use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerId;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
 use Becklyn\FileStore\Domain\Storage\Filesystem\FilePointerRepository;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-27
  */
 class DoctrineFilePointerRepository implements FilePointerRepository
@@ -32,29 +33,29 @@ class DoctrineFilePointerRepository implements FilePointerRepository
         $this->eventRegistry = $eventRegistry;
     }
 
-    public function nextIdentity(): FilePointerId
+    public function nextIdentity() : FilePointerId
     {
         return FilePointerId::next();
     }
 
-    public function add(FilePointer $filePointer): void
+    public function add(FilePointer $filePointer) : void
     {
         $this->em->persist($filePointer);
     }
 
-    public function findOneByFileId(FileId $fileId): FilePointer
+    public function findOneByFileId(FileId $fileId) : FilePointer
     {
         /** @var ?FilePointer $filePointer */
         $filePointer = $this->repository->findOneBy(['fileId' => $fileId->asString()]);
 
-        if ($filePointer === null) {
+        if (null === $filePointer) {
             throw new FilePointerNotFoundException("File pointer for file '{$fileId->asString()}' could not be found");
         }
 
         return $filePointer;
     }
 
-    public function remove(FilePointer $filePointer): void
+    public function remove(FilePointer $filePointer) : void
     {
         $this->em->remove($filePointer);
         $this->eventRegistry->registerEvent(new FilePointerDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $filePointer->id()));

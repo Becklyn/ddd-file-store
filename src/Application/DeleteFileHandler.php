@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Application;
 
@@ -8,6 +8,7 @@ use Becklyn\FileStore\Domain\FileManager;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-07-28
  */
 class DeleteFileHandler extends CommandHandler
@@ -19,7 +20,7 @@ class DeleteFileHandler extends CommandHandler
         $this->fileManager = $fileManager;
     }
 
-    public function handle(DeleteFileCommand $command): void
+    public function handle(DeleteFileCommand $command) : void
     {
         $this->handleCommand($command);
     }
@@ -27,7 +28,7 @@ class DeleteFileHandler extends CommandHandler
     /**
      * @param DeleteFileCommand $command
      */
-    protected function execute($command): ?EventProvider
+    protected function execute($command) : ?EventProvider
     {
         $this->fileManager->delete($command->fileId());
         return null;

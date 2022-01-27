@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Application;
 
@@ -17,10 +17,11 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-07-27
  *
- * @covers \Becklyn\FileStore\Application\RenameFileHandler
  * @covers \Becklyn\FileStore\Application\RenameFileCommand
+ * @covers \Becklyn\FileStore\Application\RenameFileHandler
  */
 class RenameFileHandlerTest extends TestCase
 {
@@ -31,10 +32,10 @@ class RenameFileHandlerTest extends TestCase
 
     /** @var ObjectProphecy ObjectProphecy|LoggerInterface */
     private ObjectProphecy $logger;
-    /** @var RenameFileHandler */
+    /**  */
     private RenameFileHandler $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initFilesTestTrait();
         $this->initDomainEventTestTrait();
@@ -45,7 +46,7 @@ class RenameFileHandlerTest extends TestCase
         $this->fixture->setTransactionManager($this->transactionManager->reveal());
     }
 
-    public function testFileIsRenamedAndDequeuedByEventRegistry(): void
+    public function testFileIsRenamedAndDequeuedByEventRegistry() : void
     {
         $fileId = $this->givenAFileId();
         $filename = $this->givenAFilename();
@@ -59,17 +60,17 @@ class RenameFileHandlerTest extends TestCase
     /**
      * @param ObjectProphecy|File $file
      */
-    private function thenFileShouldBeRenamed(ObjectProphecy $file, string $filename): void
+    private function thenFileShouldBeRenamed(ObjectProphecy $file, string $filename) : void
     {
         $file->rename($filename)->shouldBeCalled();
     }
 
-    private function whenRenameFileCommandIsHandled(FileId $fileId, string $filename, string $errorMessage = null): void
+    private function whenRenameFileCommandIsHandled(FileId $fileId, string $filename, ?string $errorMessage = null) : void
     {
         $this->fixture->handle(new RenameFileCommand($fileId, $filename, $errorMessage));
     }
 
-    public function testExceptionIsThrownIfFileRepositoryThrowsExceptionAndLoggerIsNull(): void
+    public function testExceptionIsThrownIfFileRepositoryThrowsExceptionAndLoggerIsNull() : void
     {
         $fileId = $this->givenAFileId();
 
@@ -82,10 +83,10 @@ class RenameFileHandlerTest extends TestCase
         $this->whenRenameFileCommandIsHandled($fileId, $this->givenAFilename());
     }
 
-    public function testExceptionIsThrownAndErrorMessageFromCommandIsLoggedIfFileRepositoryThrowsException(): void
+    public function testExceptionIsThrownAndErrorMessageFromCommandIsLoggedIfFileRepositoryThrowsException() : void
     {
         $fileId = $this->givenAFileId();
-        $errorMessage = uniqid();
+        $errorMessage = \uniqid();
 
         $this->givenFileRepositoryThrowsFileNotFoundExceptionWhileFindingFileById($fileId);
         $this->thenFileNotFoundExceptionShouldBeThrown();
@@ -93,12 +94,12 @@ class RenameFileHandlerTest extends TestCase
         $this->whenRenameFileCommandIsHandled($fileId, $this->givenAFilename(), $errorMessage);
     }
 
-    private function thenErrorShouldBeLogged($errorMessage): void
+    private function thenErrorShouldBeLogged($errorMessage) : void
     {
         $this->logger->error($errorMessage)->shouldBeCalled();
     }
 
-    public function testExceptionIsThrownAndErrorMessageIsLoggedIfFileRepositoryThrowsExceptionAndNoErrorMessageIsSpecifiedInCommand(): void
+    public function testExceptionIsThrownAndErrorMessageIsLoggedIfFileRepositoryThrowsExceptionAndNoErrorMessageIsSpecifiedInCommand() : void
     {
         $fileId = $this->givenAFileId();
 

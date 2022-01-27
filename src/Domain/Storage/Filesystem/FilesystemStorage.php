@@ -1,15 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
+use Becklyn\Ddd\Events\Domain\EventRegistry;
 use Becklyn\FileStore\Domain\File\File;
 use Becklyn\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use Becklyn\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\FileStore\Domain\Storage\Storage;
-use Becklyn\Ddd\Events\Domain\EventRegistry;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-27
  */
 class FilesystemStorage implements Storage
@@ -27,7 +28,7 @@ class FilesystemStorage implements Storage
         $this->filesystem = $filesystem;
     }
 
-    public function storeFileContents(File $file): void
+    public function storeFileContents(File $file) : void
     {
         try {
             $filePointer = $this->filePointerRepository->findOneByFileId($file->id());
@@ -45,7 +46,7 @@ class FilesystemStorage implements Storage
         }
     }
 
-    public function loadFileContents(File $file): string
+    public function loadFileContents(File $file) : string
     {
         try {
             $filePointer = $this->filePointerRepository->findOneByFileId($file->id());
@@ -60,7 +61,7 @@ class FilesystemStorage implements Storage
         }
     }
 
-    public function deleteFileContents(File $file): void
+    public function deleteFileContents(File $file) : void
     {
         try {
             $filePointer = $this->filePointerRepository->findOneByFileId($file->id());

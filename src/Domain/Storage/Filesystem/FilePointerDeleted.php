@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
@@ -7,6 +7,7 @@ use Becklyn\Ddd\Events\Domain\EventId;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-29
  */
 class FilePointerDeleted extends AbstractDomainEvent
@@ -19,12 +20,12 @@ class FilePointerDeleted extends AbstractDomainEvent
         $this->filePointerId = $filePointerId;
     }
 
-    public function aggregateId(): FilePointerId
+    public function aggregateId() : FilePointerId
     {
         return $this->filePointerId;
     }
 
-    public function aggregateType(): string
+    public function aggregateType() : string
     {
         return FilePointer::class;
     }

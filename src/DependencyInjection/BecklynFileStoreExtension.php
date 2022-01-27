@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\DependencyInjection;
 
@@ -10,13 +10,14 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-09
  *
  * @codeCoverageIgnore
  */
 class BecklynFileStoreExtension extends Extension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container) : void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -33,12 +34,12 @@ class BecklynFileStoreExtension extends Extension implements PrependExtensionInt
         }
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container) : void
     {
         $container->prependExtensionConfig('doctrine_migrations', [
             'migrations_paths' => [
-                'Becklyn\FileStore\Infrastructure\DoctrineMigrations' => __DIR__. '/../Infrastructure/DoctrineMigrations',
-            ]
+                'Becklyn\\FileStore\\Infrastructure\\DoctrineMigrations' => __DIR__ . '/../Infrastructure/DoctrineMigrations',
+            ],
         ]);
     }
 }

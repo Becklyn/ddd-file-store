@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Domain\File;
 
@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-29
  *
  * @covers \Becklyn\FileStore\Domain\File\FileRenamed
@@ -18,14 +19,14 @@ class FileRenamedTest extends TestCase
 {
     use DomainEventTestTrait;
 
-    public function testGettersReturnValuesPassedToConstructor(): void
+    public function testGettersReturnValuesPassedToConstructor() : void
     {
         $fileId = FileId::next();
-        $filename = uniqid();
+        $filename = \uniqid();
 
         $event = new FileRenamed($this->givenAnEventId(), $this->givenARaisedTs(), $fileId, $filename);
-        $this->assertEquals($fileId, $event->aggregateId());
-        $this->assertEquals($filename, $event->filename());
-        $this->assertEquals(File::class, $event->aggregateType());
+        self::assertEquals($fileId, $event->aggregateId());
+        self::assertEquals($filename, $event->filename());
+        self::assertEquals(File::class, $event->aggregateType());
     }
 }

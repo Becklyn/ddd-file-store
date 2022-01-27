@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Application;
 
@@ -13,10 +13,11 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-07-28
  *
- * @covers \Becklyn\FileStore\Application\DeleteFileHandler
  * @covers \Becklyn\FileStore\Application\DeleteFileCommand
+ * @covers \Becklyn\FileStore\Application\DeleteFileHandler
  */
 class DeleteFileHandlerTest extends TestCase
 {
@@ -27,7 +28,7 @@ class DeleteFileHandlerTest extends TestCase
 
     private DeleteFileHandler $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initDomainEventTestTrait();
         $this->initTransactionManagerTestTrait();
@@ -37,19 +38,19 @@ class DeleteFileHandlerTest extends TestCase
         $this->fixture->setEventRegistry($this->eventRegistry->reveal());
     }
 
-    public function testFileManagerDeletesFile(): void
+    public function testFileManagerDeletesFile() : void
     {
         $fileId = $this->givenAFileId();
         $this->thenFileManagerShouldDeleteTheFile($fileId);
         $this->whenDeleteFileCommandIsHandled($fileId);
     }
 
-    private function thenFileManagerShouldDeleteTheFile(FileId $fileId): void
+    private function thenFileManagerShouldDeleteTheFile(FileId $fileId) : void
     {
         $this->fileManager->delete($fileId)->shouldBeCalled();
     }
 
-    private function whenDeleteFileCommandIsHandled(FileId $fileId): void
+    private function whenDeleteFileCommandIsHandled(FileId $fileId) : void
     {
         $this->fixture->handle(new DeleteFileCommand($fileId));
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Tests\Application;
 
@@ -15,13 +15,13 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 
-
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-30
  *
- * @covers \Becklyn\FileStore\Application\ReplaceFileContentsHandler
  * @covers \Becklyn\FileStore\Application\ReplaceFileContentsCommand
+ * @covers \Becklyn\FileStore\Application\ReplaceFileContentsHandler
  */
 class ReplaceFileContentsHandlerTest extends TestCase
 {
@@ -37,7 +37,7 @@ class ReplaceFileContentsHandlerTest extends TestCase
 
     private ReplaceFileContentsHandler $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initFilesTestTrait();
         $this->initDomainEventTestTrait();
@@ -48,7 +48,7 @@ class ReplaceFileContentsHandlerTest extends TestCase
         $this->fixture->setTransactionManager($this->transactionManager->reveal());
     }
 
-    public function testReplaceFileContentsIsCalledOnFileManagerAndFileWithNewContentsIsDequeuedByEventRegistry(): void
+    public function testReplaceFileContentsIsCalledOnFileManagerAndFileWithNewContentsIsDequeuedByEventRegistry() : void
     {
         $fileId = $this->givenAFileId();
         $contents = $this->givenFileContents();
@@ -58,23 +58,23 @@ class ReplaceFileContentsHandlerTest extends TestCase
         $this->whenReplaceFileContentsCommandIsHandledForFileIdAndContents($fileId, $contents);
     }
 
-    private function givenFileManagerReplacesContentsForFileWithId(FileId $fileId, string $contents): void
+    private function givenFileManagerReplacesContentsForFileWithId(FileId $fileId, string $contents) : void
     {
-        $this->fileManager->replaceContents($fileId, $contents)->willReturn(File::create($fileId, uniqid(), $contents));
+        $this->fileManager->replaceContents($fileId, $contents)->willReturn(File::create($fileId, \uniqid(), $contents));
     }
 
-    private function thenFileWithNewContentsShouldBeDequeuedByEventRegistry(FileId $fileId, string $contents): void
+    private function thenFileWithNewContentsShouldBeDequeuedByEventRegistry(FileId $fileId, string $contents) : void
     {
         $this->eventRegistry->dequeueProviderAndRegister(Argument::that(fn(File $file) => $file->id()->equals($fileId) && $file->contents() === $contents))
             ->shouldBeCalled();
     }
 
-    private function whenReplaceFileContentsCommandIsHandledForFileIdAndContents(FileId $fileId, string $contents, string $errorMessage = null)
+    private function whenReplaceFileContentsCommandIsHandledForFileIdAndContents(FileId $fileId, string $contents, ?string $errorMessage = null) : void
     {
         $this->fixture->handle(new ReplaceFileContentsCommand($fileId, $contents, $errorMessage));
     }
 
-    public function testExceptionIsThrownIfFileManagerThrowsExceptionAndLoggerIsNull(): void
+    public function testExceptionIsThrownIfFileManagerThrowsExceptionAndLoggerIsNull() : void
     {
         $fileId = $this->givenAFileId();
         $contents = $this->givenFileContents();
@@ -88,11 +88,11 @@ class ReplaceFileContentsHandlerTest extends TestCase
         $this->whenReplaceFileContentsCommandIsHandledForFileIdAndContents($fileId, $contents);
     }
 
-    public function testExceptionIsThrownAndErrorMessageFromCommandIsLoggedIfFileManagerThrowsException(): void
+    public function testExceptionIsThrownAndErrorMessageFromCommandIsLoggedIfFileManagerThrowsException() : void
     {
         $fileId = $this->givenAFileId();
         $contents = $this->givenFileContents();
-        $errorMessage = uniqid();
+        $errorMessage = \uniqid();
 
         $this->givenFileManagerThrowsFileNotFoundExceptionWhileReplacingContentsForFile($fileId, $contents);
         $this->thenFileNotFoundExceptionShouldBeThrown();
@@ -100,12 +100,12 @@ class ReplaceFileContentsHandlerTest extends TestCase
         $this->whenReplaceFileContentsCommandIsHandledForFileIdAndContents($fileId, $contents, $errorMessage);
     }
 
-    private function thenErrorShouldBeLogged($errorMessage): void
+    private function thenErrorShouldBeLogged($errorMessage) : void
     {
         $this->logger->error($errorMessage)->shouldBeCalled();
     }
 
-    public function testExceptionIsThrownAndErrorMessageIsLoggedIfFileManagerThrowsExceptionAndNoErrorMessageIsSpecifiedInCommand(): void
+    public function testExceptionIsThrownAndErrorMessageIsLoggedIfFileManagerThrowsExceptionAndNoErrorMessageIsSpecifiedInCommand() : void
     {
         $fileId = $this->givenAFileId();
         $contents = $this->givenFileContents();

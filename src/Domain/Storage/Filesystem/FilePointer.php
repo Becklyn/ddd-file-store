@@ -1,14 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
-use Becklyn\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\Events\Domain\EventProviderCapabilities;
+use Becklyn\FileStore\Domain\File\FileId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since 2020-05-27
  *
  * @ORM\Entity
@@ -59,24 +60,24 @@ class FilePointer implements EventProvider
         $this->updatedTs = $this->createdTs;
     }
 
-    public static function create(FilePointerId $id, FileId $fileId, string $path): self
+    public static function create(FilePointerId $id, FileId $fileId, string $path) : self
     {
         $filePointer = new self($id, $fileId, $path);
         $filePointer->raiseEvent(new FilePointerCreated($filePointer->nextEventIdentity(), new \DateTimeImmutable(), $id, $fileId, $path));
         return $filePointer;
     }
 
-    public function id(): FilePointerId
+    public function id() : FilePointerId
     {
         return FilePointerId::fromString($this->id);
     }
 
-    public function fileId(): FileId
+    public function fileId() : FileId
     {
         return FileId::fromString($this->fileId);
     }
 
-    public function path(): string
+    public function path() : string
     {
         return $this->path;
     }

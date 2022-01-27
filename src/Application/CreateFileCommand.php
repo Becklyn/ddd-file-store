@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Application;
 
@@ -6,6 +6,7 @@ use Becklyn\Ddd\Identity\Domain\AggregateId;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-06-04
  */
 class CreateFileCommand
@@ -15,7 +16,7 @@ class CreateFileCommand
     private AggregateId $ownerId;
     private ?string $errorMessage;
 
-    public function __construct(string $contents, string $filename, AggregateId $ownerId, string $errorMessage = null)
+    public function __construct(string $contents, string $filename, AggregateId $ownerId, ?string $errorMessage = null)
     {
         $this->contents = $contents;
         $this->filename = $filename;
@@ -23,22 +24,22 @@ class CreateFileCommand
         $this->errorMessage = $errorMessage;
     }
 
-    public function contents(): string
+    public function contents() : string
     {
         return $this->contents;
     }
 
-    public function filename(): string
+    public function filename() : string
     {
         return $this->filename;
     }
 
-    public function ownerId(): AggregateId
+    public function ownerId() : AggregateId
     {
         return $this->ownerId;
     }
 
-    public function errorMessage(): ?string
+    public function errorMessage() : ?string
     {
         return $this->errorMessage;
     }

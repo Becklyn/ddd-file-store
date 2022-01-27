@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain\Storage\Filesystem;
 
@@ -8,6 +8,7 @@ use Becklyn\FileStore\Domain\File\FileId;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-27
  */
 class FilePointerCreated extends AbstractDomainEvent
@@ -24,22 +25,22 @@ class FilePointerCreated extends AbstractDomainEvent
         $this->path = $path;
     }
 
-    public function aggregateId(): FilePointerId
+    public function aggregateId() : FilePointerId
     {
         return $this->filePointerId;
     }
 
-    public function aggregateType(): string
+    public function aggregateType() : string
     {
         return FilePointer::class;
     }
 
-    public function fileId(): FileId
+    public function fileId() : FileId
     {
         return $this->fileId;
     }
 
-    public function path(): string
+    public function path() : string
     {
         return $this->path;
     }

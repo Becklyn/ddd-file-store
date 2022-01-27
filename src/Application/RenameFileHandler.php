@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Application;
 
@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-07-27
  */
 class RenameFileHandler extends CommandHandler
@@ -16,13 +17,13 @@ class RenameFileHandler extends CommandHandler
     private FileRepository $fileRepository;
     private ?LoggerInterface $logger;
 
-    public function __construct(FileRepository $fileRepository, LoggerInterface $logger = null)
+    public function __construct(FileRepository $fileRepository, ?LoggerInterface $logger = null)
     {
         $this->fileRepository = $fileRepository;
         $this->logger = $logger;
     }
 
-    public function handle(RenameFileCommand $command): void
+    public function handle(RenameFileCommand $command) : void
     {
         $this->handleCommand($command);
     }
@@ -30,7 +31,7 @@ class RenameFileHandler extends CommandHandler
     /**
      * @param RenameFileCommand $command
      */
-    protected function execute($command): ?EventProvider
+    protected function execute($command) : ?EventProvider
     {
         $file = $this->fileRepository->findOneById($command->fileId());
         $file->rename($command->filename());
@@ -40,14 +41,15 @@ class RenameFileHandler extends CommandHandler
     /**
      * @param RenameFileCommand $command
      */
-    protected function postRollback(\Throwable $e, $command): \Throwable
+    protected function postRollback(\Throwable $e, $command) : \Throwable
     {
-        if ($this->logger === null) {
+        if (null === $this->logger) {
             return $e;
         }
 
         $message = $command->errorMessage();
-        if ($message === null) {
+
+        if (null === $message) {
             $message = $command->errorMessage() ?: "File '{$command->fileId()->asString()}' could not be renamed";
         }
 

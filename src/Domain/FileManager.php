@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\FileStore\Domain;
 
@@ -12,6 +12,7 @@ use Becklyn\FileStore\Domain\Storage\Storage;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-05-26
  */
 class FileManager
@@ -28,7 +29,7 @@ class FileManager
     /**
      * @throws FileNotStoredException
      */
-    public function new(string $filename, string $contents): File
+    public function new(string $filename, string $contents) : File
     {
         $file = File::create($this->fileRepository->nextIdentity(), $filename, $contents);
         $this->storage->storeFileContents($file);
@@ -40,7 +41,7 @@ class FileManager
      * @throws FileNotFoundException
      * @throws FileNotFoundInStorageException
      */
-    public function load(FileId $fileId): File
+    public function load(FileId $fileId) : File
     {
         $file = $this->fileRepository->findOneById($fileId);
         $file->load($this->storage->loadFileContents($file));
@@ -51,12 +52,13 @@ class FileManager
      * @throws FileNotFoundException
      * @throws FileNotStoredException
      */
-    public function replaceContents(FileId $fileId, string $newContents): File
+    public function replaceContents(FileId $fileId, string $newContents) : File
     {
         $file = $this->fileRepository->findOneById($fileId);
 
         $originalHash = $file->contentHash();
         $file->updateContents($newContents);
+
         if ($originalHash === $file->contentHash()) {
             return $file;
         }
@@ -65,7 +67,7 @@ class FileManager
         return $file;
     }
 
-    public function delete(FileId $fileId): void
+    public function delete(FileId $fileId) : void
     {
         try {
             $file = $this->fileRepository->findOneById($fileId);
