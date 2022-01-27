@@ -44,7 +44,7 @@ class DoctrineFilePointerRepository implements FilePointerRepository
 
     public function findOneByFileId(FileId $fileId): FilePointer
     {
-        /** @var FilePointer $filePointer */
+        /** @var ?FilePointer $filePointer */
         $filePointer = $this->repository->findOneBy(['fileId' => $fileId->asString()]);
 
         if ($filePointer === null) {

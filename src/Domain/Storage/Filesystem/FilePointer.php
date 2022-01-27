@@ -61,7 +61,7 @@ class FilePointer implements EventProvider
 
     public static function create(FilePointerId $id, FileId $fileId, string $path): self
     {
-        $filePointer = new static($id, $fileId, $path);
+        $filePointer = new self($id, $fileId, $path);
         $filePointer->raiseEvent(new FilePointerCreated($filePointer->nextEventIdentity(), new \DateTimeImmutable(), $id, $fileId, $path));
         return $filePointer;
     }

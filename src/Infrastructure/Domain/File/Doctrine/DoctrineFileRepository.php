@@ -44,7 +44,7 @@ class DoctrineFileRepository implements FileRepository
 
     public function findOneById(FileId $fileId): File
     {
-        /** @var File $file */
+        /** @var ?File $file */
         $file = $this->repository->findOneBy(['id' => $fileId->asString()]);
 
         if ($file === null) {
@@ -62,7 +62,7 @@ class DoctrineFileRepository implements FileRepository
 
     public function findOneByOwnerId(AggregateId $ownerId): File
     {
-        /** @var File $file */
+        /** @var ?File $file */
         $file = $this->repository->findOneBy(['ownerId' => $ownerId->asString(), 'ownerType' => $ownerId->aggregateType()]);
 
         if ($file === null) {

@@ -91,7 +91,7 @@ class File implements EventProvider
 
     public static function create(FileId $id, string $filename, string $contents): self
     {
-        $file = new static($id, $filename, $contents);
+        $file = new self($id, $filename, $contents);
         $file->raiseEvent(new FileCreated($file->nextEventIdentity(), new \DateTimeImmutable(), $id, $filename, $file->contentHash, $file->size));
         return $file;
     }
