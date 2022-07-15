@@ -1,3 +1,8 @@
+2.0.1
+=======
+
+* (bug) Required becklyn/ddd-doctrine-bridge@2.2.1 in composer.json so that Oracle support actually works.
+
 2.0.0
 =======
 
