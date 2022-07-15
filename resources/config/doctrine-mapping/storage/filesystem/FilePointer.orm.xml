@@ -6,11 +6,7 @@
 
     <entity name="Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer" table="becklyn_filesystem_file_pointers">
 
-        <id name="internalId" column="id" type="integer">
-            <generator strategy="AUTO"/>
-        </id>
-
-        <field name="id" column="uuid" type="string" length="36" nullable="false" unique="true" />
+        <id name="id" column="uuid" type="string" length="36" />
 
         <field name="fileId" column="file_id" type="string" length="36" nullable="false" unique="true"/>
 

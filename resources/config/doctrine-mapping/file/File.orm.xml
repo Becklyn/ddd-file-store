@@ -6,17 +6,13 @@
 
     <entity name="Becklyn\Ddd\FileStore\Domain\File\File" table="becklyn_files">
 
-        <id name="internalId" column="id" type="integer">
-            <generator strategy="AUTO"/>
-        </id>
-
-        <field name="id" column="uuid" type="string" length="36" nullable="false" unique="true" />
+        <id name="id" column="uuid" type="string" length="36" />
 
         <field name="filename" column="filename" type="string" length="255" nullable="false" />
 
         <field name="contentHash" column="content_hash" type="string" length="255" nullable="false" />
 
-        <field name="size" column="size" type="integer" length="255" nullable="false">
+        <field name="size" column="file_size" type="integer" length="255" nullable="false">
             <options>
                 <option name="unsigned">true</option>
             </options>

@@ -21,13 +21,8 @@ class File implements EventProvider
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", name="id")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private ?int $internalId = null;
-
-    /**
-     * @ORM\Column(type="string", unique=true, length=36, nullable=false, name="uuid")
+     * @ORM\Column(name="uuid", type="string", length=36)
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private string $id;
 
@@ -44,7 +39,7 @@ class File implements EventProvider
     private string $contentHash;
 
     /**
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="file_size", type="integer", nullable=false, options={"unsigned"=true})
      */
     private int $size;
 
