@@ -24,14 +24,18 @@ final class Version20220715092803 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $platform = \get_class($this->connection->getDatabasePlatform());
+        $platform = $this->connection->getDatabasePlatform();
+        $isMySql = $platform instanceof MySQLPlatform;
+        $isOracle = $platform instanceof OraclePlatform;
+        $isSqlite = $platform instanceof SqlitePlatform;
+
         $this->skipIf(
-            !\in_array($platform, [SqlitePlatform::class, MySQLPlatform::class, OraclePlatform::class], true),
+            !$isMySql && !$isOracle && !$isSqlite,
             'Migration can only be executed safely on \'MySQL\',  \'SQLite\' or \'Oracle\'.'
         );
 
         // this data model is required in order for Oracle to work with same mapping as other platforms
-        if (!($platform instanceof OraclePlatform)) {
+        if (!$isOracle) {
             $this->addSql('ALTER TABLE becklyn_files MODIFY id INT NOT NULL');
             $this->addSql('DROP INDEX UNIQ_6F8BCFACD17F50A6 ON becklyn_files');
             $this->addSql('ALTER TABLE becklyn_files DROP PRIMARY KEY');
@@ -51,14 +55,18 @@ final class Version20220715092803 extends AbstractMigration
 
     public function preDown(Schema $schema) : void
     {
-        $platform = \get_class($this->connection->getDatabasePlatform());
+        $platform = $this->connection->getDatabasePlatform();
+        $isMySql = $platform instanceof MySQLPlatform;
+        $isOracle = $platform instanceof OraclePlatform;
+        $isSqlite = $platform instanceof SqlitePlatform;
+
         $this->skipIf(
-            !\in_array($platform, [SqlitePlatform::class, MySQLPlatform::class, OraclePlatform::class], true),
+            !$isMySql && !$isOracle && !$isSqlite,
             'Migration can only be executed safely on \'MySQL\',  \'SQLite\' or \'Oracle\'.'
         );
 
         // this data model is required in order for Oracle to work with same mapping as other platforms
-        if (!($platform instanceof OraclePlatform)) {
+        if (!$isOracle) {
             $this->connection->executeQuery('ALTER TABLE becklyn_files ADD id INT DEFAULT NULL');
             $existingFiles = $this->connection->fetchAllAssociative('SELECT * FROM becklyn_files ORDER BY created_ts ASC');
             $id = 1;
@@ -83,14 +91,18 @@ final class Version20220715092803 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
-        $platform = \get_class($this->connection->getDatabasePlatform());
+        $platform = $this->connection->getDatabasePlatform();
+        $isMySql = $platform instanceof MySQLPlatform;
+        $isOracle = $platform instanceof OraclePlatform;
+        $isSqlite = $platform instanceof SqlitePlatform;
+
         $this->skipIf(
-            !\in_array($platform, [SqlitePlatform::class, MySQLPlatform::class, OraclePlatform::class], true),
+            !$isMySql && !$isOracle && !$isSqlite,
             'Migration can only be executed safely on \'MySQL\',  \'SQLite\' or \'Oracle\'.'
         );
 
         // this data model is required in order for Oracle to work with same mapping as other platforms
-        if (!($platform instanceof OraclePlatform)) {
+        if (!$isOracle) {
             $this->addSql('ALTER TABLE becklyn_files CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE file_size size INT UNSIGNED NOT NULL, DROP PRIMARY KEY, ADD PRIMARY KEY (id)');
             $this->addSql('CREATE UNIQUE INDEX UNIQ_6F8BCFACD17F50A6 ON becklyn_files (uuid)');
             $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers CHANGE id id INT AUTO_INCREMENT NOT NULL, DROP PRIMARY KEY, ADD PRIMARY KEY (id)');

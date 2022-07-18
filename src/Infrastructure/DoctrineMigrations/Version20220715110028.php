@@ -24,13 +24,17 @@ final class Version20220715110028 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $platform = \get_class($this->connection->getDatabasePlatform());
+        $platform = $this->connection->getDatabasePlatform();
+        $isMySql = $platform instanceof MySQLPlatform;
+        $isOracle = $platform instanceof OraclePlatform;
+        $isSqlite = $platform instanceof SqlitePlatform;
+
         $this->skipIf(
-            !\in_array($platform, [SqlitePlatform::class, MySQLPlatform::class, OraclePlatform::class], true),
+            !$isMySql && !$isOracle && !$isSqlite,
             'Migration can only be executed safely on \'MySQL\',  \'SQLite\' or \'Oracle\'.'
         );
 
-        if ($platform instanceof OraclePlatform) {
+        if ($isOracle) {
             $this->addSql('CREATE TABLE becklyn_files (uuid VARCHAR2(36) NOT NULL, filename VARCHAR2(255) NOT NULL, content_hash VARCHAR2(255) NOT NULL, file_size NUMBER(10) NOT NULL, owner_id VARCHAR2(36) DEFAULT NULL NULL, owner_type VARCHAR2(255) DEFAULT NULL NULL, created_ts TIMESTAMP(6) NOT NULL, updated_ts TIMESTAMP(6) NOT NULL, PRIMARY KEY(uuid))');
             $this->addSql('CREATE TABLE becklyn_filesystem_file_pointers (uuid VARCHAR2(36) NOT NULL, file_id VARCHAR2(36) NOT NULL, path VARCHAR2(255) NOT NULL, created_ts TIMESTAMP(6) NOT NULL, updated_ts TIMESTAMP(6) NOT NULL, PRIMARY KEY(uuid))');
             $this->addSql('CREATE UNIQUE INDEX UNIQ_67255B4493CB796C ON becklyn_filesystem_file_pointers (file_id)');
@@ -42,13 +46,17 @@ final class Version20220715110028 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
-        $platform = \get_class($this->connection->getDatabasePlatform());
+        $platform = $this->connection->getDatabasePlatform();
+        $isMySql = $platform instanceof MySQLPlatform;
+        $isOracle = $platform instanceof OraclePlatform;
+        $isSqlite = $platform instanceof SqlitePlatform;
+
         $this->skipIf(
-            !\in_array($platform, [SqlitePlatform::class, MySQLPlatform::class, OraclePlatform::class], true),
+            !$isMySql && !$isOracle && !$isSqlite,
             'Migration can only be executed safely on \'MySQL\',  \'SQLite\' or \'Oracle\'.'
         );
 
-        if ($platform instanceof OraclePlatform) {
+        if ($isOracle) {
             $this->addSql('DROP TABLE becklyn_files');
             $this->addSql('DROP TABLE becklyn_filesystem_file_pointers');
         }
