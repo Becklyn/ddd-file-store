@@ -34,6 +34,7 @@ becklyn_ddd.file_store.handler.replace_file_contents:
 
 Files are saved to the file store by dispatching CreateFileCommand and ReplaceFileContentsCommand through the command bus.
 Files are read by using the load method of the FileManager class.
+Files are deleted by dispatching DeleteFileCommand through the command bus.
 Files created by the library will be stored to %kernel_project_root%/var/becklyn-files folder by default. This can be changed through configuration.
 
 ## Configuration
