@@ -2,6 +2,7 @@
 
 namespace Becklyn\Ddd\FileStore\Application;
 
+use Becklyn\Ddd\Commands\Domain\AbstractCommand;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 
 /**
@@ -9,12 +10,14 @@ use Becklyn\Ddd\FileStore\Domain\File\FileId;
  *
  * @since  2020-07-28
  */
-class DeleteFileCommand
+class DeleteFileCommand extends AbstractCommand
 {
     private FileId $fileId;
 
     public function __construct(FileId $fileId)
     {
+        parent::__construct();
+
         $this->fileId = $fileId;
     }
 

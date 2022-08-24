@@ -9,6 +9,7 @@ use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
 use Becklyn\Ddd\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use Becklyn\Ddd\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\Ddd\FileStore\Domain\Storage\Storage;
+use Becklyn\Ddd\Messages\Domain\Message;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
@@ -29,10 +30,10 @@ class FileManager
     /**
      * @throws FileNotStoredException
      */
-    public function new(string $filename, string $contents) : File
+    public function new(string $filename, string $contents, Message $trigger) : File
     {
         $file = File::create($this->fileRepository->nextIdentity(), $filename, $contents);
-        $this->storage->storeFileContents($file);
+        $this->storage->storeFileContents($file, $trigger);
         $this->fileRepository->add($file);
         return $file;
     }
@@ -52,7 +53,7 @@ class FileManager
      * @throws FileNotFoundException
      * @throws FileNotStoredException
      */
-    public function replaceContents(FileId $fileId, string $newContents) : File
+    public function replaceContents(FileId $fileId, string $newContents, Message $trigger) : File
     {
         $file = $this->fileRepository->findOneById($fileId);
 
@@ -63,18 +64,20 @@ class FileManager
             return $file;
         }
 
-        $this->storage->storeFileContents($file);
+        $this->storage->storeFileContents($file, $trigger);
         return $file;
     }
 
-    public function delete(FileId $fileId) : void
+    /**
+     * @throws FileNotFoundException
+     */
+    public function delete(FileId $fileId, Message $trigger) : File
     {
-        try {
-            $file = $this->fileRepository->findOneById($fileId);
-        } catch (FileNotFoundException $e) {
-            return;
-        }
+        $file = $this->fileRepository->findOneById($fileId);
+
         $this->fileRepository->remove($file);
-        $this->storage->deleteFileContents($file);
+        $this->storage->deleteFileContents($file, $trigger);
+
+        return $file;
     }
 }

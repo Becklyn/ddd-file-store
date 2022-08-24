@@ -1,3 +1,8 @@
+3.0.0
+=======
+
+* (bc) Support for latest version of becklyn/ddd-core and becklyn/ddd-symfony-bridge which provide event correlation and causation IDs.
+
 2.0.2
 =======
 

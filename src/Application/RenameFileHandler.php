@@ -3,6 +3,7 @@
 namespace Becklyn\Ddd\FileStore\Application;
 
 use Becklyn\Ddd\Commands\Application\CommandHandler;
+use Becklyn\Ddd\Commands\Domain\Command;
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
 use Psr\Log\LoggerInterface;
@@ -31,7 +32,7 @@ class RenameFileHandler extends CommandHandler
     /**
      * @param RenameFileCommand $command
      */
-    protected function execute($command) : ?EventProvider
+    protected function execute(Command $command) : ?EventProvider
     {
         $file = $this->fileRepository->findOneById($command->fileId());
         $file->rename($command->filename());
@@ -41,7 +42,7 @@ class RenameFileHandler extends CommandHandler
     /**
      * @param RenameFileCommand $command
      */
-    protected function postRollback(\Throwable $e, $command) : \Throwable
+    protected function postRollback(\Throwable $e, Command $command) : \Throwable
     {
         if (null === $this->logger) {
             return $e;

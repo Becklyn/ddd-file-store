@@ -3,6 +3,7 @@
 namespace Becklyn\Ddd\FileStore\Application;
 
 use Becklyn\Ddd\Commands\Application\CommandHandler;
+use Becklyn\Ddd\Commands\Domain\Command;
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\FileStore\Domain\FileManager;
 use Psr\Log\LoggerInterface;
@@ -31,15 +32,15 @@ class ReplaceFileContentsHandler extends CommandHandler
     /**
      * @param ReplaceFileContentsCommand $command
      */
-    protected function execute($command) : ?EventProvider
+    protected function execute(Command $command) : ?EventProvider
     {
-        return $this->fileManager->replaceContents($command->id(), $command->newContents());
+        return $this->fileManager->replaceContents($command->fileId(), $command->newContents(), $command);
     }
 
     /**
      * @param ReplaceFileContentsCommand $command
      */
-    protected function postRollback(\Throwable $e, $command) : \Throwable
+    protected function postRollback(\Throwable $e, Command $command) : \Throwable
     {
         if (null === $this->logger) {
             return $e;
@@ -48,7 +49,7 @@ class ReplaceFileContentsHandler extends CommandHandler
         $message = $command->errorMessage();
 
         if (null === $message) {
-            $message = $command->errorMessage() ?: "Contents of File '{$command->id()->asString()}' could not be updated";
+            $message = $command->errorMessage() ?: "Contents of File '{$command->fileId()->asString()}' could not be updated";
         }
 
         $this->logger->error($message);

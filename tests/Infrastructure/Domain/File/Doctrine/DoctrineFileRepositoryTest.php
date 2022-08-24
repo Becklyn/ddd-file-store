@@ -2,9 +2,7 @@
 
 namespace Becklyn\Ddd\FileStore\Tests\Infrastructure\Domain\File\Doctrine;
 
-use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\FileStore\Domain\File\File;
-use Becklyn\Ddd\FileStore\Domain\File\FileDeleted;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository;
@@ -12,7 +10,6 @@ use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -26,7 +23,6 @@ use Prophecy\Prophecy\ObjectProphecy;
 class DoctrineFileRepositoryTest extends TestCase
 {
     use ProphecyTrait;
-    use DomainEventTestTrait;
     use FileTestTrait;
 
     /**
@@ -43,11 +39,10 @@ class DoctrineFileRepositoryTest extends TestCase
 
     protected function setUp() : void
     {
-        $this->initDomainEventTestTrait();
         $this->em = $this->prophesize(EntityManagerInterface::class);
         $this->repository = $this->prophesize(ObjectRepository::class);
         $this->em->getRepository(File::class)->willReturn($this->repository->reveal());
-        $this->fixture = new DoctrineFileRepository($this->em->reveal(), $this->eventRegistry->reveal());
+        $this->fixture = new DoctrineFileRepository($this->em->reveal());
     }
 
     public function testNextIdentityReturnsFileId() : void
@@ -82,12 +77,12 @@ class DoctrineFileRepositoryTest extends TestCase
         $this->fixture->findOneById($fileId);
     }
 
-    public function testRemoveRemovesFileFromEntityManagerAndRegisterAFileDeletedEvent() : void
+    public function testRemoveRemovesFileFromEntityManagerAndCallsDeleteOnFile() : void
     {
-        $file = $this->givenAFile();
-        $this->fixture->remove($file);
+        $file = $this->prophesize(File::class);
+        $this->fixture->remove($file->reveal());
         $this->em->remove($file)->shouldHaveBeenCalled();
-        $this->eventRegistry->registerEvent(Argument::that(fn(FileDeleted $event) => $event->aggregateId()->equals($file->id())))->shouldHaveBeenCalled();
+        $file->delete()->shouldHaveBeenCalled();
     }
 
     public function testFindOneByOwnerIdReturnsFileFoundByDoctrineRepository() : void

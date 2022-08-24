@@ -3,9 +3,7 @@
 namespace Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine;
 
 use Becklyn\Ddd\Events\Domain\EventCreatorCapabilities;
-use Becklyn\Ddd\Events\Domain\EventRegistry;
 use Becklyn\Ddd\FileStore\Domain\File\File;
-use Becklyn\Ddd\FileStore\Domain\File\FileDeleted;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
@@ -24,13 +22,11 @@ class DoctrineFileRepository implements FileRepository
 
     private EntityManagerInterface $em;
     private ObjectRepository $repository;
-    private EventRegistry $eventRegistry;
 
-    public function __construct(EntityManagerInterface $em, EventRegistry $eventRegistry)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->repository = $em->getRepository(File::class);
-        $this->eventRegistry = $eventRegistry;
     }
 
     public function nextIdentity() : FileId
@@ -58,7 +54,8 @@ class DoctrineFileRepository implements FileRepository
     public function remove(File $file) : void
     {
         $this->em->remove($file);
-        $this->eventRegistry->registerEvent(new FileDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $file->id()));
+
+        $file->delete();
     }
 
     public function findOneByOwnerId(AggregateId $ownerId) : File

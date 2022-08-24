@@ -3,12 +3,12 @@
 namespace Becklyn\Ddd\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use Becklyn\Ddd\FileStore\Application\RenameFileCommand;
 use Becklyn\Ddd\FileStore\Application\RenameFileHandler;
 use Becklyn\Ddd\FileStore\Domain\File\File;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;

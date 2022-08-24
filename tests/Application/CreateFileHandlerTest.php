@@ -3,14 +3,14 @@
 namespace Becklyn\Ddd\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\Ddd\Identity\Domain\AggregateId;
-use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use Becklyn\Ddd\FileStore\Application\CreateFileCommand;
 use Becklyn\Ddd\FileStore\Application\CreateFileHandler;
 use Becklyn\Ddd\FileStore\Domain\File\File;
 use Becklyn\Ddd\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use Becklyn\Ddd\FileStore\Tests\Domain\File\TestProxyAggregateId;
+use Becklyn\Ddd\Identity\Domain\AggregateId;
+use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -68,7 +68,7 @@ class CreateFileHandlerTest extends TestCase
 
     private function givenFileManagerCreatesNewFileWithFilenameAndContents(string $filename, string $contents) : void
     {
-        $this->fileManager->new($filename, $contents)->willReturn(File::create($this->givenAFileId(), $filename, $contents));
+        $this->fileManager->new($filename, $contents, Argument::any())->willReturn(File::create($this->givenAFileId(), $filename, $contents));
     }
 
     private function thenFileWithFilenameContentsAndOwnerShouldBeDequeuedByEventRegistry(string $filename, string $contents, AggregateId $ownerId) : void
@@ -79,7 +79,8 @@ class CreateFileHandlerTest extends TestCase
                     $file->contents() === $contents &&
                     $ownerId->equals($file->ownerId()) &&
                     $file->ownerType() === \substr(\get_class($ownerId), 0, -2)
-            )
+            ),
+            Argument::any(),
         )->shouldBeCalled();
     }
 

@@ -3,12 +3,14 @@
 namespace Becklyn\Ddd\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use Becklyn\Ddd\FileStore\Application\DeleteFileCommand;
 use Becklyn\Ddd\FileStore\Application\DeleteFileHandler;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
+use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
@@ -47,11 +49,24 @@ class DeleteFileHandlerTest extends TestCase
 
     private function thenFileManagerShouldDeleteTheFile(FileId $fileId) : void
     {
-        $this->fileManager->delete($fileId)->shouldBeCalled();
+        $this->fileManager->delete($fileId, Argument::any())->shouldBeCalled();
     }
 
     private function whenDeleteFileCommandIsHandled(FileId $fileId) : void
     {
         $this->fixture->handle(new DeleteFileCommand($fileId));
+    }
+
+    public function testNothingShouldBeDequeuedAndRegisteredIfFileDoesNotExist() : void
+    {
+        $fileId = $this->givenAFileId();
+        $this->givenFileManagerThrowsFileNotFoundExceptionOnDelete($fileId);
+        $this->thenEventRegistryShouldNotDequeueAndRegisterAnything();
+        $this->whenDeleteFileCommandIsHandled($fileId);
+    }
+
+    private function givenFileManagerThrowsFileNotFoundExceptionOnDelete(FileId $fileId) : void
+    {
+        $this->fileManager->delete($fileId, Argument::any())->willThrow(new FileNotFoundException());
     }
 }

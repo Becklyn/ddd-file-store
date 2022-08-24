@@ -2,6 +2,7 @@
 
 namespace Becklyn\Ddd\FileStore\Application;
 
+use Becklyn\Ddd\Commands\Domain\AbstractCommand;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 
 /**
@@ -9,7 +10,7 @@ use Becklyn\Ddd\FileStore\Domain\File\FileId;
  *
  * @since  2020-07-27
  */
-class RenameFileCommand
+class RenameFileCommand extends AbstractCommand
 {
     private FileId $fileId;
     private string $filename;
@@ -17,6 +18,8 @@ class RenameFileCommand
 
     public function __construct(FileId $fileId, string $filename, ?string $errorMessage = null)
     {
+        parent::__construct();
+
         $this->fileId = $fileId;
         $this->filename = $filename;
         $this->errorMessage = $errorMessage;

@@ -3,10 +3,8 @@
 namespace Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine;
 
 use Becklyn\Ddd\Events\Domain\EventCreatorCapabilities;
-use Becklyn\Ddd\Events\Domain\EventRegistry;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer;
-use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerId;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerRepository;
@@ -24,13 +22,11 @@ class DoctrineFilePointerRepository implements FilePointerRepository
 
     private EntityManagerInterface $em;
     private ObjectRepository $repository;
-    private EventRegistry $eventRegistry;
 
-    public function __construct(EntityManagerInterface $em, EventRegistry $eventRegistry)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->repository = $em->getRepository(FilePointer::class);
-        $this->eventRegistry = $eventRegistry;
     }
 
     public function nextIdentity() : FilePointerId
@@ -58,6 +54,7 @@ class DoctrineFilePointerRepository implements FilePointerRepository
     public function remove(FilePointer $filePointer) : void
     {
         $this->em->remove($filePointer);
-        $this->eventRegistry->registerEvent(new FilePointerDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $filePointer->id()));
+
+        $filePointer->delete();
     }
 }

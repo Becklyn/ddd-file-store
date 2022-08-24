@@ -3,6 +3,7 @@
 namespace Becklyn\Ddd\FileStore\Application;
 
 use Becklyn\Ddd\Commands\Application\CommandHandler;
+use Becklyn\Ddd\Commands\Domain\Command;
 use Becklyn\Ddd\Events\Domain\EventProvider;
 use Becklyn\Ddd\FileStore\Domain\FileManager;
 use Psr\Log\LoggerInterface;
@@ -31,9 +32,9 @@ class CreateFileHandler extends CommandHandler
     /**
      * @param CreateFileCommand $command
      */
-    protected function execute($command) : ?EventProvider
+    protected function execute(Command $command) : ?EventProvider
     {
-        $file = $this->fileManager->new($command->filename(), $command->contents());
+        $file = $this->fileManager->new($command->filename(), $command->contents(), $command);
         $file->setOwner($command->ownerId());
         return $file;
     }
@@ -41,7 +42,7 @@ class CreateFileHandler extends CommandHandler
     /**
      * @param CreateFileCommand $command
      */
-    protected function postRollback(\Throwable $e, $command) : \Throwable
+    protected function postRollback(\Throwable $e, Command $command) : \Throwable
     {
         if (null === $this->logger) {
             return $e;

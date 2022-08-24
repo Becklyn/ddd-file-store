@@ -3,7 +3,9 @@
 namespace Becklyn\Ddd\FileStore\Application;
 
 use Becklyn\Ddd\Commands\Application\CommandHandler;
+use Becklyn\Ddd\Commands\Domain\Command;
 use Becklyn\Ddd\Events\Domain\EventProvider;
+use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\Ddd\FileStore\Domain\FileManager;
 
 /**
@@ -28,9 +30,14 @@ class DeleteFileHandler extends CommandHandler
     /**
      * @param DeleteFileCommand $command
      */
-    protected function execute($command) : ?EventProvider
+    protected function execute(Command $command) : ?EventProvider
     {
-        $this->fileManager->delete($command->fileId());
-        return null;
+        try {
+            $file = $this->fileManager->delete($command->fileId(), $command);
+        } catch (FileNotFoundException) {
+            return null;
+        }
+
+        return $file;
     }
 }

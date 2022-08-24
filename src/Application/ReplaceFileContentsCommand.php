@@ -2,6 +2,7 @@
 
 namespace Becklyn\Ddd\FileStore\Application;
 
+use Becklyn\Ddd\Commands\Domain\AbstractCommand;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 
 /**
@@ -9,22 +10,24 @@ use Becklyn\Ddd\FileStore\Domain\File\FileId;
  *
  * @since  2020-06-05
  */
-class ReplaceFileContentsCommand
+class ReplaceFileContentsCommand extends AbstractCommand
 {
-    private FileId $id;
+    private FileId $fileId;
     private string $newContents;
     private ?string $errorMessage;
 
-    public function __construct(FileId $id, string $newContents, ?string $errorMessage = null)
+    public function __construct(FileId $fileId, string $newContents, ?string $errorMessage = null)
     {
-        $this->id = $id;
+        parent::__construct();
+
+        $this->fileId = $fileId;
         $this->newContents = $newContents;
         $this->errorMessage = $errorMessage;
     }
 
-    public function id() : FileId
+    public function fileId() : FileId
     {
-        return $this->id;
+        return $this->fileId;
     }
 
     public function newContents() : string

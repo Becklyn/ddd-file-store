@@ -16,6 +16,7 @@ use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\Filesystem;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilesystemStorage;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\PathGenerator;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\Messages\Domain\Message;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -68,6 +69,8 @@ class FilesystemStorageTest extends TestCase
 
     public function testStoreFileContentsGeneratesPathForNewFilePointerAddsItToRepositoryAndDequeuesItIfNoPointerIsFoundForFileBeforeDumpingFileContentsToFilePointerPath() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
+
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
         $filename = $this->givenAFilename();
@@ -83,7 +86,7 @@ class FilesystemStorageTest extends TestCase
 
         $this->thenContentsForFileShouldBeDumpedForPath($path, $contents);
 
-        $this->whenStoreFileContentsIsExecutedForFile($file->reveal());
+        $this->whenStoreFileContentsIsExecutedForFile($file->reveal(), $trigger);
     }
 
     private function givenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFileId(FileId $fileId) : void
@@ -114,9 +117,12 @@ class FilesystemStorageTest extends TestCase
 
     private function thenNewFilePointerForFileWithGeneratedIdAndPathShouldBeDequeued(FilePointerId $filePointerId, FileId $fileId, string $path) : void
     {
-        $this->eventRegistry->dequeueProviderAndRegister(Argument::that(function(FilePointer $filePointer) use ($filePointerId, $fileId, $path) {
-            return $filePointer->id()->equals($filePointerId) && $filePointer->fileId()->equals($fileId) && $filePointer->path() === $path;
-        }))->shouldBeCalled();
+        $this->eventRegistry->dequeueProviderAndRegister(
+            Argument::that(function(FilePointer $filePointer) use ($filePointerId, $fileId, $path) {
+                return $filePointer->id()->equals($filePointerId) && $filePointer->fileId()->equals($fileId) && $filePointer->path() === $path;
+            }),
+            Argument::any()
+        )->shouldBeCalled();
     }
 
     private function thenContentsForFileShouldBeDumpedForPath(string $path, string $contents) : void
@@ -124,13 +130,15 @@ class FilesystemStorageTest extends TestCase
         $this->filesystem->dumpFile($path, $contents)->shouldBeCalled();
     }
 
-    private function whenStoreFileContentsIsExecutedForFile(File $file) : void
+    private function whenStoreFileContentsIsExecutedForFile(File $file, Message $trigger) : void
     {
-        $this->fixture->storeFileContents($file);
+        $this->fixture->storeFileContents($file, $trigger);
     }
 
     public function testStoreFileContentsDumpsFileContentsToPathFromFilePointerIfPointerCanBeFoundForFile() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
+
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
         $contents = $this->givenFileContents();
@@ -142,7 +150,7 @@ class FilesystemStorageTest extends TestCase
 
         $this->thenContentsForFileShouldBeDumpedForPath($path, $contents);
 
-        $this->whenStoreFileContentsIsExecutedForFile($file->reveal());
+        $this->whenStoreFileContentsIsExecutedForFile($file->reveal(), $trigger);
     }
 
     /**
@@ -172,6 +180,8 @@ class FilesystemStorageTest extends TestCase
 
     public function testStoreFileContentsThrowsFileNotStoredExceptionIfFilesystemThrowsExceptionWhenDumpingFileContentsToPath() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
+
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
         $contents = $this->givenFileContents();
@@ -185,7 +195,7 @@ class FilesystemStorageTest extends TestCase
 
         $this->thenFileNotStoredExceptionShouldBeThrown();
 
-        $this->whenStoreFileContentsIsExecutedForFile($file->reveal());
+        $this->whenStoreFileContentsIsExecutedForFile($file->reveal(), $trigger);
     }
 
     private function givenFilesystemThrowsExceptionWhenDumpingFileContentsToPath(string $path, string $contents) : void
@@ -200,6 +210,8 @@ class FilesystemStorageTest extends TestCase
 
     public function testLoadFileContentsReturnsDataReadByFilesystemFromPathInFilePointerFoundForFile() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
+
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
 
@@ -211,7 +223,7 @@ class FilesystemStorageTest extends TestCase
 
         $this->thenDataShouldBeReturned(
             $data,
-            $this->whenLoadFileContentsIsExecutedForFile($file->reveal())
+            $this->whenLoadFileContentsIsExecutedForFile($file->reveal(), $trigger)
         );
     }
 
@@ -234,11 +246,12 @@ class FilesystemStorageTest extends TestCase
 
     public function testLoadFileContentsThrowsFileNotFoundInStorageExceptionWhenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFile() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
         $this->givenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFileId($fileId);
         $this->thenFileNotFoundInStorageExceptionShouldBeThrown();
-        $this->whenLoadFileContentsIsExecutedForFile($file->reveal());
+        $this->whenLoadFileContentsIsExecutedForFile($file->reveal(), $trigger);
     }
 
     private function thenFileNotFoundInStorageExceptionShouldBeThrown() : void
@@ -248,6 +261,7 @@ class FilesystemStorageTest extends TestCase
 
     public function testLoadFileContentsThrowsFileNotFoundInStorageExceptionWhenFilesystemThrowsFileNotFoundInFilesystemException() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
         $filePointer = $this->givenFilePointerRepositoryFindsOneByFileId($fileId);
@@ -255,7 +269,7 @@ class FilesystemStorageTest extends TestCase
         $this->givenFilePointerHasPath($filePointer, $path);
         $this->givenFilesystemThrowsFileNotFoundInFilesystemExceptionForPathFromFilePointer($path);
         $this->thenFileNotFoundInStorageExceptionShouldBeThrown();
-        $this->whenLoadFileContentsIsExecutedForFile($file->reveal());
+        $this->whenLoadFileContentsIsExecutedForFile($file->reveal(), $trigger);
     }
 
     private function givenFilesystemThrowsFileNotFoundInFilesystemExceptionForPathFromFilePointer(string $path) : void
@@ -265,6 +279,8 @@ class FilesystemStorageTest extends TestCase
 
     public function testDeleteFileContentsRemovesFilePointerFromRepositoryAndFilesystemRemovesDataFromFilePointerPath() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
+
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
 
@@ -274,7 +290,7 @@ class FilesystemStorageTest extends TestCase
 
         $this->thenFilePointerShouldBeRemovedFromRepository($filePointer->reveal());
         $this->thenFilesystemShouldRemoveDataFromFilePointerPath($path);
-        $this->whenDeleteFileContentsIsExecutedForFile($file->reveal());
+        $this->whenDeleteFileContentsIsExecutedForFile($file->reveal(), $trigger);
     }
 
     private function thenFilePointerShouldBeRemovedFromRepository(FilePointer $filePointer) : void
@@ -287,17 +303,18 @@ class FilesystemStorageTest extends TestCase
         $this->filesystem->remove($path)->shouldBeCalled();
     }
 
-    private function whenDeleteFileContentsIsExecutedForFile(File $file) : void
+    private function whenDeleteFileContentsIsExecutedForFile(File $file, Message $trigger) : void
     {
-        $this->fixture->deleteFileContents($file);
+        $this->fixture->deleteFileContents($file, $trigger);
     }
 
     public function testDeleteFileContentsCatchesFilePointerNotFoundExceptionThrownByFilePointerRepositoryAndReturns() : void
     {
+        $trigger = $this->prophesize(Message::class)->reveal();
         $fileId = $this->givenAFileId();
         $file = $this->givenAFileWithId($fileId);
         $this->givenFilePointerRepositoryThrowsFilePointerNotFoundExceptionForFileId($fileId);
-        $this->whenDeleteFileContentsIsExecutedForFile($file->reveal());
+        $this->whenDeleteFileContentsIsExecutedForFile($file->reveal(), $trigger);
         $this->thenNoExceptionShouldBubble();
     }
 

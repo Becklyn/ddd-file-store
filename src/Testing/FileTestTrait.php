@@ -9,6 +9,7 @@ use Becklyn\Ddd\FileStore\Domain\File\FileRepository;
 use Becklyn\Ddd\FileStore\Domain\FileManager;
 use Becklyn\Ddd\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use Becklyn\Ddd\FileStore\Domain\Storage\FileNotStoredException;
+use Becklyn\Ddd\Messages\Domain\Message;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -86,21 +87,23 @@ trait FileTestTrait
         return $file;
     }
 
-    protected function givenFileManagerThrowsFileNotStoredExceptionWhileCreatingNewFile($filename = null, $contents = null) : FileNotStoredException
+    protected function givenFileManagerThrowsFileNotStoredExceptionWhileCreatingNewFile($filename = null, $contents = null, ?Message $trigger = null) : FileNotStoredException
     {
+        $trigger = $trigger ?? Argument::any();
         $filename = $filename ?? Argument::any();
         $contents = $contents ?? Argument::any();
         $e = new FileNotStoredException();
-        $this->fileManager->new($filename, $contents)->willThrow($e);
+        $this->fileManager->new($filename, $contents, $trigger)->willThrow($e);
         return $e;
     }
 
-    protected function givenFileManagerThrowsFileNotFoundExceptionWhileReplacingContentsForFile($fileId = null, $contents = null) : FileNotFoundException
+    protected function givenFileManagerThrowsFileNotFoundExceptionWhileReplacingContentsForFile($fileId = null, $contents = null, ?Message $trigger = null) : FileNotFoundException
     {
+        $trigger = $trigger ?? Argument::any();
         $fileId = $fileId ?? Argument::any();
         $contents = $contents ?? Argument::any();
         $e = new FileNotFoundException();
-        $this->fileManager->replaceContents($fileId, $contents)->willThrow($e);
+        $this->fileManager->replaceContents($fileId, $contents, $trigger)->willThrow($e);
         return $e;
     }
 

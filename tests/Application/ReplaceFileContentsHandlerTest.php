@@ -3,12 +3,12 @@
 namespace Becklyn\Ddd\FileStore\Tests\Application;
 
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
-use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use Becklyn\Ddd\FileStore\Application\ReplaceFileContentsCommand;
 use Becklyn\Ddd\FileStore\Application\ReplaceFileContentsHandler;
 use Becklyn\Ddd\FileStore\Domain\File\File;
 use Becklyn\Ddd\FileStore\Domain\File\FileId;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
+use Becklyn\Ddd\Transactions\Testing\TransactionManagerTestTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -60,13 +60,15 @@ class ReplaceFileContentsHandlerTest extends TestCase
 
     private function givenFileManagerReplacesContentsForFileWithId(FileId $fileId, string $contents) : void
     {
-        $this->fileManager->replaceContents($fileId, $contents)->willReturn(File::create($fileId, \uniqid(), $contents));
+        $this->fileManager->replaceContents($fileId, $contents, Argument::any())->willReturn(File::create($fileId, \uniqid(), $contents));
     }
 
     private function thenFileWithNewContentsShouldBeDequeuedByEventRegistry(FileId $fileId, string $contents) : void
     {
-        $this->eventRegistry->dequeueProviderAndRegister(Argument::that(fn(File $file) => $file->id()->equals($fileId) && $file->contents() === $contents))
-            ->shouldBeCalled();
+        $this->eventRegistry->dequeueProviderAndRegister(
+            Argument::that(fn(File $file) => $file->id()->equals($fileId) && $file->contents() === $contents),
+            Argument::any()
+        )->shouldBeCalled();
     }
 
     private function whenReplaceFileContentsCommandIsHandledForFileIdAndContents(FileId $fileId, string $contents, ?string $errorMessage = null) : void

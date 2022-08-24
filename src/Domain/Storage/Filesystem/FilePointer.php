@@ -62,6 +62,12 @@ class FilePointer implements EventProvider
         return $filePointer;
     }
 
+    // Should only be called by a FilePointerRepository
+    public function delete() : void
+    {
+        $this->raiseEvent(new FilePointerDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $this->id()));
+    }
+
     public function id() : FilePointerId
     {
         return FilePointerId::fromString($this->id);

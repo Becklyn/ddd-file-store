@@ -2,9 +2,7 @@
 
 namespace Becklyn\Ddd\FileStore\Tests\Infrastructure\Domain\Storage\Filesystem\Doctrine;
 
-use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer;
-use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerId;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerNotFoundException;
 use Becklyn\Ddd\FileStore\Infrastructure\Domain\Storage\Filesystem\Doctrine\DoctrineFilePointerRepository;
@@ -12,7 +10,6 @@ use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -26,7 +23,6 @@ use Prophecy\Prophecy\ObjectProphecy;
 class DoctrineFilePointerRepositoryTest extends TestCase
 {
     use ProphecyTrait;
-    use DomainEventTestTrait;
     use FileTestTrait;
 
     /**
@@ -43,11 +39,10 @@ class DoctrineFilePointerRepositoryTest extends TestCase
 
     protected function setUp() : void
     {
-        $this->initDomainEventTestTrait();
         $this->em = $this->prophesize(EntityManagerInterface::class);
         $this->repository = $this->prophesize(ObjectRepository::class);
         $this->em->getRepository(FilePointer::class)->willReturn($this->repository->reveal());
-        $this->fixture = new DoctrineFilePointerRepository($this->em->reveal(), $this->eventRegistry->reveal());
+        $this->fixture = new DoctrineFilePointerRepository($this->em->reveal());
     }
 
     public function testNextIdentityReturnsFilePointerId() : void
@@ -82,11 +77,11 @@ class DoctrineFilePointerRepositoryTest extends TestCase
         $this->fixture->findOneByFileId($fileId);
     }
 
-    public function testRemoveRemovesFileFromEntityManagerAndRegisterAFileDeletedEvent() : void
+    public function testRemoveRemovesFileFromEntityManagerAndCallsDeleteOnFilePointer() : void
     {
-        $filePointer = $this->givenAFilePointer();
-        $this->fixture->remove($filePointer);
+        $filePointer = $this->prophesize(FilePointer::class);
+        $this->fixture->remove($filePointer->reveal());
         $this->em->remove($filePointer)->shouldHaveBeenCalled();
-        $this->eventRegistry->registerEvent(Argument::that(fn(FilePointerDeleted $event) => $event->aggregateId()->equals($filePointer->id())))->shouldHaveBeenCalled();
+        $filePointer->delete()->shouldHaveBeenCalled();
     }
 }

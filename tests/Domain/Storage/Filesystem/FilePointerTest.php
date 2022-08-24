@@ -4,6 +4,7 @@ namespace Becklyn\Ddd\FileStore\Tests\Domain\Storage\Filesystem;
 
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointer;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerCreated;
+use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerDeleted;
 use Becklyn\Ddd\FileStore\Domain\Storage\Filesystem\FilePointerId;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use PHPUnit\Framework\TestCase;
@@ -53,5 +54,18 @@ class FilePointerTest extends TestCase
         self::assertTrue($pointerId->equals($event->aggregateId()));
         self::assertTrue($fileId->equals($event->fileId()));
         self::assertEquals($path, $event->path());
+    }
+
+    public function testDeleteRaisesFilePointerDeletedEvent() : void
+    {
+        $filePointer = FilePointer::create($this->givenAFilePointerId(), $this->givenAFileId(), \uniqid());
+        $filePointer->dequeueEvents();
+        self::assertEmpty($filePointer->dequeueEvents());
+
+        $filePointer->delete();
+        $events = $filePointer->dequeueEvents();
+        self::assertCount(1, $events);
+        self::assertContainsOnlyInstancesOf(FilePointerDeleted::class, $events);
+        self::assertTrue($filePointer->id()->equals($events[0]->aggregateId()));
     }
 }

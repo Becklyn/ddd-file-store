@@ -196,4 +196,10 @@ class File implements EventProvider
 
         return $this;
     }
+
+    // Should only be called by a FileRepository
+    public function delete() : void
+    {
+        $this->raiseEvent(new FileDeleted($this->nextEventIdentity(), new \DateTimeImmutable(), $this->id()));
+    }
 }

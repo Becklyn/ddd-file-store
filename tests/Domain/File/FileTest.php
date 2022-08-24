@@ -5,6 +5,7 @@ namespace Becklyn\Ddd\FileStore\Tests\Domain\File;
 use Becklyn\Ddd\FileStore\Domain\File\File;
 use Becklyn\Ddd\FileStore\Domain\File\FileContentsUpdated;
 use Becklyn\Ddd\FileStore\Domain\File\FileCreated;
+use Becklyn\Ddd\FileStore\Domain\File\FileDeleted;
 use Becklyn\Ddd\FileStore\Domain\File\FileOwnerSet;
 use Becklyn\Ddd\FileStore\Domain\File\FileRenamed;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
@@ -211,5 +212,18 @@ class FileTest extends TestCase
 
         $file->updateContents($contents);
         self::assertEmpty($file->dequeueEvents());
+    }
+
+    public function testDeleteRaisesFileDeletedEvent() : void
+    {
+        $file = File::create($this->givenAFileId(), \uniqid(), $this->givenFileContents());
+        $file->dequeueEvents();
+        self::assertEmpty($file->dequeueEvents());
+
+        $file->delete();
+        $events = $file->dequeueEvents();
+        self::assertCount(1, $events);
+        self::assertContainsOnlyInstancesOf(FileDeleted::class, $events);
+        self::assertTrue($file->id()->equals($events[0]->aggregateId()));
     }
 }

@@ -7,6 +7,7 @@ use Becklyn\Ddd\FileStore\Domain\File\File;
 use Becklyn\Ddd\FileStore\Domain\Storage\FileNotFoundInStorageException;
 use Becklyn\Ddd\FileStore\Domain\Storage\FileNotStoredException;
 use Becklyn\Ddd\FileStore\Domain\Storage\Storage;
+use Becklyn\Ddd\Messages\Domain\Message;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
@@ -28,7 +29,7 @@ class FilesystemStorage implements Storage
         $this->filesystem = $filesystem;
     }
 
-    public function storeFileContents(File $file) : void
+    public function storeFileContents(File $file, Message $trigger) : void
     {
         try {
             $filePointer = $this->filePointerRepository->findOneByFileId($file->id());
@@ -36,7 +37,7 @@ class FilesystemStorage implements Storage
             $path = $this->pathGenerator->generate($file->filename());
             $filePointer = FilePointer::create($this->filePointerRepository->nextIdentity(), $file->id(), $path);
             $this->filePointerRepository->add($filePointer);
-            $this->eventRegistry->dequeueProviderAndRegister($filePointer);
+            $this->eventRegistry->dequeueProviderAndRegister($filePointer, $trigger);
         }
 
         try {
@@ -61,7 +62,7 @@ class FilesystemStorage implements Storage
         }
     }
 
-    public function deleteFileContents(File $file) : void
+    public function deleteFileContents(File $file, Message $trigger) : void
     {
         try {
             $filePointer = $this->filePointerRepository->findOneByFileId($file->id());
@@ -71,5 +72,7 @@ class FilesystemStorage implements Storage
 
         $this->filePointerRepository->remove($filePointer);
         $this->filesystem->remove($filePointer->path());
+
+        $this->eventRegistry->dequeueProviderAndRegister($filePointer, $trigger);
     }
 }
