@@ -1,3 +1,8 @@
+3.0.1
+=======
+
+* (improvement) Support for 4.0 series of becklyn/ddd-core and becklyn/ddd-symfony-bridge
+
 3.0.0
 =======
 
