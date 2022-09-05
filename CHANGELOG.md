@@ -1,3 +1,8 @@
+3.0.2
+=======
+
+* (improvement) Support for 1.0 and 2.0 series of psr/log
+
 3.0.1
 =======
 
