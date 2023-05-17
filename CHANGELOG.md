@@ -1,7 +1,7 @@
 4.0.0
 =======
 
-* (bc) Rename the File System Pointers Table to a shorter Version
+* (bc) Renamed the File System Pointers table from becklyn_filesystem_file_pointers to becklyn_fs_file_pointers because the original longer name was causing problems with certain databases. To upgrade an existing installation, rename the table in your database manually.
 
 3.0.2
 =======
