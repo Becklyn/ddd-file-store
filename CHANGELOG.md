@@ -1,3 +1,8 @@
+3.0.3
+=======
+
+* (bug) Rename the File System Pointers Table to a shorter Version
+
 3.0.2
 =======
 

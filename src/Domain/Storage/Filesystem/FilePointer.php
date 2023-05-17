@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @since 2020-05-27
  *
  * @ORM\Entity
- * @ORM\Table(name="becklyn_filesystem_file_pointers")
+ * @ORM\Table(name="becklyn_fs_file_pointers")
  */
 class FilePointer implements EventProvider
 {
