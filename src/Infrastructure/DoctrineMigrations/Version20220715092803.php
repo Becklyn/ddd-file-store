@@ -41,13 +41,13 @@ final class Version20220715092803 extends AbstractMigration
             $this->addSql('ALTER TABLE becklyn_files DROP PRIMARY KEY');
             $this->addSql('ALTER TABLE becklyn_files DROP id, CHANGE size file_size INT UNSIGNED NOT NULL');
             $this->addSql('ALTER TABLE becklyn_files ADD PRIMARY KEY (uuid)');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers MODIFY id INT NOT NULL');
-            $this->addSql('DROP INDEX UNIQ_BF1DDD44D17F50A6 ON becklyn_filesystem_file_pointers');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers DROP PRIMARY KEY');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers DROP id');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers ADD PRIMARY KEY (uuid)');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers RENAME INDEX uniq_bf1ddd4493cb796c TO UNIQ_67255B4493CB796C');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers RENAME INDEX uniq_bf1ddd44b548b0f TO UNIQ_67255B44B548B0F');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers MODIFY id INT NOT NULL');
+            $this->addSql('DROP INDEX UNIQ_BF1DDD44D17F50A6 ON becklyn_fs_file_pointers');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers DROP PRIMARY KEY');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers DROP id');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers ADD PRIMARY KEY (uuid)');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers RENAME INDEX uniq_bf1ddd4493cb796c TO UNIQ_67255B4493CB796C');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers RENAME INDEX uniq_bf1ddd44b548b0f TO UNIQ_67255B44B548B0F');
         }
 
         // Oracle gets handled in a future migration due to historical reasons
@@ -76,12 +76,12 @@ final class Version20220715092803 extends AbstractMigration
                 ++$id;
             }
 
-            $this->connection->executeQuery('ALTER TABLE becklyn_filesystem_file_pointers ADD id INT DEFAULT NULL');
-            $existingPointers = $this->connection->fetchAllAssociative('SELECT * FROM becklyn_filesystem_file_pointers ORDER BY created_ts ASC');
+            $this->connection->executeQuery('ALTER TABLE becklyn_fs_file_pointers ADD id INT DEFAULT NULL');
+            $existingPointers = $this->connection->fetchAllAssociative('SELECT * FROM becklyn_fs_file_pointers ORDER BY created_ts ASC');
             $id = 1;
 
             foreach ($existingPointers as $pointer) {
-                $this->connection->executeQuery("UPDATE becklyn_filesystem_file_pointers SET id = {$id} WHERE uuid = '{$pointer['uuid']}'");
+                $this->connection->executeQuery("UPDATE becklyn_fs_file_pointers SET id = {$id} WHERE uuid = '{$pointer['uuid']}'");
                 ++$id;
             }
         }
@@ -105,10 +105,10 @@ final class Version20220715092803 extends AbstractMigration
         if (!$isOracle) {
             $this->addSql('ALTER TABLE becklyn_files CHANGE id id INT AUTO_INCREMENT NOT NULL, CHANGE file_size size INT UNSIGNED NOT NULL, DROP PRIMARY KEY, ADD PRIMARY KEY (id)');
             $this->addSql('CREATE UNIQUE INDEX UNIQ_6F8BCFACD17F50A6 ON becklyn_files (uuid)');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers CHANGE id id INT AUTO_INCREMENT NOT NULL, DROP PRIMARY KEY, ADD PRIMARY KEY (id)');
-            $this->addSql('CREATE UNIQUE INDEX UNIQ_BF1DDD44D17F50A6 ON becklyn_filesystem_file_pointers (uuid)');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers RENAME INDEX uniq_67255b44b548b0f TO UNIQ_BF1DDD44B548B0F');
-            $this->addSql('ALTER TABLE becklyn_filesystem_file_pointers RENAME INDEX uniq_67255b4493cb796c TO UNIQ_BF1DDD4493CB796C');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers CHANGE id id INT AUTO_INCREMENT NOT NULL, DROP PRIMARY KEY, ADD PRIMARY KEY (id)');
+            $this->addSql('CREATE UNIQUE INDEX UNIQ_BF1DDD44D17F50A6 ON becklyn_fs_file_pointers (uuid)');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers RENAME INDEX uniq_67255b44b548b0f TO UNIQ_BF1DDD44B548B0F');
+            $this->addSql('ALTER TABLE becklyn_fs_file_pointers RENAME INDEX uniq_67255b4493cb796c TO UNIQ_BF1DDD4493CB796C');
         }
 
         // Oracle gets handled in a future migration due to historical reasons

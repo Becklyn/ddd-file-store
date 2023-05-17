@@ -36,9 +36,9 @@ final class Version20220715110028 extends AbstractMigration
 
         if ($isOracle) {
             $this->addSql('CREATE TABLE becklyn_files (uuid VARCHAR2(36) NOT NULL, filename VARCHAR2(255) NOT NULL, content_hash VARCHAR2(255) NOT NULL, file_size NUMBER(10) NOT NULL, owner_id VARCHAR2(36) DEFAULT NULL NULL, owner_type VARCHAR2(255) DEFAULT NULL NULL, created_ts TIMESTAMP(6) NOT NULL, updated_ts TIMESTAMP(6) NOT NULL, PRIMARY KEY(uuid))');
-            $this->addSql('CREATE TABLE becklyn_filesystem_file_pointers (uuid VARCHAR2(36) NOT NULL, file_id VARCHAR2(36) NOT NULL, path VARCHAR2(255) NOT NULL, created_ts TIMESTAMP(6) NOT NULL, updated_ts TIMESTAMP(6) NOT NULL, PRIMARY KEY(uuid))');
-            $this->addSql('CREATE UNIQUE INDEX UNIQ_67255B4493CB796C ON becklyn_filesystem_file_pointers (file_id)');
-            $this->addSql('CREATE UNIQUE INDEX UNIQ_67255B44B548B0F ON becklyn_filesystem_file_pointers (path)');
+            $this->addSql('CREATE TABLE becklyn_fs_file_pointers (uuid VARCHAR2(36) NOT NULL, file_id VARCHAR2(36) NOT NULL, path VARCHAR2(255) NOT NULL, created_ts TIMESTAMP(6) NOT NULL, updated_ts TIMESTAMP(6) NOT NULL, PRIMARY KEY(uuid))');
+            $this->addSql('CREATE UNIQUE INDEX UNIQ_67255B4493CB796C ON becklyn_fs_file_pointers (file_id)');
+            $this->addSql('CREATE UNIQUE INDEX UNIQ_67255B44B548B0F ON becklyn_fs_file_pointers (path)');
         }
 
         // Other supported platforms have been handled in previous migrations
@@ -58,7 +58,7 @@ final class Version20220715110028 extends AbstractMigration
 
         if ($isOracle) {
             $this->addSql('DROP TABLE becklyn_files');
-            $this->addSql('DROP TABLE becklyn_filesystem_file_pointers');
+            $this->addSql('DROP TABLE becklyn_fs_file_pointers');
         }
 
         // Other supported platforms have been handled in previous migrations
