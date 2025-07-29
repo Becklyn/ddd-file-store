@@ -1,3 +1,8 @@
+4.1.0
+=======
+
+* (feature) Add support for Symfony 7
+
 4.0.0
 =======
 
