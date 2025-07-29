@@ -1,7 +1,9 @@
-4.1.0
+5.0.0
 =======
 
 * (feature) Add support for Symfony 7
+* (feature) Add support for becklyn/ddd-symfony-bridge 5
+* (BC) Drop support for becklyn/ddd-symfony-bridge 3
 
 4.0.0
 =======
