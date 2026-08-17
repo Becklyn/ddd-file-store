@@ -8,7 +8,7 @@ use Becklyn\Ddd\FileStore\Domain\File\FileNotFoundException;
 use Becklyn\Ddd\FileStore\Infrastructure\Domain\File\Doctrine\DoctrineFileRepository;
 use Becklyn\Ddd\FileStore\Testing\FileTestTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -31,7 +31,7 @@ class DoctrineFileRepositoryTest extends TestCase
     private ObjectProphecy $em;
 
     /**
-     * @var ObjectProphecy|ObjectRepository
+     * @var ObjectProphecy|EntityRepository
      */
     private ObjectProphecy $repository;
 
@@ -40,7 +40,7 @@ class DoctrineFileRepositoryTest extends TestCase
     protected function setUp() : void
     {
         $this->em = $this->prophesize(EntityManagerInterface::class);
-        $this->repository = $this->prophesize(ObjectRepository::class);
+        $this->repository = $this->prophesize(EntityRepository::class);
         $this->em->getRepository(File::class)->willReturn($this->repository->reveal());
         $this->fixture = new DoctrineFileRepository($this->em->reveal());
     }
