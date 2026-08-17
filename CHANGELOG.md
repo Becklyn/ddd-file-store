@@ -1,3 +1,11 @@
+5.1.0
+=======
+
+* (improvement) Widened `becklyn/ddd-symfony-bridge` to `^4.0 || ^5.0 || ^6.0`, allowing use with the Messenger-based 6.x bridge.
+* (improvement) Widened `doctrine/orm` to `^2.10 || ^3.0` and `doctrine/doctrine-bundle` to `^2.4 || ^3.0`.
+* (improvement) Added a return type to `Configuration::getConfigTreeBuilder()` for `ConfigurationInterface` compatibility on Symfony 7.
+* (improvement) Raised the PHP minimum to 8.2, matching `becklyn/ddd-core` 4.x.
+
 5.0.0
 =======
 
